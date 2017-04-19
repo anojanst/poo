@@ -1,0 +1,10 @@
+Past Paper 
+
+Part I 
+
+1. Which of the following software facilitates both sorting and analysing of data?
+       1.Word Processing              2.Internet Browsing
+	   3.Spreadsheet Processing       4. Presentation Graphics
+	   
+2. What function in Microsoft Excel is used to find the lowest value in a range of cells?
+       1.=max()           2.=min()          3.=lower()             4.=floor() 
