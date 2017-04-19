@@ -49,6 +49,19 @@
                                 </select>
                             </div>                                
                         </div>
+                        
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-lg-3">Branch : </div>
+  
+                            <div class="col-lg-6">
+                                <select class="form-control" name="branch" value="{$branch}" required>
+                                    <option value="" disable selected>Branch</option>
+                                    <option value="HEAD OFFICE">HEAD OFFICE</option>
+                                    <option value="STORE">STORE</option>
+                                    <option value="WELLAWATTA">WELLAWATTA</option>
+                                </select>
+                            </div>                                
+                        </div>
 
                         <div class="row" style="margin-bottom: 10px;">
                             <div class="col-lg-3">Email : </div>
