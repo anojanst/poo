@@ -21,8 +21,6 @@ if ($_REQUEST['job']=="login"){
 		$_SESSION['email']=$user_info['email'];
 		$_SESSION['filled']=$info['filled'];
         $_SESSION['department']=$user_info['department'];
-		$_SESSION['branch']=$user_info['branch'];
-		
         
         if($_SESSION['department']== 'sales'){
             $smarty->assign('Page',"Sales");
@@ -30,8 +28,6 @@ if ($_REQUEST['job']=="login"){
         }
 		elseif($_SESSION['filled']==1){
 			$smarty->assign('user_name',"$_SESSION[user_name]");
-			$smarty->assign('branch',"$_SESSION[branch]");
-			
 			$smarty->assign('page',"User Home");
 			$smarty->display("user_home/user_home.tpl");
 		}
@@ -57,7 +53,6 @@ elseif ($_REQUEST['job']=="logout"){
 	unset($_SESSION['login']);
 	unset($_SESSION['user_name']);
 	unset($_SESSION['user_id']);
-	unset($_SESSION['branch']);
 	header('location: index.php');
 
 }

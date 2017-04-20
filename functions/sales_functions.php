@@ -15,21 +15,6 @@ function get_total_stock($product_id){
 	include 'conf/closedb.php';
 }
 
-function get_branch_stock($product_id){
-	include 'conf/config.php';
-	include 'conf/opendb.php';
-
-	$result=mysqli_query($conn, "SELECT * FROM multiple_stock_has_inventory WHERE product_id='$product_id' AND branch='$_SESSION[branch]'");
-	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
-	{
-		$total=$row[stock];
-	}
-
-	return $total;
-
-	include 'conf/closedb.php';
-}
-
 function get_total_sales($sales_no){
 	include 'conf/config.php';
 	include 'conf/opendb.php';

@@ -640,17 +640,6 @@ function get_inventory_info_by_product_id($product_id) {
 	include 'conf/closedb.php';
 }
 
-function get_inventory_info_by_product_id_in_branch($product_id, $branch) {
-	include 'conf/config.php';
-	include 'conf/opendb.php';
-
-	$result = mysqli_query($conn, "SELECT * FROM multiple_stock_has_inventory WHERE product_id='$product_id' AND branch='$branch'");
-	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-		return $row;
-	}
-	include 'conf/closedb.php';
-}
-
 function reupdate_inventory($product_id, $quantity, $stock) {
 	include 'conf/config.php';
 	include 'conf/opendb.php';
@@ -701,30 +690,6 @@ function update_inventory_after_sales($sales_no) {
 		mysqli_query($conn, $query);
 	}
 }
-
-function update_inventory_after_sales_in_branch($sales_no, $branch) {
-	include 'conf/config.php';
-	include 'conf/opendb.php';
-
-	$result = mysqli_query($conn, "SELECT * FROM sales_has_items WHERE sales_no='$sales_no' AND saved='0' AND cancel_status='0'");
-	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-		$product_id = $row['product_id'];
-		$quantity = $row['quantity'];
-
-		$info = get_inventory_info_by_product_id_in_branch($product_id, $branch);
-				
-		$old_quantity = $info['stock'];
-		$new_quantity = $old_quantity - $quantity;
-
-		mysqli_select_db($conn_for_changing_db, $dbname);
-		$query = "UPDATE multiple_stock_has_inventory SET
-				stock='$new_quantity'
-				WHERE product_id='$product_id' AND branch='$branch'";
-
-		mysqli_query($conn, $query);
-	}
-}
-
 
 function update_inventory_after_return($return_no) {
 	include 'conf/config.php';
