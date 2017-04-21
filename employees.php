@@ -11,7 +11,7 @@ if ($_SESSION['login'] == 1) {
 				$employee_name = $_POST['employee_name'];
 				$full_name = $_POST['full_name'];
 				$department = $_POST['department'];
-				$branch=$_POST['branch'];
+				$branch = $_POST['branch'];
 				$email = $_POST['email'];
 				$telephone = $_POST['telephone'];
 				$mobile = $_POST['mobile'];
@@ -20,7 +20,7 @@ if ($_SESSION['login'] == 1) {
 				$user_name = $_POST['user_name'];
 				$password = $_POST['password'];
 
-				save_employees($employee_name, $full_name, $department,$branch, $email, $telephone, $mobile, $address, $user, $user_name, $password);
+				save_employees($employee_name, $full_name, $department, $branch, $email, $telephone, $mobile, $address, $user, $user_name, $password);
 
 				$smarty->assign('org_name', "$_SESSION[org_name]");
 				$smarty->assign('page', "Employees");
@@ -32,7 +32,7 @@ if ($_SESSION['login'] == 1) {
 				$employee_name = $_POST['employee_name'];
 				$full_name = $_POST['full_name'];
 				$department = $_POST['department'];
-                $branch=$_POST['branch'];
+				$branch = $_POST['branch'];
 				$email = $_POST['email'];
 				$telephone = $_POST['telephone'];
 				$mobile = $_POST['mobile'];
@@ -41,7 +41,7 @@ if ($_SESSION['login'] == 1) {
 				$user_name = $_POST['user_name'];
 				$password = $_POST['password'];
 
-				update_employees($id, $employee_name, $full_name, $department,$branch, $email, $telephone, $mobile, $address, $user, $user_name, $password);
+				update_employees($id, $employee_name, $full_name, $department, $branch ,$email, $telephone, $mobile, $address, $user, $user_name, $password);
 
 				$smarty->assign('org_name', "$_SESSION[org_name]");
 				$smarty->assign('page', "Employees");
@@ -60,7 +60,7 @@ if ($_SESSION['login'] == 1) {
 			$smarty->assign('employee_name', $info['employee_name']);
 			$smarty->assign('full_name', $info['full_name']);
 			$smarty->assign('department', $info['department']);
-            $smarty->assign('branch', $info['branch']);
+			$smarty->assign('branch', $info['branch']);
 			$smarty->assign('email', $info['email']);
 			$smarty->assign('telephone', $info['telephone']);
 			$smarty->assign('mobile', $info['mobile']);

@@ -128,15 +128,15 @@ function list_employees_search($search){
 	include 'conf/closedb.php';
 }
 
-function save_employees($employee_name, $full_name, $department,$branch, $email, $telephone, $mobile, $address, $user, $user_name, $password){
+function save_employees($employee_name, $full_name, $department, $branch, $email, $telephone, $mobile, $address, $user, $user_name, $password){
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 
 	$passwordmd5=md5($password);
 
 	mysqli_select_db($conn_for_changing_db, $dbname);
-	$query = "INSERT INTO employees (id, employee_name, full_name, department,branch, email, telephone, mobile, address, user, user_name, password, code)
-	VALUES ('', '$employee_name', '$full_name', '$department','$branch', '$email', '$telephone', '$mobile', '$address', '$user', '$user_name', '$passwordmd5', '$password')";
+	$query = "INSERT INTO employees (id, employee_name, full_name, department, branch, email, telephone, mobile, address, user, user_name, password, code)
+	VALUES ('', '$employee_name', '$full_name', '$department', '$branch', '$email', '$telephone', '$mobile', '$address', '$user', '$user_name', '$passwordmd5', '$password')";
 	mysqli_query($conn, $query) or die (mysqli_error($conn));
 
 	include 'conf/closedb.php';
@@ -154,7 +154,7 @@ function get_employee_info($id) {
 	include 'conf/closedb.php';
 }
 
-function update_employees($id, $employee_name, $full_name, $department,$branch, $email, $telephone, $mobile, $address, $user, $user_name, $password){
+function update_employees($id, $employee_name, $full_name, $department, $branch, $email, $telephone, $mobile, $address, $user, $user_name, $password){
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 
