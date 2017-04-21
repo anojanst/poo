@@ -9,7 +9,7 @@ function get_product_id($item_type){
 
 		$no=$row['MAX(id)']+1;
 		$no = str_pad($no, 5, "0", STR_PAD_LEFT);
-		return "PBD-$no";
+		return "PRO-$no";
 	}
 	include 'conf/closedb.php';
 }
