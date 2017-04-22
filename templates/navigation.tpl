@@ -306,7 +306,8 @@
                          </a>
                         <ul class="treeview-menu">
                             <li class="active"><a href="inventory.php"><i class="fa fa-eye"></i> View Inventory</a></li>
-                            <li><a href="inventory.php?job=add_new"><i class="fa fa-plus-square-o"></i> Add To Inventor </a></li>
+                            <li><a href="inventory.php?job=add_new"><i class="fa fa-plus-square-o"></i> Add To Inventory </a></li>
+                            <li><a href="multiple_stock.php"><i class="fa fa-database"></i> Multiple Stock </a></li>
                         </ul>
                     </li>
                     <li><a href='author.php'><i class="fa fa-male"></i>Author</a></li>
