@@ -2,6 +2,7 @@
 require_once 'conf/smarty-conf.php';
 include 'functions/user_functions.php';
 include 'functions/sales_functions.php';
+include 'functions/navigation_functions.php';
 
 if ($_REQUEST['job']=="login"){
 
