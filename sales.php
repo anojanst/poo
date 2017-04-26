@@ -34,14 +34,14 @@ if ($_SESSION['login'] == 1) {
             $quantity=$quantity+1;
 			$item_total=($quantity*$selling_price/100)*(100-$discount);
 			
-			/*if($stock<$quantity){
+			if($stock<$quantity){
 
 				$smarty->assign('error_report',"on");
 				$smarty->assign('error_message',"Not Enough Stock.");
 			}
 			
 			else{
-			*/	
+			
 				if($_SESSION['edit']==1 && $info_for_sales_has_items['saved']==1){
 					reupdate_inventory($product_id, $info_for_sales_has_items['quantity'], $stock);
 				}
@@ -49,24 +49,24 @@ if ($_SESSION['login'] == 1) {
 				}
 				update_sales_item_for_repeative_adding($product_id, $quantity, $item_total);
 				//			update_sales_item_ledger($product_id ,$_SESSION['sales_no']);
-			//}
+			}
 		}
 		else{
 			$discount=$info['discount'];
 			$selling_price=$info['selling_price'];
 			
-			/*
+			
 			if($stock<$quantity){
 				$smarty->assign('error_report',"on");
 				$smarty->assign('error_message',"Not Enough Stock.");
 			}
 			
 			else{
-			*/	
+			
 				add_sales_item($selected_item, $product_name, $stock, $selling_price, $discount, $_SESSION['sales_no']);
 				$total_to_ledger=($selling_price/100)*(100-$discount);
                 add_sales_items_ledger($_SESSION['sales_no'], $product_id, $total_to_ledger);
-			//} 
+			} 
 		}
 
 		$smarty->assign('customer_name',"$sales_info[customer_name]");
@@ -102,13 +102,13 @@ if ($_SESSION['login'] == 1) {
 		$sales_info=get_sales_info_by_sales_no($sales_no);
 		$item_info=get_product_info_from_sales_has_items($product_id, $sales_no);
 		
-		/*
+		
 		if($stock<$quantity){
 			$smarty->assign('error_report',"on");
 			$smarty->assign('error_message',"Not Enough Stock.");
 		}
 		else{
-		*/	
+		
 			if($_SESSION['edit']==1 && $item_info['saved']==1){
 				reupdate_inventory($product_id, $item_info['quantity'], $stock);
 			}
@@ -116,7 +116,7 @@ if ($_SESSION['login'] == 1) {
 			}
 			update_sales_item($product_id, $quantity, $item_total, $selling_price, $discount, $sales_no, $stock);
 			update_sales_item_ledger($product_id ,$sales_no);
-		//}
+		}
 
 		$smarty->assign('customer_name',"$sales_info[customer_name]");
 		$smarty->assign('date',"$sales_info[date]");
