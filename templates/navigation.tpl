@@ -250,23 +250,32 @@
                                 <span class="pull-right-container"> 
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href='purchase_order_payment.php'> <i class="fa fa-shopping-cart"></i>Purchase</a></li>
-                                <li><a href='return_purchase_order_payment.php'><i class="fa fa-shopping-cart fa-flip-horizontal"></i> Return Purchase</a></li>
-                                <li><a href='sales_payment.php'><i class="fa fa-shopping-bag fa-rotate-90"></i>Sales</a></li>
-                                <li><a href='return_sales_payment.php'><i class="fa fa-shopping-bag fa-rotate-270"></i>Return Sales</a></li>
-                                <li><a href='other_expenses.php'><i class="fa fa-money"></i>Other Expenses</a></li>
-                                <li><a href='other_incomes.php'><i class="fa fa-usd"></i>Other Incomes</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li><a href="#"><i class="fa fa-file-text"></i><span>Reports</span></a></li>
-                <li><a href="#"> <i class="fa fa-book"></i> <span>Accounts</span></a></li>
-                <li>
-                    <a href="login.php?job=logout"><i class="fa fa-sign-out"></i> <span>Logout</span></a>
-                </li>
+                             </a>
+                            	<ul class="treeview-menu">
+                                    <li><a href='purchase_order_payment.php'> <i class="fa fa-shopping-cart"></i>Purchase</a></li>
+                                    <li><a href='return_purchase_order_payment.php'><i class="fa fa-shopping-cart fa-flip-horizontal"></i> Return Purchase</a></li>
+                                    <li><a href='sales_payment.php'><i class="fa fa-shopping-bag fa-rotate-90"></i>Sales</a></li>
+                                    <li><a href='return_sales_payment.php'><i class="fa fa-shopping-bag fa-rotate-270"></i>Return Sales</a></li>
+                                    <li><a href='other_expenses.php'><i class="fa fa-money"></i>Other Expenses</a></li>
+                                    <li><a href='other_incomes.php'><i class="fa fa-usd"></i>Other Incomes</a></li>
+                                 </ul> 
+                            </li>
+                        </ul>
+                    </li>
+
+		<li><a href="notification.php?job=notifications"><i class="fa fa-bell-o"></i><span>Notifications</span></a></li>
+
+        <li><a href="#"><i class="fa fa-file-text"></i><span>Reports</span></a></li>
+        <li><a href="#"> <i class="fa fa-book"></i> <span>Accounts</span></a></li>
+        <li>
+            <a href="login.php?job=logout"><i class="fa fa-sign-out"></i> <span>Logout</span></a>
+        </li>
+        
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+<div class="content-wrapper">    
 
             </ul>
         </section>
