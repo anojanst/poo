@@ -32,11 +32,11 @@ function list_all_notifications() {
 		<td> ';
 			if ($row[seen_status] == '0'){
 					echo' 
-							<a href="notification.php?job=update_unseen&product_id='.$row['product_id'].'&branch='.$row[branch].'"> <button type="button" class="btn btn-block btn-warning"> Un Seen </button></a>';
+							<a href="notification.php?job=update_unseen&product_id='.$row['product_id'].'&branch='.$row[branch].'"> <button type="button" class="btn btn-block btn-warning">Mark As Seen</button></a>';
 					}
 					else{
 						echo'
-							<a href="#"> <button type="button" class="btn btn-block btn-danger"> Seen </button></a>';
+							<h5>Seen</h5>';
 					}
 		echo'				
 		</td>		

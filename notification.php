@@ -3,6 +3,7 @@ require_once 'conf/smarty-conf.php';
 include 'functions/user_functions.php';
 include 'functions/author_functions.php';
 include 'functions/notifications_functions.php';
+include 'functions/navigation_functions.php';
 
 $module_no = 19;
 
@@ -38,7 +39,19 @@ if ($_SESSION['login'] == 1) {
 			$smarty->display ( 'notifications/notifications.tpl' );
 		
 		}
-		
+        elseif ($_REQUEST ['job'] == "view_not") {
+
+            $product_id=$_SESSION['product_id']=$_REQUEST['product_id'];
+            $branch=$_SESSION['branch']=$_REQUEST['branch'];
+
+            update_unseen_as_seen($product_id, $branch);
+
+            $smarty->assign ( 'product_id', $product_id );
+
+            $smarty->assign ( 'page', "Notification Info" );
+            $smarty->display ( 'notifications/notification_view.tpl' );
+
+        }
 		
 	} 
 	else {

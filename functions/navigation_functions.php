@@ -18,7 +18,7 @@ function list_notification(){
             <li>
                 <ul class="menu">
                     <li>
-                        <a href="#">
+                        <a href="notification.php?job=view_not&product_id='.$row[product_id].'&branch='.$row[branch].'">
                             <h3>' . $row[product_name] . '</h3>' . $row[branch] . '
                         </a>
                     </li>
@@ -31,7 +31,7 @@ function list_notification(){
             </li>';
     }
             echo'
-                <li class="footer"><a href="#">View all</a></li>
+                <li class="footer"><a href="notification.php?job=notifications">View all</a></li>
                 </ul>
         </li>';
 
