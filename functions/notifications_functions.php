@@ -32,7 +32,7 @@ function list_all_notifications() {
 		<td> ';
 			if ($row[seen_status] == '0'){
 					echo' 
-							<a href="notification.php?job=update_unseen&product_id='.$row['product_id'].'&branch='.$row[branch].'"> <button type="button" class="btn btn-block btn-warning">Mark As Seen</button></a>';
+							<a href="notification.php?job=update_unseen&product_id='.$row['product_id'].'&branch='.$row[branch].'&id='.$row[id].'"> <button type="button" class="btn btn-block btn-warning">Mark As Seen</button></a>';
 					}
 					else{
 						echo'
@@ -41,7 +41,7 @@ function list_all_notifications() {
 		echo'				
 		</td>		
 				
-		<td><a href="notification.php?job=view_info&product_id='.$row[product_id].'&branch='.$row[branch].'"> <i class="fa fa-eye"></i></a></td>
+		<td><a href="notification.php?job=view_info&product_id='.$row[product_id].'&branch='.$row[branch].'&id='.$row[id].'"> <i class="fa fa-eye"></i></a></td>
 
 			
 				
@@ -57,11 +57,11 @@ function list_all_notifications() {
 	
 }
 
-function view_notification($product_id, $branch) {
+function view_notification($product_id, $branch, $id) {
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 
-	$result = mysqli_query ( $conn, "SELECT * FROM notification WHERE product_id='$product_id' AND branch='$branch'" );
+	$result = mysqli_query ( $conn, "SELECT * FROM notification WHERE product_id='$product_id' AND branch='$branch' AND id='$id'" );
 	while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) ) {
 		
 		echo'
@@ -109,7 +109,7 @@ function view_notification($product_id, $branch) {
 
 
 
-function update_unseen_as_seen($product_id, $branch) {
+function update_unseen_as_seen($product_id, $branch, $id) {
 	
 	include 'conf/config.php';
 	include 'conf/opendb.php';
@@ -118,7 +118,7 @@ function update_unseen_as_seen($product_id, $branch) {
 	
 	$query = "UPDATE notification SET
 	seen_status='1'
-	WHERE product_id='$product_id' AND branch='$branch'";
+	WHERE product_id='$product_id' AND branch='$branch' AND id='$id'";
 
 	mysqli_query ($conn, $query );
 

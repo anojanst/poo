@@ -16,7 +16,7 @@
 			{/if}
 
 			<div>
-				{php}view_notification($_SESSION['product_id'], $_SESSION['branch']);{/php}
+				{php}view_notification($_SESSION['product_id'], $_SESSION['branch'], $_SESSION['id']);{/php}
 			</div>			
 
 
