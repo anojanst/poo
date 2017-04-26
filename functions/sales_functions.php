@@ -162,7 +162,8 @@ function list_item_by_sales($sales_no){
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo'<tr>
-		<form name="update_item" action="sales.php?job=update_item&product_id='.$row[product_id].'" method="post"><td align="center" ><a href="sales.php?job=delete_item&id='.$row[id].'" ><img src="images/close.png" alt="Delete" /></a></td>'."
+		<form name="update_item" action="sales.php?job=update_item&product_id='.$row[product_id].'" method="post">
+		<td align="center" ><a href="sales.php?job=delete_item&id='.$row[id].'" ><img src="images/close.png" alt="Delete" /></a></td>'."
 		<td>".$row[product_name]."</td>
 		<td align='right'><input type='text' name='selling_price' value=".$row[selling_price]." size='10' style='color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;'/></td>
 		<td align='right'><input type='text' name='quantity' value=".$row[quantity]." size='6' style='color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;'/></td>
@@ -370,7 +371,7 @@ function list_sales_search($sales_no_search, $customer_search){
 	</thead>
 	<tbody valign="top">';
 
-	$result=mysqli_query($conn, "SELECT * FROM sales WHERE $customer_check $and $sales_no_check AND cancel_status='0' ORDER BY id DESC");
+	$result=mysqli_query($conn, "SELECT * FROM sales WHERE $customer_check $and $sales_no_check AND cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo '
@@ -428,7 +429,8 @@ function list_sales_search_report($customer_search, $sales_no_search){
 	
 	if($sales_no_search || $customer_search){
 	
-	echo '<table class="inventory_table" style="width: 900px; border-bottom: 2px solid silver; margin-bottom: 30px; margin-top: 0x;">
+	echo '<div class="table-responsive">
+              <table class="table">
 	<thead valign="top">
 	<th>No</th>
 	<th>Sales No</th>
@@ -442,7 +444,7 @@ function list_sales_search_report($customer_search, $sales_no_search){
 	</thead>
 	<tbody valign="top">';
 $i=1;
-	$result=mysqli_query($conn, "SELECT * FROM sales WHERE $customer_check $and $sales_no_check AND cancel_status='0' ORDER BY id DESC");
+	$result=mysqli_query($conn, "SELECT * FROM sales WHERE $customer_check $and $sales_no_check AND cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo '
@@ -470,7 +472,7 @@ $i=1;
 	$paid_total=$paid_total+$row[paid];
 	}
 	
-	echo '<tr><th colspan="4">Total</th><th>'.number_format($total, 2).'</th><th>'.number_format($due_total, 2).'</th><th>'.number_format($paid_total, 2).'</th></tr></tbody></table>';
+	echo '<tr><th colspan="4">Total</th><th>'.number_format($total, 2).'</th><th>'.number_format($due_total, 2).'</th><th>'.number_format($paid_total, 2).'</th></tr></tbody></table></div>';
 	}
 	
 	include 'conf/closedb.php';
@@ -480,22 +482,24 @@ function list_sales(){
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 	
-		echo '<table class="inventory_table" style="width: 900px; border-bottom: 2px solid silver; margin-bottom: 30px; margin-top: 0x;">
-	<thead valign="top">
-	<th>No</th>
-	<th>Sales No</th>
-	<th>Sales Date</th>
-	<th>Customer Name</th>
-	<th>Sales Total</th>
-	<th>Due</th>
-	<th>Paid</th>
-	<th>Remarks</th>
-	<th>Prepared By</th>
-	</thead>
-	<tbody valign="top">';
+		echo '<div class="table-responsive">
+              <table class="table">
+				<thead valign="top">
+				<th>No</th>
+				<th>Sales No</th>
+				<th>Sales Date</th>
+				<th>Customer Name</th>
+				<th>Sales Total</th>
+				<th>Due</th>
+				<th>Paid</th>
+				<th>Remarks</th>
+				<th>Prepared By</th>
+			
+				</thead>
+				<tbody valign="top">';
 
 	$i=1;
-	$result=mysqli_query($conn, "SELECT * FROM sales WHERE cancel_status='0' ORDER BY id DESC");
+	$result=mysqli_query($conn, "SELECT * FROM sales WHERE cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo '
@@ -521,7 +525,7 @@ function list_sales(){
 	$paid_total=$paid_total+$row[paid];
 	}
 	
-	echo '<tr><th colspan="4">Total</th><th>'.number_format($total, 2).'</th><th>'.number_format($due_total, 2).'</th><th>'.number_format($paid_total, 2).'</th></tr></tbody></table>';
+	echo '<tr><th colspan="4">Total</th><th>'.number_format($total, 2).'</th><th>'.number_format($due_total, 2).'</th><th>'.number_format($paid_total, 2).'</th></tr></tbody></table></div>';
 	
 	
 	

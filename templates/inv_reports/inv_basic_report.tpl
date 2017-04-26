@@ -23,7 +23,7 @@ $(function () {
 						<input type="text" class='auto form-control' name="search" value="{$search}" placeholder="Search Inventory"/> 
 					</div>
 					<div class="col-lg-1">
-						<input type="image" src="./images/search.png" height="28" width="28"/>
+							<button type="submit" name="ok" value="Search" class="btn btn-primary">Search</button>
 					</div>
 					<div class="col-lg-3">
 						<a href="inv_basic_report.php?job=print" class="more">Print</a>

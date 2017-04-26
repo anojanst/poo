@@ -4,6 +4,8 @@ include 'functions/inventory_functions.php';
 include 'functions/return_functions.php';
 include 'functions/user_functions.php';
 
+include 'functions/navigation_functions.php';
+
 $module_no = 18;
 
 if ($_SESSION['login'] == 1) {

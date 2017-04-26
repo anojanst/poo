@@ -5,7 +5,7 @@ function list_account(){
 	
 	echo '<tbody>';
 
-	$result=mysqli_query($conn, "SELECT * FROM chart_of_accounts WHERE cancel_status='0' ORDER BY id DESC");
+	$result=mysqli_query($conn, "SELECT * FROM chart_of_accounts WHERE cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo '
@@ -49,7 +49,7 @@ function list_account_search($search){
 	</thead>
 	<tbody valign="top">';
 
-	$result=mysqli_query($conn, "SELECT * FROM chart_of_accounts WHERE account_name LIKE '%$search%' AND cancel_status='0' ORDER BY id DESC");
+	$result=mysqli_query($conn, "SELECT * FROM chart_of_accounts WHERE account_name LIKE '%$search%' AND cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo '

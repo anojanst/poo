@@ -3,6 +3,8 @@ require_once 'conf/smarty-conf.php';
 include 'functions/register_functions.php';
 include 'libs/class.phpmailer.php';
 
+include 'functions/navigation_functions.php';
+
 if ($_REQUEST['job']=="register_form"){
 
 	$smarty->assign('page',"Register");

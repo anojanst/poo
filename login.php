@@ -19,6 +19,7 @@ if ($_REQUEST['job']=="login"){
 		
 		$_SESSION['user_id']=$user_info['id'];
 		$_SESSION['full_name']=$user_info['full_name'];
+		$_SESSION['branch']=$user_info['branch'];
 		$_SESSION['email']=$user_info['email'];
 		$_SESSION['filled']=$info['filled'];
         $_SESSION['department']=$user_info['department'];

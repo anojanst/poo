@@ -33,61 +33,50 @@ if ($_SESSION['login'] == 1) {
 			$smarty->assign('purchased_after',"$_SESSION[purchased_after]");
 			$smarty->assign('purchased_before',"$_SESSION[purchased_before]");
 			$smarty->assign('search_mode',"on");
-			$smarty->assign('page', "Inventory Full Report");
-			$smarty->display('inv_reports/inv_full_report.tpl');
+			$smarty->assign('page', "Sales Full Report");
+			$smarty->display('sales_reports/sales_full_report.tpl');
 		}
 		elseif($_REQUEST['job']=='product_on_demand'){
 			
 			$smarty->assign('demand_report',"on");
 			$smarty->assign('org_name',"$_SESSION[org_name]");
-			$smarty->assign('page', "Inventory Full Report");
-			$smarty->display('inv_reports/inv_full_report.tpl');
+			$smarty->assign('page', "Sales Full Report");
+			$smarty->display('sales_reports/sales_full_report.tpl');
 		}
 		elseif($_REQUEST['job']=='product_with_profit'){
 			
 			$smarty->assign('product_profit_report',"on");
 			$smarty->assign('org_name',"$_SESSION[org_name]");
-			$smarty->assign('page', "Inventory Full Report");
-			$smarty->display('inv_reports/inv_full_report.tpl');
+			$smarty->assign('page', "Sales Full Report");
+			$smarty->display('sales_reports/sales_full_report.tpl');
 		}
 		elseif($_REQUEST['job']=='product_with_loss'){
 			
 			$smarty->assign('product_loss_report',"on");
 			$smarty->assign('org_name',"$_SESSION[org_name]");
-			$smarty->assign('page', "Inventory Full Report");
-			$smarty->display('inv_reports/inv_full_report.tpl');
+			$smarty->assign('page', "Sales Full Report");
+			$smarty->display('sales_reports/sales_full_report.tpl');
 		}
 		elseif($_REQUEST['job']=='recently_purchased'){
 			
 			$smarty->assign('recent_purchase',"on");
 			$smarty->assign('org_name',"$_SESSION[org_name]");
-			$smarty->assign('page', "Inventory Full Report");
-			$smarty->display('inv_reports/inv_full_report.tpl');
+			$smarty->assign('page', "Sales Full Report");
+			$smarty->display('sales_reports/sales_full_report.tpl');
 		}
 		elseif($_REQUEST['job']=='out_of_stock'){
 			
 			$smarty->assign('out_of_stock',"on");
 			$smarty->assign('org_name',"$_SESSION[org_name]");
-			$smarty->assign('page', "Inventory Full Report");
-			$smarty->display('inv_reports/inv_full_report.tpl');
+			$smarty->assign('page', "Sales Full Report");
+			$smarty->display('sales_reports/sales_full_report.tpl');
 		}
 		elseif($_REQUEST['job']=='without_sales'){
 			
 			$smarty->assign('without_sales',"on");
 			$smarty->assign('org_name',"$_SESSION[org_name]");
-			$smarty->assign('page', "Inventory Full Report");
-			$smarty->display('inv_reports/inv_full_report.tpl');
-		}
-		
-		elseif($_REQUEST['job']=='inv_stock'){
-			if($_SESSION['branch']=='Head Office'){
-				$smarty->assign('head_office_inv_stock',"on");
-			}else{
-				$smarty->assign('inv_stock',"on");
-			}
-			$smarty->assign('org_name',"$_SESSION[org_name]");
-			$smarty->assign('page', "Inventory Full Report");
-			$smarty->display('inv_reports/inv_full_report.tpl');
+			$smarty->assign('page', "Sales Full Report");
+			$smarty->display('sales_reports/sales_full_report.tpl');
 		}
 		elseif($_REQUEST['job']=='catagory_list'){
 			
@@ -96,8 +85,8 @@ if ($_SESSION['login'] == 1) {
 			$smarty->assign('catagory_list',"on");
 			
 			$smarty->assign('org_name',"$_SESSION[org_name]");
-			$smarty->assign('page', "Inventory Full Report");
-			$smarty->display('inv_reports/inv_full_report.tpl');
+			$smarty->assign('page', "Sales Full Report");
+			$smarty->display('sales_reports/sales_full_report.tpl');
 		}
 		elseif($_REQUEST['job']=='list_inventory_by_cat'){
 			$_SESSION['category']=$_REQUEST['cat'];
@@ -106,14 +95,14 @@ if ($_SESSION['login'] == 1) {
 			$smarty->assign('catagory_list',"on");
 				
 			$smarty->assign('org_name',"$_SESSION[org_name]");
-			$smarty->assign('page', "Inventory Full Report");
-			$smarty->display('inv_reports/inv_full_report.tpl');
+			$smarty->assign('page', "Sales Full Report");
+			$smarty->display('sales_reports/sales_full_report.tpl');
 		}
 		else{
 		
-		$smarty->assign('org_name', "$_SESSION[org_name]");
-		$smarty->assign('page', "Inventory Full Report");
-		$smarty->display('inv_reports/inv_full_report.tpl');
+			$smarty->assign('org_name', "$_SESSION[org_name]");
+			$smarty->assign('page', "Sales Full Report");
+			$smarty->display('sales_reports/sales_full_report.tpl');
 		}
 		}
 		else {

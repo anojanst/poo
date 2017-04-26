@@ -32,7 +32,7 @@ function list_author_search($search) {
 	</thead>
 	<tbody valign="top">';
 
-	$result = mysqli_query($conn, "SELECT * FROM author WHERE author LIKE '%$search%' AND cancel_status='0' ORDER BY id DESC");
+	$result = mysqli_query($conn, "SELECT * FROM author WHERE author LIKE '%$search%' AND cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 		echo '<tr>
 				<td align="center"><a href="author.php?job=edit&id=' . $row[id] . '"  ><img src="images/edit.png" alt="Edit" width="24" height="24"/></a></td>
