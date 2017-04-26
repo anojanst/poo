@@ -1,0 +1,135 @@
+
+.price-box {
+	margin: 0 auto;
+	border-radius: 10px;
+	padding: 40px 15px;
+	width: 500px;
+}
+
+.ui-widget-content {
+	border: 1px solid #0074d9;
+	background: #0074d9;
+	color: #0074d9;
+	margin-top: 4px;
+}
+
+.ui-slider .ui-slider-handle {
+	position: absolute !important;
+	z-index: 2 !important;
+	width: 3.2em !important;
+	height: 2.2em !important;
+	cursor: default !important;
+	margin: 0 -20px auto !important;
+	text-align: center !important;	
+	line-height: 30px !important;
+	color: #FFFFFF !important;
+	font-size: 15px !important;
+}
+
+.ui-corner-all {
+	/*border-radius: 20px;*/
+}
+
+.ui-slider-horizontal .ui-slider-handle {
+	top: -3em !important;
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default {
+	background: #0074d9 !important;
+}
+
+.ui-slider-horizontal .ui-slider-handle {
+	margin-left: -0.5em !important;
+}
+
+.ui-slider .ui-slider-handle {
+	cursor: pointer;
+}
+
+.ui-slider a,
+.ui-slider a:focus {
+	cursor: pointer;
+	outline: none;
+}
+
+.price, .lead p {
+	font-weight: 600;
+	font-size: 18px;
+	display: inline-block;
+}
+
+h4.great {
+	background: #0074d9;
+	margin: 0 -15px 20px;
+	padding: 15px 15px 5px 15px;
+	color: #ffffff;
+	font-size: 18px;
+	font-weight: 600;
+	border-radius: 5px;
+	display: inline-block;
+	-moz-box-shadow:    2px 4px 5px 0 #ccc;
+  	-webkit-box-shadow: 2px 4px 5px 0 #ccc;
+  	box-shadow:         2px 4px 5px 0 #ccc;
+}
+
+.price-slider {
+	margin-bottom: 70px;
+}
+
+.form-pricing {
+	background: #0074d9;
+	padding: 20px;
+	border-radius: 4px;
+}
+
+.price-form {
+	background: #0074d9;
+	margin-bottom: 10px;
+	padding: 20px;
+	border: 1px solid red;
+	border-radius: 4px;
+}
+
+.form-group {
+	margin-bottom: 0;
+}
+
+.form-group span.price {
+	font-weight: 200;
+	display: inline-block;
+	color: #0074d9;
+	font-size: 14px;
+}
+
+.help-text {
+	display: block;
+	margin-top: 32px;
+	margin-bottom: 10px;
+	color: #0074d9;
+	position: absolute;
+	font-weight: 200;
+	text-align: right;
+	width: 188px;
+}
+
+.price-form label {
+	font-weight: 200;
+	font-size: 21px;
+}
+
+.ui-slider-range-min {
+	background: #0074d9;
+}
+
+.ui-slider-label-inner {
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #0074d9;
+    display: block;
+    left: 50%;
+    margin-left: -10px;
+    position: absolute;
+    top: 100%;
+    z-index: 99;
+}
