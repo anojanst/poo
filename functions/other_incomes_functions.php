@@ -179,7 +179,7 @@ function list_other_incomes_search($other_incomes_no_search, $customer_search){
 	</thead>
 	<tbody valign="top">';
 
-	$result=mysqli_query($conn, "SELECT * FROM other_incomes WHERE $suppier_check $and $other_incomes_no_check AND cancel_status='0' ORDER BY id DESC");
+	$result=mysqli_query($conn, "SELECT * FROM other_incomes WHERE $suppier_check $and $other_incomes_no_check AND cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo '
@@ -229,7 +229,7 @@ function list_other_incomess(){
 	</thead>
 	<tbody valign="top">';
 
-	$result=mysqli_query($conn, "SELECT * FROM other_incomes WHERE cancel_status='0' ORDER BY id DESC");
+	$result=mysqli_query($conn, "SELECT * FROM other_incomes WHERE cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo '

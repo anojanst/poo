@@ -6,7 +6,7 @@ include 'functions/employees_functions.php';
 $module_no = 10;
 if ($_SESSION['login'] == 1) {
 	if (check_access($module_no, $_SESSION['user_id']) == 1) {
-		if ($_REQUEST['job'] == 'add') {
+		if ($_REQUEST['job'] == 'add') {echo 1;
 			if ($_REQUEST['ok'] == 'Save') {
 				$employee_name = $_POST['employee_name'];
 				$full_name = $_POST['full_name'];

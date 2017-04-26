@@ -61,7 +61,7 @@ function list_item_by_purchase_order($purchase_order_no){
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 
-	$result=mysqli_query($conn, "SELECT * FROM purchase_order_has_items WHERE purchase_order_no='$purchase_order_no' AND cancel_status='0' ORDER BY id ASC");
+	$result=mysqli_query($conn, "SELECT * FROM purchase_order_has_items WHERE purchase_order_no='$purchase_order_no' AND cancel_status='0' ORDER BY id ASC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo"<table>
@@ -183,7 +183,7 @@ function list_purchase_order_search($purchase_order_no_search, $supplier_search)
 	</thead>
 	<tbody valign="top">';
 
-	$result=mysqli_query($conn, "SELECT * FROM purchase_order WHERE $suppier_check $and $purchase_order_no_check AND cancel_status='0' ORDER BY id DESC");
+	$result=mysqli_query($conn, "SELECT * FROM purchase_order WHERE $suppier_check $and $purchase_order_no_check AND cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo '

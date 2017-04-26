@@ -16,7 +16,7 @@ function list_return_sales_of_customer($customer_name){
 	</thead>
 	<tbody valign="top">';
 
-	$result=mysqli_query($conn, "SELECT * FROM returns WHERE customer_name='$customer_name' AND due > 0 AND cancel_status='0' ORDER BY id DESC");
+	$result=mysqli_query($conn, "SELECT * FROM returns WHERE customer_name='$customer_name' AND due > 0 AND cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo '
@@ -63,7 +63,7 @@ function list_return_sales_of_return_no($return_no){
 	</thead>
 	<tbody valign="top">';
 
-	$result=mysqli_query($conn, "SELECT * FROM returns WHERE return_no='$return_no' AND due > 0 AND cancel_status='0' ORDER BY id DESC");
+	$result=mysqli_query($conn, "SELECT * FROM returns WHERE return_no='$return_no' AND due > 0 AND cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo '
@@ -372,7 +372,7 @@ function list_return_sales_payment_search($return_sales_payment_no_search, $cust
 	</thead>
 	<tbody valign="top">';
 
-	$result=mysqli_query($conn, "SELECT * FROM return_sales_payment WHERE $customer_check $and $return_sales_payment_no_check AND cancel_status='0' ORDER BY id DESC");
+	$result=mysqli_query($conn, "SELECT * FROM return_sales_payment WHERE $customer_check $and $return_sales_payment_no_check AND cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo '

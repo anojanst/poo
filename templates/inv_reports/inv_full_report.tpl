@@ -67,18 +67,18 @@ $(function () {
 				</div>
 				<div class="col-lg-3">
 					<h4><strong>Quick Report</strong></h4>
-					<a href="inv_full_report.php?job=product_on_demand" class="report_select">Products On Demand</a>
-					<a href="inv_full_report.php?job=product_with_profit" class="report_select">Product With Profit</a>
-					<a href="inv_full_report.php?job=product_with_loss" class="report_select">Product With Loss</a>
-					<a href="inv_full_report.php?job=recently_purchased" class="report_select">Recently Puchased</a>
-					<a href="inv_full_report.php?job=without_sales" class="report_select">Products Without Sales</a>
-					<a href="inv_full_report.php?job=out_of_stock" class="report_select">Out of Stock Products</a>
-					<a href="inv_full_report.php?job=catagory_list" class="report_select">Catagory Listing</a>
+					<a href="inv_full_report.php?job=product_on_demand" class="btn btn-xs btn-primary" style="width: 200px; height: 35px;"><span style="padding-top: 5px;">Products On Demand</span></a>
+					<a href="inv_full_report.php?job=product_with_profit" class="btn btn-xs btn-danger" style="width: 200px; height: 35px";>Product With Profit</a>
+					<a href="inv_full_report.php?job=product_with_loss" class="btn btn-xs btn-success" style="width: 200px; height: 35px";>Product With Loss</a>
+					<a href="inv_full_report.php?job=recently_purchased" class="btn btn-xs btn-warning" style="width: 200px; height: 35px";>Recently Puchased</a>
+					<a href="inv_full_report.php?job=without_sales" class="btn btn-xs btn-primary" style="width: 200px; height: 35px";>Products Without Sales</a>
+					<a href="inv_full_report.php?job=out_of_stock" class="btn btn-xs btn-danger" style="width: 200px; height: 35px";>Out of Stock Products</a>
+					<a href="inv_full_report.php?job=inv_stock" class="btn btn-xs btn-success" style="width: 200px; height: 35px";>Stock</a>
 				</div>
 			</div>
 				<div class="row">
 					<div  class="col-lg-12">
-						<input type="submit" class ="pull left" name="ok" value="Generate Report" style="float: none;"/>
+						<input type="submit" class ="pull left" name="ok" value="Generate Report" class="btn btn-xs btn-primary" style="width: 200px; height: 35px";/>
 					</div>
 				</div>
 			</form>
@@ -105,6 +105,14 @@ $(function () {
 		{/if}
 		{if $out_of_stock=='on'}
 		{php}out_of_stock();{/php}
+		{else}
+		{/if}
+		{if $inv_stock=='on'}
+		{php}inv_stock();{/php}
+		{else}
+		{/if}
+		{if $head_office_inv_stock=='on'}
+		{php}head_office_inv_stock();{/php}
 		{else}
 		{/if}
 		{if $without_sales=='on'}

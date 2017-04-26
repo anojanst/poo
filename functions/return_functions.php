@@ -291,7 +291,7 @@ function list_return_search($return_no_search, $customer_search){
 	</thead>
 	<tbody valign="top">';
 
-	$result=mysqli_query($conn, "SELECT * FROM returns WHERE $customer_check $and $return_no_check AND cancel_status='0' ORDER BY id DESC");
+	$result=mysqli_query($conn, "SELECT * FROM returns WHERE $customer_check $and $return_no_check AND cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo '

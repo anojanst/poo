@@ -28,7 +28,7 @@ function list_purchase_order_search_for_confirm($purchase_order_no_search, $supp
 
 		echo '<tbody>';
 
-		$result=mysqli_query($conn, "SELECT * FROM purchase_order WHERE $suppier_check $and $purchase_order_no_check AND cancel_status='0' AND confirmed='0' ORDER BY id DESC");
+		$result=mysqli_query($conn, "SELECT * FROM purchase_order WHERE $suppier_check $and $purchase_order_no_check AND cancel_status='0' AND confirmed='0' ORDER BY id DESC LIMIT 500");
 		while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 		{
 		echo '
@@ -152,7 +152,7 @@ function display_purchase_order_items($purchase_order_no){
 		</tr>
 	</thead>
 	<tbody>';
-	$result=mysqli_query($conn, "SELECT * FROM purchase_order_has_items WHERE purchase_order_no='$purchase_order_no' AND cancel_status='0' ORDER BY id ASC");
+	$result=mysqli_query($conn, "SELECT * FROM purchase_order_has_items WHERE purchase_order_no='$purchase_order_no' AND cancel_status='0' ORDER BY id ASC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo"

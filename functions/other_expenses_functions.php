@@ -179,7 +179,7 @@ function list_other_expenses_search($other_expenses_no_search, $supplier_search)
 	</thead>
 	<tbody valign="top">';
 
-	$result=mysqli_query($conn, "SELECT * FROM other_expenses WHERE $suppier_check $and $other_expenses_no_check AND cancel_status='0' ORDER BY id DESC");
+	$result=mysqli_query($conn, "SELECT * FROM other_expenses WHERE $suppier_check $and $other_expenses_no_check AND cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo '
@@ -229,7 +229,7 @@ function list_other_expensess(){
 	</thead>
 	<tbody valign="top">';
 
-	$result=mysqli_query($conn, "SELECT * FROM other_expenses WHERE cancel_status='0' ORDER BY id DESC");
+	$result=mysqli_query($conn, "SELECT * FROM other_expenses WHERE cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo '

@@ -17,7 +17,7 @@ function list_employees(){
                 </thead>
                 <tbody>';
 
-	$result=mysqli_query($conn, "SELECT * FROM employees WHERE cancel_status='0' ORDER BY id DESC");
+	$result=mysqli_query($conn, "SELECT * FROM employees WHERE cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo '
@@ -103,7 +103,7 @@ function list_employees_search($search){
 	</thead>
 	<tbody valign="top">';
 
-	$result=mysqli_query($conn, "SELECT * FROM employees WHERE employee_name LIKE '%$search%' ORDER BY id DESC");
+	$result=mysqli_query($conn, "SELECT * FROM employees WHERE employee_name LIKE '%$search%' ORDER BY id DESC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo '

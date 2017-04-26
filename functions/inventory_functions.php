@@ -74,7 +74,7 @@ function list_inventory_basic_report() {
 	echo '<tbody>';
 	$i = 1;
 	$total=0;
-	$result = mysqli_query($conn, "SELECT * FROM inventory WHERE cancel_status='0' ORDER BY id DESC");
+	$result = mysqli_query($conn, "SELECT * FROM inventory WHERE cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 					
 			echo '
@@ -85,7 +85,7 @@ function list_inventory_basic_report() {
 					<td>' . $row[quantity] . '</td>';
 		$product_id = $row[product_id];
 
-		$result1 = mysqli_query($conn, "SELECT SUM(quantity) as sold FROM sales_has_items WHERE product_id LIKE '$product_id' AND cancel_status='0' ORDER BY id DESC");
+		$result1 = mysqli_query($conn, "SELECT SUM(quantity) as sold FROM sales_has_items WHERE product_id LIKE '$product_id' AND cancel_status='0' ORDER BY id DESC LIMIT 500");
 		while ($row1 = mysqli_fetch_array($result1, MYSQLI_ASSOC)) {
 		echo '		<td>' . $row1[sold] . '</td>';
 		}
@@ -159,7 +159,7 @@ function list_inventory_custom_report() {
 
 	$i = 1;
 	$total=0;
-	$result = mysqli_query($conn, "SELECT * FROM inventory WHERE cancel_status='0' ORDER BY id DESC");
+	$result = mysqli_query($conn, "SELECT * FROM inventory WHERE cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 		if ($row[quantity] == 0) {
 			echo '<tr><td style="background-color:#920606; color:white;" align="center">' . $i . '</td>';
@@ -182,7 +182,7 @@ function list_inventory_custom_report() {
 	}
 	$product_id = $row[product_id];
 	if ($_SESSION['sold']){
-		$result1 = mysqli_query($conn, "SELECT SUM(quantity) as sold FROM sales_has_items WHERE product_id LIKE '$product_id' AND cancel_status='0' ORDER BY id DESC");
+		$result1 = mysqli_query($conn, "SELECT SUM(quantity) as sold FROM sales_has_items WHERE product_id LIKE '$product_id' AND cancel_status='0' ORDER BY id DESC LIMIT 500");
 		while ($row1 = mysqli_fetch_array($result1, MYSQLI_ASSOC)) {
 			echo '<td align="right">' . $row1[sold] . '</td>';
 		}
@@ -221,7 +221,8 @@ function list_inventory_search($search) {
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 
-	echo '<table class="inventory_table">
+	echo '<div class="table-responsive">
+              <table class="table">
 	<thead valign="top">
 	<th>Edit</th>
 	<th>Product ID</th>
@@ -235,7 +236,7 @@ function list_inventory_search($search) {
 	</thead>
 	<tbody valign="top">';
 
-	$result = mysqli_query($conn, "SELECT * FROM inventory WHERE product_name LIKE '%$search%' AND cancel_status='0' ORDER BY id DESC");
+	$result = mysqli_query($conn, "SELECT * FROM inventory WHERE product_name LIKE '%$search%' AND cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 		echo '
 				<tr>
@@ -258,7 +259,7 @@ function list_inventory_search($search) {
 					<td><a href="html/BCGcode39.php?barcode=' . $row[barcode] . '&product_id=' . $row[product_id] . '&price=' . $row[selling_price] . '&name=' . $row[product_name] . '&type=' . $row[type] . '" target="blank" class="report_select" style="width: 70px; height: 30px; padding: 0px;">Print</a></td>
 				</tr>';
 	}
-	echo '</tbody></table>';
+	echo '</tbody></table></div>';
 
 	include 'conf/closedb.php';
 }
@@ -267,7 +268,8 @@ function list_inventory_basic_report_search($search) {
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 
-	echo '<table class="inventory_table" style="width: 100%;">
+	echo '<div class="table-responsive">
+              <table class="table">
 	<thead valign="top">
 	<th>No</th>
 	<th>Product ID</th>
@@ -286,7 +288,7 @@ function list_inventory_basic_report_search($search) {
 
 	$i = 1;
 	$total=0;
-	$result = mysqli_query($conn, "SELECT * FROM inventory WHERE product_name LIKE '%$search%' AND cancel_status='0' ORDER BY id DESC");
+	$result = mysqli_query($conn, "SELECT * FROM inventory WHERE product_name LIKE '%$search%' AND cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 		if ($row[quantity] == 0) {
 			echo '
@@ -307,7 +309,7 @@ function list_inventory_basic_report_search($search) {
 					';
 		$product_id = $row[product_id];
 
-		$result1 = mysqli_query($conn, "SELECT SUM(quantity) as sold FROM sales_has_items WHERE product_id LIKE '$product_id' AND cancel_status='0' ORDER BY id DESC");
+		$result1 = mysqli_query($conn, "SELECT SUM(quantity) as sold FROM sales_has_items WHERE product_id LIKE '$product_id' AND cancel_status='0' ORDER BY id DESC LIMIT 500");
 		while ($row1 = mysqli_fetch_array($result1, MYSQLI_ASSOC)) {
 			echo '<td align="right">' . $row1[sold] . '</td>';
 		}
@@ -323,7 +325,7 @@ function list_inventory_basic_report_search($search) {
 		$total=$total+($row[buying_price]*$row[quantity]);
 	}
 	
-	echo '<tr><th colspan="8">Total</th><th>'.number_format($total, 2).'</th></tr></tbody></table>';
+	echo '<tr><th colspan="8">Total</th><th>'.number_format($total, 2).'</th></tr></tbody></table></div>';
 
 	include 'conf/closedb.php';
 }
@@ -491,7 +493,8 @@ function list_catagories() {
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 
-	echo '<table class="employee_home_table">
+	echo '<div class="table-responsive">
+              <table class="table">
 	<thead valign="top">
 	<th>Edit</th>
 	<th>Catagory</th>
@@ -499,7 +502,7 @@ function list_catagories() {
 	</thead>
 	<tbody valign="top">';
 
-	$result = mysqli_query($conn, "SELECT * FROM catagories WHERE cancel_status='0' ORDER BY id DESC");
+	$result = mysqli_query($conn, "SELECT * FROM catagories WHERE cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 		echo '
 				<tr>
@@ -510,7 +513,7 @@ function list_catagories() {
 					<td><a href="#" onclick="javascript:showConfirm(\'Are you sure you want to delete this entry?\',\'\',\'Yes\',\'catagories.php?job=delete&id=' . $row[id] . '\',\'No\',\'catagories.php\')"><img src="images/close.png" alt="Delete" height="24" width="24"/></a></td>
 				</tr>';
 	}
-	echo '</tbody></table>';
+	echo '</tbody></table></div>';
 
 	include 'conf/closedb.php';
 }
@@ -519,7 +522,7 @@ function list_parent_catagory() {
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 
-	$result = mysqli_query($conn, "SELECT * FROM catagories WHERE cancel_status='0' ORDER BY id DESC");
+	$result = mysqli_query($conn, "SELECT * FROM catagories WHERE cancel_status='0' ORDER BY id DESC LIMIT 500");
 	$i = 0;
 	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 		$parent_catagory[$i] = $row['catagory'];
@@ -777,7 +780,7 @@ function coustom_inventory_report($product_name, $supplier, $qty_less_than, $qty
 				<tbody>';
 
 	$i = 1;
-	$result = mysqli_query($conn, "SELECT * FROM inventory WHERE product_name LIKE '%$product_name%' AND cancel_status='0' AND supplier='$supplier' $bp_check $sp_check $qty_check $purchased_check ORDER BY id DESC");
+	$result = mysqli_query($conn, "SELECT * FROM inventory WHERE product_name LIKE '%$product_name%' AND cancel_status='0' AND supplier='$supplier' $bp_check $sp_check $qty_check $purchased_check ORDER BY id DESC LIMIT 500");
 	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 
 		echo '<tr>
@@ -793,7 +796,7 @@ function coustom_inventory_report($product_name, $supplier, $qty_less_than, $qty
 					';
 		$product_id = $row[product_id];
 
-		$result1 = mysqli_query($conn, "SELECT SUM(quantity) as sold FROM sales_has_items WHERE product_id LIKE '$product_id' AND cancel_status='0' ORDER BY id DESC");
+		$result1 = mysqli_query($conn, "SELECT SUM(quantity) as sold FROM sales_has_items WHERE product_id LIKE '$product_id' AND cancel_status='0' ORDER BY id DESC LIMIT 500");
 		while ($row1 = mysqli_fetch_array($result1, MYSQLI_ASSOC)) {
 			echo '<td align="right">' . $row1[sold] . '</td>';
 		}
@@ -840,11 +843,11 @@ function inventory_demand_report() {
 
 	clear_temp_demand();
 
-	$result2 = mysqli_query($conn, "SELECT product_id FROM inventory WHERE cancel_status='0' ORDER BY id DESC");
+	$result2 = mysqli_query($conn, "SELECT product_id FROM inventory WHERE cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while ($row2 = mysqli_fetch_array($result2, MYSQLI_ASSOC)) {
 		$product_id = $row2[product_id];
 
-		$result1 = mysqli_query($conn, "SELECT SUM(quantity) as sold FROM sales_has_items WHERE product_id='$product_id' AND cancel_status='0' ORDER BY id DESC");
+		$result1 = mysqli_query($conn, "SELECT SUM(quantity) as sold FROM sales_has_items WHERE product_id='$product_id' AND cancel_status='0' ORDER BY id DESC LIMIT 500");
 		while ($row1 = mysqli_fetch_array($result1, MYSQLI_ASSOC)) {
 			$sold = $row1[sold];
 			if ($sold == 0) {
@@ -879,7 +882,7 @@ function inventory_demand_report() {
 	$result3 = mysqli_query($conn, "SELECT * FROM temp_demand ORDER BY total DESC");
 	while ($row3 = mysqli_fetch_array($result3, MYSQLI_ASSOC)) {
 		$product_id = $row3[product_id];
-		$result = mysqli_query($conn, "SELECT * FROM inventory WHERE product_id='$product_id' ORDER BY id DESC");
+		$result = mysqli_query($conn, "SELECT * FROM inventory WHERE product_id='$product_id' ORDER BY id DESC LIMIT 500");
 		while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 
 			echo '
@@ -958,7 +961,7 @@ function product_profit_report() {
 
 	clear_temp_profit();
 
-	$result2 = mysqli_query($conn, "SELECT product_id FROM inventory WHERE cancel_status='0' ORDER BY id DESC");
+	$result2 = mysqli_query($conn, "SELECT product_id FROM inventory WHERE cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while ($row2 = mysqli_fetch_array($result2, MYSQLI_ASSOC)) {
 		$product_id = $row2[product_id];
 
@@ -982,7 +985,8 @@ function product_profit_report() {
 		}
 	}
 
-	echo '<h3>Products with Profit</h3><table class="inventory_table" style="width: 100%;">
+	echo '<h3>Products with Profit</h3><div class="table-responsive">
+              <table class="table">
 		<thead valign="top">
 		<th>No</th>
 		<th>Product ID</th>
@@ -997,7 +1001,7 @@ function product_profit_report() {
 
 	$i = 1;
 
-	$result3 = mysqli_query($conn, "SELECT * FROM temp_profit ORDER BY profit DESC");
+	$result3 = mysqli_query($conn, "SELECT * FROM temp_profit ORDER BY profit DESC LIMIT 500");
 	while ($row3 = mysqli_fetch_array($result3, MYSQLI_ASSOC)) {
 		$product_id = $row3[product_id];
 		$result = mysqli_query($conn, "SELECT * FROM inventory WHERE product_id='$product_id' ORDER BY id DESC");
@@ -1024,7 +1028,7 @@ function product_profit_report() {
 			$i++;
 		}
 	}
-	echo '</tbody></table>';
+	echo '</tbody></table></div>';
 
 	include 'conf/closedb.php';
 
@@ -1058,7 +1062,7 @@ function product_loss_report() {
 
 	clear_temp_loss();
 
-	$result2 = mysqli_query($conn, "SELECT product_id FROM inventory WHERE cancel_status='0' ORDER BY id DESC");
+	$result2 = mysqli_query($conn, "SELECT product_id FROM inventory WHERE cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while ($row2 = mysqli_fetch_array($result2, MYSQLI_ASSOC)) {
 		$product_id = $row2[product_id];
 
@@ -1082,7 +1086,8 @@ function product_loss_report() {
 		}
 	}
 
-	echo '<h3>Products with loss</h3><table class="inventory_table" style="width: 100%;">
+	echo '<h3>Products with loss</h3><div class="table-responsive">
+              <table class="table">
 		<thead valign="top">
 		<th>No</th>
 		<th>Product ID</th>
@@ -1097,7 +1102,7 @@ function product_loss_report() {
 
 	$i = 1;
 
-	$result3 = mysqli_query($conn, "SELECT * FROM temp_loss ORDER BY loss DESC");
+	$result3 = mysqli_query($conn, "SELECT * FROM temp_loss ORDER BY loss DESC LIMIT 500");
 	while ($row3 = mysqli_fetch_array($result3, MYSQLI_ASSOC)) {
 		$product_id = $row3[product_id];
 		$result = mysqli_query($conn, "SELECT * FROM inventory WHERE product_id='$product_id' ORDER BY id DESC");
@@ -1124,7 +1129,7 @@ function product_loss_report() {
 			$i++;
 		}
 	}
-	echo '</tbody></table>';
+	echo '</tbody></table></div>';
 
 	include 'conf/closedb.php';
 
@@ -1156,7 +1161,8 @@ function recent_purchase_report() {
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 
-	echo '<h3>Recently Purchased</h3><table class="inventory_table" style="width: 100%;">
+	echo '<h3>Recently Purchased</h3><div class="table-responsive">
+              <table class="table">
 	<thead valign="top">
 	<th>No</th>
 	<th>Product ID</th>
@@ -1173,7 +1179,7 @@ function recent_purchase_report() {
 	<tbody valign="top">';
 
 	$i = 1;
-	$result = mysqli_query($conn, "SELECT * FROM inventory WHERE cancel_status='0' AND quantity > '0' ORDER BY purchased_date DESC");
+	$result = mysqli_query($conn, "SELECT * FROM inventory WHERE cancel_status='0' AND quantity > '0' ORDER BY purchased_date DESC LIMIT 500");
 	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 		if ($row[quantity] == 0) {
 			echo '
@@ -1194,7 +1200,7 @@ function recent_purchase_report() {
 					';
 		$product_id = $row[product_id];
 
-		$result1 = mysqli_query($conn, "SELECT SUM(quantity) as sold FROM sales_has_items WHERE product_id LIKE '$product_id' AND cancel_status='0' ORDER BY id DESC");
+		$result1 = mysqli_query($conn, "SELECT SUM(quantity) as sold FROM sales_has_items WHERE product_id LIKE '$product_id' AND cancel_status='0' ORDER BY id DESC LIMIT 500");
 		while ($row1 = mysqli_fetch_array($result1, MYSQLI_ASSOC)) {
 			echo '<td align="right">' . $row1[sold] . '</td>';
 		}
@@ -1213,7 +1219,7 @@ function recent_purchase_report() {
 
 		$i++;
 	}
-	echo '</tbody></table>';
+	echo '</tbody></table></div>';
 
 	include 'conf/closedb.php';
 
@@ -1223,7 +1229,8 @@ function out_of_stock() {
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 
-	echo '<h3>Out of Stock</h3><table class="inventory_table" style="width: 100%;">
+	echo '<h3>Out of Stock</h3><div class="table-responsive">
+              <table class="table">
 	<thead valign="top">
 	<th>No</th>
 	<th>Product ID</th>
@@ -1240,7 +1247,7 @@ function out_of_stock() {
 	<tbody valign="top">';
 
 	$i = 1;
-	$result = mysqli_query($conn, "SELECT * FROM inventory WHERE cancel_status='0' AND quantity='0' ORDER BY id DESC");
+	$result = mysqli_query($conn, "SELECT * FROM inventory WHERE cancel_status='0' AND quantity='0' ORDER BY id DESC LIMIT 500");
 	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 
 		echo '
@@ -1256,7 +1263,7 @@ function out_of_stock() {
 					';
 		$product_id = $row[product_id];
 
-		$result1 = mysqli_query($conn, "SELECT SUM(quantity) as sold FROM sales_has_items WHERE product_id LIKE '$product_id' AND cancel_status='0' ORDER BY id DESC");
+		$result1 = mysqli_query($conn, "SELECT SUM(quantity) as sold FROM sales_has_items WHERE product_id LIKE '$product_id' AND cancel_status='0' ORDER BY id DESC LIMIT 500");
 		while ($row1 = mysqli_fetch_array($result1, MYSQLI_ASSOC)) {
 			echo '<td align="right">' . $row1[sold] . '</td>';
 		}
@@ -1275,7 +1282,7 @@ function out_of_stock() {
 
 		$i++;
 	}
-	echo '</tbody></table>';
+	echo '</tbody></table></div>';
 
 	include 'conf/closedb.php';
 }
@@ -1284,7 +1291,8 @@ function without_sales() {
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 
-	echo '<h3>Products without sales</h3><table class="inventory_table" style="width: 100%;">
+	echo '<h3>Products without sales</h3><div class="table-responsive">
+              <table class="table">
 	<thead valign="top">
 	<th>No</th>
 	<th>Product ID</th>
@@ -1298,12 +1306,12 @@ function without_sales() {
 	</thead>
 	<tbody valign="top">';
 
-	$result = mysqli_query($conn, "SELECT * FROM inventory WHERE cancel_status='0' ORDER BY id DESC");
+	$result = mysqli_query($conn, "SELECT * FROM inventory WHERE cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 
 		$product_id = $row[product_id];
 		$i = 1;
-		$result1 = mysqli_query($conn, "SELECT SUM(quantity) as sold FROM sales_has_items WHERE product_id LIKE '$product_id' AND cancel_status='0' ORDER BY id DESC");
+		$result1 = mysqli_query($conn, "SELECT SUM(quantity) as sold FROM sales_has_items WHERE product_id LIKE '$product_id' AND cancel_status='0' ORDER BY id DESC LIMIT 500");
 		while ($row1 = mysqli_fetch_array($result1, MYSQLI_ASSOC)) {
 			if ($row1[sold]) {
 
@@ -1330,7 +1338,7 @@ function without_sales() {
 		}
 
 	}
-	echo '</tbody></table>';
+	echo '</tbody></table></div>';
 
 	include 'conf/closedb.php';
 
@@ -1341,7 +1349,7 @@ function update_temp_catagory(){
 	include 'conf/opendb.php';
 	
 		$i = 1;
-		$result = mysqli_query($conn, "SELECT * FROM catagories WHERE cancel_status='0' ORDER BY id DESC");
+		$result = mysqli_query($conn, "SELECT * FROM catagories WHERE cancel_status='0' ORDER BY id DESC LIMIT 500");
 		while ($row1 = mysqli_fetch_array($result1, MYSQLI_ASSOC)) {
 			if ($row1[sold]) {
 
@@ -1375,11 +1383,11 @@ function _catagory_listing(){
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 	
-	$result = mysqli_query($conn, "SELECT * FROM catagories WHERE parent_catagory='' ORDER BY id DESC");
+	$result = mysqli_query($conn, "SELECT * FROM catagories WHERE parent_catagory='' ORDER BY id DESC LIMIT 500");
 	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 				echo $row[catagory] . '<br />';
 				
-				$result2 = mysqli_query($conn, "SELECT * FROM catagories WHERE parent_catagory='$row[catagory]' ORDER BY id DESC");
+				$result2 = mysqli_query($conn, "SELECT * FROM catagories WHERE parent_catagory='$row[catagory]' ORDER BY id DESC LIMIT 500");
 				while ($row2 = mysqli_fetch_array($result2, MYSQLI_ASSOC)) {
 					echo '-'.$row2[catagory] . '<br />';
 				}
@@ -1490,7 +1498,8 @@ function list_products_by_cat($category) {
 include 'conf/config.php';
 	include 'conf/opendb.php';
 
-	echo '<h3>'.$category.'</h3><table class="inventory_table" style="width: 100%;">
+	echo '<h3>'.$category.'</h3><div class="table-responsive">
+              <table class="table">
 	<thead valign="top">
 	<th>No</th>
 	<th>Product ID</th>
@@ -1504,7 +1513,7 @@ include 'conf/config.php';
 	</thead>
 	<tbody valign="top">';
 
-	$result=mysqli_query($conn, "SELECT * FROM inventory WHERE catagory='$category' AND cancel_status='0' ORDER BY id ASC");
+	$result=mysqli_query($conn, "SELECT * FROM inventory WHERE catagory='$category' AND cancel_status='0' ORDER BY id ASC LIMIT 500");
 		while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 
 
@@ -1527,7 +1536,7 @@ include 'conf/config.php';
 							';
 			}
 
-	echo '</tbody></table>';
+	echo '</tbody></table></div>';
 
 	/*
 	$output=NULL;
@@ -1550,7 +1559,7 @@ function list_item_for_selling_price(){
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 
-	$result=mysqli_query($conn, "SELECT * FROM inventory WHERE selling_price<'1' AND cancel_status='0' ORDER BY id ASC");
+	$result=mysqli_query($conn, "SELECT * FROM inventory WHERE selling_price<'1' AND cancel_status='0' ORDER BY id ASC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo'<tr>
@@ -1590,7 +1599,7 @@ function list_label($id){
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 	
-	$result=mysqli_query($conn, "SELECT * FROM item_has_label WHERE product_id='$info[product_id]' ORDER BY label ASC");
+	$result=mysqli_query($conn, "SELECT * FROM item_has_label WHERE product_id='$info[product_id]' ORDER BY label ASC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo'<option value="'.$row[label].'" selected>'.$row[label].'</option>';
@@ -1601,4 +1610,123 @@ function list_label($id){
 	{
 		echo'<option value="'.$row1[label].'">'.$row1[label].'</option>';
 	}
+}
+
+
+function inv_stock() {
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+
+	echo '<h3>Stock</h3>
+	<div class="table-responsive">
+              <table class="table">
+	<thead valign="top">
+	<th>No</th>
+	<th>Product ID</th>
+	<th>Product Name</th>
+	<th>Stock</th>
+	<th>Selling Price</th>
+	<th>Discount</th>
+	<th>Purchased Date</th>
+
+	</thead>
+	<tbody valign="top">';
+
+	$i = 1;
+	$result1 = mysqli_query($conn, "SELECT * FROM multiple_stock_has_inventory WHERE  branch='$_SESSION[branch]' ORDER BY id DESC LIMIT 500");
+	while ($row1 = mysqli_fetch_array($result1, MYSQLI_ASSOC)) {
+	
+				$result = mysqli_query($conn, "SELECT * FROM inventory WHERE cancel_status='0' AND product_id='$row1[product_id]' ORDER BY id DESC LIMIT 500");
+				while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+			
+					echo '
+								<tr><td align="center">' . $i . '</td>
+								<td>' . $row[product_id] . '</td>
+										
+								<td>' . $row[product_name] . '</td>
+										
+								<td align="right">' . $row1[stock] . '</td>
+										
+								<td align="right">' . $row[selling_price] . '</td>
+								
+								<td align="center">' . $row[discount] . '&nbsp;%</td>
+								
+								<td align="center">' . $row[purchased_date] . '</td>
+								<tr>';
+			
+					$i++;
+				}
+	}
+	echo '</tbody></table></div>';
+
+	include 'conf/closedb.php';
+}
+
+
+
+function head_office_inv_stock() {
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+
+	echo '<h3>Stock</h3>
+	<div class="table-responsive">
+              <table class="table">
+	<thead valign="top">
+	<th>No</th>
+	<th>Product ID</th>
+	<th>Product Name</th>
+	<th>Stock</th>
+	<th>Selling Price</th>
+	<th>Discount</th>
+	<th>Purchased Date</th>
+
+	</thead>
+	<tbody valign="top">';
+
+	$i = 1;
+	$result1 = mysqli_query($conn, "SELECT DISTINCT product_id FROM multiple_stock_has_inventory ORDER BY id DESC LIMIT 500");
+	while ($row1 = mysqli_fetch_array($result1, MYSQLI_ASSOC)) {
+	
+				
+				$result = mysqli_query($conn, "SELECT * FROM inventory WHERE cancel_status='0' AND product_id='$row1[product_id]' ORDER BY id DESC LIMIT 500");
+				while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+				
+				$stock= count_stock($row['product_id']);
+				
+					echo '
+								<tr><td align="center">' . $i . '</td>
+								<td>' . $row[product_id] . '</td>
+										
+								<td>' . $row[product_name] . '</td>
+										
+								<td align="right">'.$stock.'</td>
+										
+								<td align="right">' . $row[selling_price] . '</td>
+								
+								<td align="center">' . $row[discount] . '&nbsp;%</td>
+								
+								<td align="center">' . $row[purchased_date] . '</td>
+								<tr>';
+			
+					$i++;
+				}
+	}
+	echo '</tbody></table></div>';
+
+	include 'conf/closedb.php';
+}
+
+
+function count_stock($product_id){
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+		
+		$result=mysqli_query($conn, "SELECT SUM(stock) AS cnt FROM multiple_stock_has_inventory WHERE product_id='$product_id' ");
+		while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+		{	
+				$count=$row[cnt];
+				return $count;						
+		}
+			
+
 }
