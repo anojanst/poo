@@ -1,3 +1,6 @@
+        </ul>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      </h4>
 <body class="sidebar-mini skin-purple sidebar-collapse">
 <div class="wrapper">
 

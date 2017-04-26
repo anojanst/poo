@@ -256,8 +256,6 @@ if ($_SESSION['login'] == 1) {
 		
 		update_inventory_after_sales_in_branch($_SESSION['sales_no'],$branch);
 		update_inventory_after_sales($_SESSION['sales_no']);
-		
-		
 		update_saved_sales($_SESSION['sales_no']);
 		
 		
