@@ -18,6 +18,13 @@
     });
   });
 </script>
+<script>
+	$(document).ready(function() {
+		$('#branch').autocomplete({
+			source: 'ajax/query_to_store.php?query=%QUERY'
+		});
+	})
+</script>
 {/literal}
 
 <section class="content">
@@ -43,7 +50,7 @@
 					 <div class="row">
 						<div class="col-lg-3">	
 							<div class="form-group">
-								<input type="text" class='form-control' name="to_branch" value="{$to_branch}" placeholder="Branch"/> 
+								<input type="text" id="branch" class='form-control' name="to_branch" value="{$to_branch}" placeholder="Branch"/> 
 							</div>
 						</div>
 						<div class="col-lg-3">	

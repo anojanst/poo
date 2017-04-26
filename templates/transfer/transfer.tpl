@@ -4,15 +4,12 @@
 {literal}
 <script>
 	$(document).ready(function() {
-		$('input.product').typeahead({
-			name: 'product',
-			remote: 'ajax/query_inventory.php?query=%QUERY'
+		$('#product_name').autocomplete({
+			source: 'ajax/query_transfer.php?query=%QUERY'
 		});
 	})
 </script>
 {/literal}
-
-
 <section class="content">
 	<div class="nav-tabs-custom">
 		<div class="tab-content">
@@ -31,7 +28,7 @@
                     <div class="row">
 							<form action="transfer.php?job=add_transfer" name="select_item_form" method="post">
                                 <div class="col-lg-4">
-                                    <input type="text" class="form-control product" name="product_name" placeholder="Product Name"/>														
+                                    <input type="text" id="product_name" class="form-control product" name="product_name" placeholder="Product Name"/>														
                                 </div>
                                 <div class="col-lg-4">
                                     <input type="text" class="form-control" name="quantity" placeholder="Quantity"/>														

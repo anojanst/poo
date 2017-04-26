@@ -11,12 +11,18 @@
 </script>
 <script>
   $(function () {
-    
     $('#datepicker1').datepicker({
 	  format: 'yyyy-mm-dd',
       autoclose: true
     });
   });
+</script>
+<script>
+	$(document).ready(function() {
+		$('#branch').autocomplete({
+			source: 'ajax/query_from_store.php?query=%QUERY'
+		});
+	})
 </script>
 {/literal}
 
@@ -44,7 +50,7 @@
 					 <div class="row">
 							<div class="col-lg-3">	
 								<div class="form-group">
-									<input type="text" class='form-control' name="from_branch" value="{$from_branch}" placeholder="Branch"/> 
+									<input type="text" id="branch" class='form-control' name="from_branch" value="{$from_branch}" placeholder="Branch"/> 
 								</div>
 							</div>
 							<div class="col-lg-3">	
