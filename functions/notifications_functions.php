@@ -41,7 +41,7 @@ function list_all_notifications() {
 		echo'				
 		</td>		
 				
-		<td><a href="notification.php?job=view_info&product_id='.$row[product_id].'&branch='.$row[branch].'&id='.$row[id].'"> <i class="fa fa-eye"></i></a></td>
+		<td><a href="notification.php?job=view_not&product_id='.$row[product_id].'&branch='.$row[branch].'&id='.$row[id].'"> <i class="fa fa-eye"></i></a></td>
 
 			
 				

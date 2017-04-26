@@ -22,7 +22,7 @@
 
                 </ul>
             </div>
-            <div class="navbar-custom-menu">
+            <div class="navbar-custom-menu" style="margin-right: 100px;">
                 <ul class="nav navbar-nav">
                     <!-- Notifications: style can be found in dropdown.less -->
                     {php}list_notification();{/php}

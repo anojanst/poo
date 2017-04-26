@@ -45,8 +45,9 @@ if ($_SESSION['login'] == 1) {
 
             $product_id=$_SESSION['product_id']=$_REQUEST['product_id'];
             $branch=$_SESSION['branch']=$_REQUEST['branch'];
-
-            update_unseen_as_seen($product_id, $branch);
+            $id=$_SESSION['id']=$_REQUEST['id'];
+            
+            update_unseen_as_seen($product_id, $branch, $id);
 
             $smarty->assign ( 'product_id', $product_id );
 

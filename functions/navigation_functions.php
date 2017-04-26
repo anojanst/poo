@@ -7,30 +7,30 @@ function list_notification(){
     echo '<li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-bell-o"></i>
-                <span class="label label-warning">'.$count.'</span>
+                <span class="label label-danger">'.$count.'</span>
             </a>
-            <ul class="dropdown-menu">';
+            <ul class="dropdown-menu">
+            <li>
+            	<ul class="menu">   		';
 
-    $result = mysqli_query($conn, "SELECT * FROM notification WHERE cancel_status='0' AND seen_status='0' ");
+    $result = mysqli_query($conn, "SELECT * FROM notification WHERE cancel_status='0' AND seen_status='0' LIMIT 5");
     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
         echo '
             <!-- inner menu: contains the actual data -->
-            <li>
-                <ul class="menu">
                     <li>
-                        <a href="notification.php?job=view_not&product_id='.$row[product_id].'&branch='.$row[branch].'">
-                            <h3>' . $row[product_name] . '</h3>' . $row[branch] . '
+                        <a  href="notification.php?job=view_not&product_id='.$row[product_id].'&branch='.$row[branch].'&id='.$row[id].'">
+                        	<strong>' . $row[product_name] . '</strong>';
+        			if($_SESSION['branch']=='HEAD OFFICE'){
+                        	echo'<br>' . $row[branch] . ' <br>';
+        			}
+        			else{}
+                          	echo'<i class="fa fa-warning text-yellow"></i> stock is '.$row[stock].' its time to reoder    		
                         </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-warning text-yellow"></i> stock is '.$row[stock].' its time to reoder 
-                        </a>
-                    </li>
-                </ul>
-            </li>';
+                    </li>';
     }
             echo'
+            	</ul>
+            </li>		
                 <li class="footer"><a href="notification.php?job=notifications">View all</a></li>
                 </ul>
         </li>';

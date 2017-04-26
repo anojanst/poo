@@ -22,6 +22,7 @@ if ($_REQUEST['job']=="login"){
 		$_SESSION['email']=$user_info['email'];
 		$_SESSION['filled']=$info['filled'];
         $_SESSION['department']=$user_info['department'];
+        $_SESSION['branch']=$branch=$user_info['branch'];
         
         if($_SESSION['department']== 'sales'){
             $smarty->assign('Page',"Sales");
