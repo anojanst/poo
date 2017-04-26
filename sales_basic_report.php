@@ -4,6 +4,8 @@ include 'functions/user_functions.php';
 include 'functions/inventory_functions.php';
 include 'functions/sales_functions.php';
 
+include 'functions/navigation_functions.php';
+
 $module_no = 7;
 
 if ($_SESSION['login'] == 1) {

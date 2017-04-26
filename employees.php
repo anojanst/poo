@@ -3,6 +3,8 @@ require_once 'conf/smarty-conf.php';
 include 'functions/user_functions.php';
 include 'functions/employees_functions.php';
 
+include 'functions/navigation_functions.php';
+
 $module_no = 10;
 if ($_SESSION['login'] == 1) {
 	if (check_access($module_no, $_SESSION['user_id']) == 1) {

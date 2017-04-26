@@ -2,6 +2,8 @@
 require_once 'conf/smarty-conf.php';
 include 'functions/customer_functions.php';
 
+include 'functions/navigation_functions.php';
+
 if ($_SESSION['login']==1){
 
 	if ($_REQUEST['job']=="customer_form"){

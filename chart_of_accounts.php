@@ -3,6 +3,8 @@ require_once 'conf/smarty-conf.php';
 include 'functions/chart_of_accounts_functions.php';
 include 'functions/user_functions.php';
 
+include 'functions/navigation_functions.php';
+
 $module_no = 8;
 
 if ($_SESSION['login'] == 1) {

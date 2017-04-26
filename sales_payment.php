@@ -6,6 +6,8 @@ include 'functions/cheque_inventory_functions.php';
 include 'functions/ledger_functions.php';
 include 'functions/user_functions.php';
 
+include 'functions/navigation_functions.php';
+
 $module_no = 13;
 
 if ($_SESSION['login'] == 1) {
