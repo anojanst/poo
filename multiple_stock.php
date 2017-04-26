@@ -24,28 +24,28 @@ if ($_SESSION['login'] == 1) {
             $smarty->assign('page', 'Multiple Stock');
             $smarty->display('inventory/multiple_stock.tpl');
         }
-    elseif
+        elseif
         ($_REQUEST ['job'] == "edit"){
-        $_SESSION ['id'] = $id = $_REQUEST ['id'];
-        $info = get_multiple_stock_by_id($id);
+            $_SESSION ['id'] = $id = $_REQUEST ['id'];
+            $info = get_multiple_stock_by_id($id);
 
-        $smarty->assign('product_name', $info ['product_name']);
-        $smarty->assign('branch', $info ['branch']);
-        $smarty->assign('stock', $info ['stock']);
-        $smarty->assign('reorder', $info ['reorder']);
-        $smarty->assign('location', $info ['location']);
-        $smarty->assign('edit', 'on');
+            $smarty->assign('product_name', $info ['product_name']);
+            $smarty->assign('branch', $info ['branch']);
+            $smarty->assign('stock', $info ['stock']);
+            $smarty->assign('reorder', $info ['reorder']);
+            $smarty->assign('location', $info ['location']);
+            $smarty->assign('edit', 'on');
 
-        $smarty->assign('page', 'Multiple Stock');
-        $smarty->display('inventory/multiple_stock.tpl');
-    }
-    elseif
+            $smarty->assign('page', 'Multiple Stock');
+            $smarty->display('inventory/multiple_stock.tpl');
+        }
+        elseif
         ($_REQUEST ['job'] == "delete"){
-        cancel_multiple_stock($_REQUEST ['id']);
+            cancel_multiple_stock($_REQUEST ['id']);
 
-        $smarty->assign('page', 'Multiple Stock');
-        $smarty->display('inventory/multiple_stock.tpl');
-    }
+            $smarty->assign('page', 'Multiple Stock');
+            $smarty->display('inventory/multiple_stock.tpl');
+        }
 
         $smarty->assign('page', "Multiple Stock");
         $smarty->display('inventory/multiple_stock.tpl');
@@ -59,7 +59,7 @@ if ($_SESSION['login'] == 1) {
         $smarty->display('user_home/access_error.tpl');
     }
 }
- else {
+else {
     $smarty->assign('page', "Home");
     $smarty->display('index.tpl');
 }

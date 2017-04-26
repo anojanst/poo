@@ -75,7 +75,7 @@ if ($_SESSION['login'] == 1) {
 			$smarty->assign('edit', "Employee");
 			$smarty->assign('org_name', "$_SESSION[org_name]");
 			$smarty->assign('page', "Employees");
-			$smarty->display('employees/add_new.tpl');
+			$smarty->display('employees/employees.tpl');
 		}
 		elseif ($_REQUEST['job'] == 'search') {
 

@@ -29,8 +29,12 @@
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="plugins/datepicker/datepicker3.css">
 
+
+
 	<!-- Custom Fonts -->
 	<link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
 	<link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen" />
 	<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
@@ -41,8 +45,6 @@
 	<script type="text/javascript" src="js/script.js"></script>
 	<script type="text/javascript" src="js/menu.js"></script>
 	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/base/minified/jquery-ui.min.css" type="text/css" />
-	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.1/jquery-ui.min.js"></script>
 
 	<!-- Metis Menu Plugin JavaScript -->
 
@@ -86,6 +88,8 @@
 	<link rel="stylesheet" href="css/dataTables.bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" href="css/responsive.bootstrap.min.css">
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.1/jquery-ui.min.js"></script>
 
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -94,8 +98,6 @@
 	<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
-	<script src="js/jquery-2.2.3.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
 	<script src="js/select2.full.min.js"></script>
 
 	<script src="js/jquery.inputmask.js"></script>
@@ -105,9 +107,9 @@
 	<!--autocomplete-->
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
 
 
+    

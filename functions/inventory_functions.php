@@ -9,7 +9,7 @@ function get_product_id($item_type){
 
 		$no=$row['MAX(id)']+1;
 		$no = str_pad($no, 5, "0", STR_PAD_LEFT);
-		return "PBD-$no";
+		return "PRO-$no";
 	}
 	include 'conf/closedb.php';
 }
@@ -634,17 +634,6 @@ function get_inventory_info_by_product_id($product_id) {
 	include 'conf/opendb.php';
 
 	$result = mysqli_query($conn, "SELECT * FROM inventory WHERE product_id='$product_id'");
-	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-		return $row;
-	}
-	include 'conf/closedb.php';
-}
-
-function get_inventory_info_by_product_id_in_branch($product_id, $branch) {
-	include 'conf/config.php';
-	include 'conf/opendb.php';
-
-	$result = mysqli_query($conn, "SELECT * FROM multiple_stock_has_inventory WHERE product_id='$product_id' AND branch='$branch'");
 	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 		return $row;
 	}

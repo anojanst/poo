@@ -4,6 +4,7 @@ include 'functions/inventory_functions.php';
 include 'functions/sales_functions.php';
 include 'functions/ledger_functions.php';
 include 'functions/user_functions.php';
+include 'functions/navigation_functions.php';
 
 $module_no = 3;
 
@@ -23,8 +24,7 @@ if ($_SESSION['login'] == 1) {
 		$info=get_item_info_by_name($selected_item);
 		$product_name=$info['product_name'];
         $product_id=$info['product_id'];
-		//$stock=get_total_stock($info['product_id']);
-		$stock = get_branch_stock($product_id);
+		$stock=get_total_stock($info['product_id']);
 		$quantity=get_quantity($product_id, $_SESSION['sales_no'])+1;
 
 		if(check_added_items($product_id, $_SESSION['sales_no'])==1){
@@ -252,13 +252,8 @@ if ($_SESSION['login'] == 1) {
 			unset($_SESSION['edit']);
 		}
 
-		$branch= $_SESSION['branch'];
-		
-		update_inventory_after_sales_in_branch($_SESSION['sales_no'],$branch);
 		update_inventory_after_sales($_SESSION['sales_no']);
 		update_saved_sales($_SESSION['sales_no']);
-		
-		
         $_SESSION['print_no']=$_SESSION['sales_no'];
 		unset($_SESSION['sales_no']);
         $date = date("Y-m-d");

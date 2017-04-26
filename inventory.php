@@ -15,13 +15,13 @@ if ($_SESSION['login']==1){
 				$product_name=addslashes($_POST['product_name']);
 				$author=$_POST['author'];
 				$isbn=$_POST['isbn'];
-				$count= $_POST['count'];
+                $count= $_POST['count'];
 				$publication=$_POST['publication'];
 				$barcode=$_POST['barcode'];
 				$selling_price=$_POST['selling_price'];
 				$buying_discount="";
 				$buying_price=$selling_price;
-				$discount=$_POST['discount'];
+				$discount=$_POST['discount'];;
 				$product_description="";
 				$measure_type=$_POST['measure_type'];
 				$purchased_date=date("Y-m-d");
@@ -35,12 +35,13 @@ if ($_SESSION['login']==1){
 				$name_in_ta=addslashes($_POST['name_in_ta']);
 				$type=$_POST['type'];
 				$item_type=$_POST['item_type'];
-				
-			
-				$product_id=get_product_id($item_type);
-				$serial_no=get_serial_no($item_type);
-				
-				if($_POST['barcode']){
+				$quantity=$_POST['quantity'];
+
+
+                $product_id=get_product_id($item_type);
+                $serial_no=get_serial_no($item_type);
+
+                if($_POST['barcode']){
 					$barcode=$_POST['barcode'];
 					
 				}
@@ -57,11 +58,12 @@ if ($_SESSION['login']==1){
 				else{
 					$cover="";
 				}
-					
-				
-				save_product($product_id, $product_name, $author, $isbn, $publication, $barcode, $count, $selling_price, $discount, $buying_price, $buying_discount, $product_description, $measure_type, $purchased_date, $exp_date, $supplier, $page, $size, $weight, $cover, $location, $name_in_ta, $type, $item_type, $serial_no, $quantity);
-				save_items($product_id,$product_name,$count);
-				$nlabel = count($label);
+
+
+                save_product($product_id, $product_name, $author, $isbn, $publication, $barcode, $count, $selling_price, $discount, $buying_price, $buying_discount, $product_description, $measure_type, $purchased_date, $exp_date, $supplier, $page, $size, $weight, $cover, $location, $name_in_ta, $type, $item_type, $serial_no, $quantity);
+                save_items($product_id,$product_name,$count);
+
+                $nlabel = count($label);
 				 
 				for($i=0; $i < $nlabel; $i++)
 				{
@@ -283,7 +285,6 @@ if ($_SESSION['login']==1){
 		}
 		elseif($_REQUEST['job']=='add_new'){
 				
-			$smarty->assign('parent_catagorys',list_parent_catagory());
 			$smarty->assign('user_name',"$_SESSION[user_name]");
 			$smarty->assign('page',"Add New");
 			$smarty->display('inventory/add_new.tpl');

@@ -5,8 +5,8 @@ function save_items($product_id,$product_name,$quantity){
 
     $branch="store";
     mysqli_select_db ( $conn, $dbname );
-    $query = "INSERT INTO multiple_stock_has_inventory (id,product_id, product_name, branch,stock)
-	VALUES ('','$product_id','$product_name', '$branch','$quantity')";
+    $query = "INSERT INTO multiple_stock_has_inventory (id,product_id, product_name, branch,stock) 
+  VALUES ('','$product_id','$product_name', '$branch','$quantity')";
 
     mysqli_query ($conn, $query ) or die ( mysqli_connect_error () );
 
@@ -30,13 +30,13 @@ function save_multiple_stock($product_name,$branch,$stock,$reorder,$location){
 
     $user_name=$_SESSION['user_name'];
     mysqli_select_db ($conn, $dbname );
-    $query = "UPDATE multiple_stock_has_inventory SET
-	branch='$branch',
-	stock='$stock',
-	reorder='$reorder',
-	created_by='$user_name',
-    location='$location'
-	WHERE product_name='$product_name'";
+    $query = "UPDATE multiple_stock_has_inventory SET 
+  branch='$branch', 
+  stock='$stock', 
+  reorder='$reorder', 
+  created_by='$user_name', 
+    location='$location' 
+  WHERE product_name='$product_name'";
 
     mysqli_query ($conn, $query );
 
@@ -74,9 +74,9 @@ function cancel_multiple_stock($id) {
     include 'conf/opendb.php';
 
     mysqli_select_db ($conn, $dbname );
-    $query = "UPDATE multiple_stock_has_inventory SET
-	cancel_status='1'
-	WHERE id='$id'";
+    $query = "UPDATE multiple_stock_has_inventory SET 
+  cancel_status='1' 
+  WHERE id='$id'";
 
     mysqli_query ($conn, $query );
 }
@@ -85,13 +85,13 @@ function  update_multiple_stock($id,$product_name,$branch,$stock,$reorder,$locat
     include 'conf/opendb.php';
 
     mysqli_select_db ($conn, $dbname );
-    $query = "UPDATE multiple_stock_has_inventory SET
-    product_name='$product_name',
-	branch='$branch',
-	stock='$stock',
-	reorder='$reorder',
-    location='$location'
-	WHERE id='$id'";
+    $query = "UPDATE multiple_stock_has_inventory SET 
+    product_name='$product_name', 
+  branch='$branch', 
+  stock='$stock', 
+  reorder='$reorder', 
+    location='$location' 
+  WHERE id='$id'";
 
     mysqli_query ($conn, $query );
 
@@ -100,35 +100,35 @@ function list_multiple_stock() {
     include 'conf/config.php';
     include 'conf/opendb.php';
 
-    echo '<div class="box-body">
-			<table id="example1"  style="width: 100%;" class="table-responsive table-bordered table-striped dt-responsive">
-                  <thead>
-                       <tr>
-                           <th>Product Name</th>
-                           <th>Branch</th>
-                           <th>Reorder</th>
-                           <th>Stock</th>
-                           <th>Location</th>
-                       </tr>
-                  </thead>
+    echo '<div class="box-body"> 
+      <table id="example1"  style="width: 100%;" class="table-responsive table-bordered table-striped dt-responsive"> 
+                  <thead> 
+                       <tr> 
+                           <th>Product Name</th> 
+                           <th>Branch</th> 
+                           <th>Reorder</th> 
+                           <th>Stock</th> 
+                           <th>Location</th> 
+                       </tr> 
+                  </thead> 
                   <tbody valign="top">';
     $i = 1;
     $result = mysqli_query ( $conn, "SELECT * FROM multiple_stock_has_inventory WHERE cancel_status='0' LIMIT 50 " );
     while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) ) {
 
-        echo '
-        <tr>
-            <td>' . $row [product_name] . '</td>
-            <td>' . $row [branch] . '</td>
-            <td>' . $row [reorder] . '</td>
-            <td>' . $row [stock] . '</td>
-            <td>' . $row [location] . '</td>
-		</tr>';
+        echo ' 
+        <tr> 
+            <td>' . $row [product_name] . '</td> 
+            <td>' . $row [branch] . '</td> 
+            <td>' . $row [reorder] . '</td> 
+            <td>' . $row [stock] . '</td> 
+            <td>' . $row [location] . '</td> 
+    </tr>';
         $i ++;
     }
 
-    echo '</tbody>
-          </table>
+    echo '</tbody> 
+          </table> 
           </div>';
 
 
