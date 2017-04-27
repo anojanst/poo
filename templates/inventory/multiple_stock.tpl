@@ -6,6 +6,13 @@
             $("#product_name").autocomplete({
                 source: 'ajax/query_multiple_stock.php'
             });
+            $("#load_form").submit();
+        });
+    </script>
+
+    <script>
+        $(function () {
+            $("#example1").DataTable();
         });
     </script>
 {/literal}
@@ -13,11 +20,16 @@
     <div class="nav-tabs-custom">
         <!-- Tabs within a box -->
         <div class="tab-content">
-            <form id="add_multiple_stock" method="post" class="product" action="multiple_stock.php?job=save" enctype="multipart/form-data">
+
                 <div class="row">
-                    <div class="col-lg-12">
-                        <input class="form-control" type="text" value="{$product_name}" id="product_name" name="product_name" placeholder="Product Name" required>
-                    </div>
+                    <form action="multiple_stock.php?job=product_details"  name="select_item_form" method="post" >
+                        <div class="col-lg-8">
+                            <input class="form-control" type="text" value="{$product_name}" id="product_name" name="product_name" placeholder="Product Name"  required>
+                        </div>
+                        <div class="col-lg-4">
+                            <input type="submit" name="ok" value="Next"/>
+                        </div>
+                    </form>
                 </div>
                 <div class="row" style="margin-top: 10px;">
                     <div class="col-lg-4">

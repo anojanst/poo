@@ -1,17 +1,21 @@
 <?php
 function get_product_id($item_type){
-	include 'conf/config.php';
-	include 'conf/opendb.php';
-	
-	$result=mysqli_query($conn, "SELECT MAX(id) FROM inventory WHERE item_type='$item_type'");
-	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
-	{
+    include 'conf/config.php';
+    include 'conf/opendb.php';
 
-		$no=$row['MAX(id)']+1;
-		$no = str_pad($no, 5, "0", STR_PAD_LEFT);
-		return "PRO-$no";
-	}
-	include 'conf/closedb.php';
+    $result=mysqli_query($conn, "SELECT MAX(serial_no) FROM inventory WHERE item_type='$item_type'");
+    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+    {
+        if($item_type=="BOOK"){
+            $item_type="B";
+        }
+        else{
+            $item_type="A";
+        }
+        $no=$row['MAX(serial_no)']+1;
+        $no = str_pad($no, 5, "0", STR_PAD_LEFT);
+        return "$item_type-$no";
+    }
 }
 
 function get_serial_no($item_type){
@@ -723,7 +727,21 @@ function update_inventory_after_sales_in_branch($sales_no, $branch) {
 		mysqli_query($conn, $query);
 	}
 }
+function get_inventory_info_by_product_id_in_branch($product_id, $branch){
+        include 'conf/config.php';
+        include 'conf/opendb.php';
 
+        $result = mysqli_query ($conn, "SELECT * FROM multiple_stock_has_inventory WHERE product_id='$product_id' AND branch='$branch'" );
+
+        while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) )
+
+        {
+            return $row;
+        }
+
+
+
+}
 
 function reorder_level_check($product_id,$branch,$stock,$product_name,$reorder) {
 	include 'conf/config.php';

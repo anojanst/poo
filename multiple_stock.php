@@ -3,7 +3,6 @@ require_once 'conf/smarty-conf.php';
 include 'functions/user_functions.php';
 include 'functions/multiple_stock_functions.php';
 include 'functions/inventory_functions.php';
-
 include 'functions/navigation_functions.php';
 
 $module_no = 200;
@@ -18,13 +17,7 @@ if ($_SESSION['login'] == 1) {
             $reorder = $_POST ['reorder'];
             $location = $_POST ['location'];
 
-
-
             save_multiple_stock($product_name, $branch, $stock, $reorder, $location);
-
-
-            $smarty->assign('page', 'Multiple Stock');
-            $smarty->display('inventory/multiple_stock.tpl');
         }
         elseif
         ($_REQUEST ['job'] == "edit"){
@@ -38,17 +31,23 @@ if ($_SESSION['login'] == 1) {
             $smarty->assign('location', $info ['location']);
             $smarty->assign('edit', 'on');
 
-            $smarty->assign('page', 'Multiple Stock');
-            $smarty->display('inventory/multiple_stock.tpl');
+
+        }
+        elseif
+        ($_REQUEST ['job'] == "product_details"){
+            $_SESSION ['product_name'] = $product_name = $_POST ['product_name'];
+            $info = get_multiple_stock_by_name($product_name);
+
+            $smarty->assign('product_name', $info ['product_name']);
+            $smarty->assign('branch', $info ['branch']);
+            $smarty->assign('stock', $info ['stock']);
+            $smarty->assign('reorder', $info ['reorder']);
+            $smarty->assign('location', $info ['location']);
         }
         elseif
         ($_REQUEST ['job'] == "delete"){
             cancel_multiple_stock($_REQUEST ['id']);
-
-            $smarty->assign('page', 'Multiple Stock');
-            $smarty->display('inventory/multiple_stock.tpl');
         }
-
         $smarty->assign('page', "Multiple Stock");
         $smarty->display('inventory/multiple_stock.tpl');
 

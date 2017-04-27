@@ -24,7 +24,8 @@ if ($_SESSION['login'] == 1) {
 		$info=get_item_info_by_name($selected_item);
 		$product_name=$info['product_name'];
         $product_id=$info['product_id'];
-		$stock=get_total_stock($info['product_id']);
+		//$stock=get_total_stock($info['product_id']);
+        $stock = get_branch_stock($product_id);
 		$quantity=get_quantity($product_id, $_SESSION['sales_no'])+1;
 
 		if(check_added_items($product_id, $_SESSION['sales_no'])==1){
@@ -48,7 +49,7 @@ if ($_SESSION['login'] == 1) {
 				else{
 				}
 				update_sales_item_for_repeative_adding($product_id, $quantity, $item_total);
-				//			update_sales_item_ledger($product_id ,$_SESSION['sales_no']);
+				//update_sales_item_ledger($product_id ,$_SESSION['sales_no']);
 			}
 		}
 		else{
@@ -251,9 +252,10 @@ if ($_SESSION['login'] == 1) {
 			update_sales_ledger($sales_no);
 			unset($_SESSION['edit']);
 		}
-
+        $branch=$_SESSION['branch'];
 		update_inventory_after_sales($_SESSION['sales_no']);
-		update_saved_sales($_SESSION['sales_no']);
+        update_inventory_after_sales_in_branch($sales_no, $branch);
+        update_saved_sales($_SESSION['sales_no']);
         $_SESSION['print_no']=$_SESSION['sales_no'];
 		unset($_SESSION['sales_no']);
         $date = date("Y-m-d");

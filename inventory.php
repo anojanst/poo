@@ -3,7 +3,6 @@ require_once 'conf/smarty-conf.php';
 include 'functions/inventory_functions.php';
 include 'functions/user_functions.php';
 include 'functions/multiple_stock_functions.php';
-
 include 'functions/navigation_functions.php';
 
 $module_no=2;
@@ -192,7 +191,6 @@ if ($_SESSION['login']==1){
 				$smarty->assign('location',$info['location']);
 				$smarty->assign('name_in_ta',$info['name_in_ta']);
 				$smarty->assign('type',$info['type']);
-				
 				$smarty->assign('quantity',$info['quantity']);
 				
 				$smarty->assign('user_name',"$_SESSION[user_name]");

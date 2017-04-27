@@ -4,9 +4,10 @@ function save_items($product_id,$product_name,$quantity){
     include 'conf/opendb.php';
 
     $branch="store";
+    $reorder= $quantity*0.1;
     mysqli_select_db ( $conn, $dbname );
-    $query = "INSERT INTO multiple_stock_has_inventory (id,product_id, product_name, branch,stock) 
-  VALUES ('','$product_id','$product_name', '$branch','$quantity')";
+    $query = "INSERT INTO multiple_stock_has_inventory (id,product_id, product_name, branch,stock,reorder) 
+  VALUES ('','$product_id','$product_name', '$branch','$quantity','$reorder')";
 
     mysqli_query ($conn, $query ) or die ( mysqli_connect_error () );
 
@@ -130,6 +131,20 @@ function list_multiple_stock() {
     echo '</tbody> 
           </table> 
           </div>';
+
+
+}
+function get_multiple_stock_by_name($product_name) {
+    include 'conf/config.php';
+    include 'conf/opendb.php';
+
+    $result = mysqli_query ($conn, "SELECT * FROM multiple_stock_has_inventory WHERE product_name='$product_name'" );
+
+    while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) )
+
+    {
+        return $row;
+    }
 
 
 }

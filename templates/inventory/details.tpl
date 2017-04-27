@@ -1,9 +1,8 @@
-{include file="user_header.tpl"}
+{include file="home_header.tpl"}
+{include file="navigation.tpl"}
 {literal}
-
 	<script type="text/javascript">
         $(function() {
-
             //autocomplete
             $(".auto").autocomplete({
                 source: "ajax/query_inventory.php",
@@ -39,303 +38,238 @@
 
 	<script type="text/javascript">
         $(function() {
-
             //autocomplete
             $(".auto1").autocomplete({
                 source: "ajax/query_suppliers.php",
                 minLength: 1
             });
-
         });
 	</script>
-
 {/literal}
-
-
-
-
-<div id="contents">
-    {include file="user_navigation.tpl"}
-    {if $error_report=='on'}
-
-	<div id="contents">
-        {include file="user_navigation.tpl"}
-        {if $error_report=='on'}
-			<div class="error_report">
-				<strong>{$error_message}</strong>
-			</div>
-        {/if}
-        {if $warning_report=='on'}
-        {/if}
-        {if $warning_report=='on'}
-			<div class="warning_report" style="margin-bottom: 50px;">
-				<strong>{$warning_message}</strong>
-			</div>
-        {/if}
-		<div class="main_user_home" style="min-height: 300px;">
-			<div class="product_form" style="min-height: 500px;">
-
-				<table style="float:left;">
-                    {if $cover}
-						<tr>
-							<td><img src="{$cover}" width="200" height="300"/></td>
-						</tr>
+<div class="row">
+	<div class="col-lg-8">
+		<section class="content">
+			<div class="nav-tabs-custom">
+				<!-- Tabs within a box -->
+				<div class="tab-content">
+                    {if $error_report=='on'}
+						<div class="error_report">
+							<strong>{$error_message}</strong>
+						</div>
                     {/if}
-					<tr>
-						<td><a href="html/BCGcode39.php?barcode={$barcode}&product_id={$product_id}&price={$selling_price}&name={$product_name}&type={$type}" target="blank" class="report_select">Print Barcode</a></td>
-					</tr>
-					<tr>
-						<td><a href="inventory.php?job=edit&id={$id}" class="report_select">Edit</a></td>
-					</tr>
-					<tr>
-						<td><a href="inventory.php?job=add_new" class="report_select">Add new</a></td>
-					</tr>
+                    {if $warning_report=='on'}
+						<div class="warning_report" style="margin-bottom: 50px;">
+							<strong>{$warning_message}</strong>
+						</div>
+                    {/if}
+					<div class="row">
+						<div class="col-lg-12">
+							<h4><strong> Product Details</strong></h4>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-4">
+							<div class="row">
+								<div class="col-lg-12">
+                                    {if $cover}
+										<img src="{$cover}" width="200" height="300"/>
+                                    {/if}
+								</div>
+							</div>
+							<div class="row" style="margin-top: 10px; ">
+								<div class="col-lg-12">
+									<a href="html/BCGcode39.php?barcode={$barcode}&product_id={$product_id}&price={$selling_price}&name={$product_name}&type={$type}" target="blank" class="btn btn-success form-control">Print Barcode</a>
+								</div>
+							</div>
+							<div class="row" style="margin-top: 10px; ">
+								<div class="col-lg-12">
+									<a href="inventory.php?job=edit&id={$id}"  class="btn btn-danger form-control" >Edit</a>
+								</div>
+							</div>
+							<div class="row" style="margin-top: 10px; ">
+								<div class="col-lg-12">
+									<a href="inventory.php?job=add_new" class="btn btn-warning form-control">Add new</a>
+								</div>
+							</div>
+						</div>
 
-				</table>
-
-				<table style="float:left; margin: 20px;">
-
-					<tr>
-						<td>Product Name</td>
-						<td> :</td>
-						<td>{$product_name}</td>
-					</tr>
-					<tr>
-						<td>Product ID</td>
-						<td> :</td>
-						<td>{$product_id}</td>
-					</tr>
-					<tr>
-						<td>Author</td>
-						<td> :</td>
-						<td>{$author}</td>
-					</tr>
-					<tr>
-						<td>ISBN No</td>
-						<td> :</td>
-						<td>{$isbn}</td>
-					</tr>
-
-					<tr>
-						<td>Publication</td>
-						<td> :</td>
-						<td>{$publication}</td>
-					</tr>
-					<tr>
-						<td>Supplier</td>
-						<td> :</td>
-						<td>{$supplier}</td>
-					</tr>
-
-					<tr>
-						<td>Selling Price</td>
-						<td> :</td>
-						<td>{$selling_price}</td>
-					</tr>
-					<tr>
-						<td>Selling Discount</td>
-						<td> :</td>
-						<td>{$discount}</td>
-					</tr>
-
-					<tr>
-						<td>Buying Price</td>
-						<td> :</td>
-						<td>{$buying_price}</td>
-					</tr>
-					<tr>
-						<td>Buying Discount</td>
-						<td> :</td>
-						<td>{$buying_discount}</td>
-					</tr>
-					<tr>
-						<td>Currency Type</td>
-						<td> :</td>
-						<td>{$type}</td>
-					</tr>
-					<tr>
-						<td>Measure Type</td>
-						<td> :</td>
-						<td>{$measure_type}</td>
-					</tr>
-					<tr>
-						<td>Quantity</td>
-						<td> :</td>
-						<td>{$count}</td>
-					</tr>
-					<tr>
-						<td>Pur Date</td>
-						<td>:</td>
-						<td>{$purchased_date}</td>
-					</tr>
-					<tr>
-						<td>Exp Date</td>
-						<td>:</td>
-						<td>{$exp_date}</td>
-					</tr>
-					<tr>
-						<td>Page</td>
-						<td> :</td>
-						<td>{$page_count}</td>
-					</tr>
-					<tr>
-						<td>Size  </td>
-						<td> :</td>
-						<td>{$size}</td>
-					</tr>
-					<tr>
-						<td>Weight</td>
-						<td> :</td>
-						<td>{$weight}</td>
-					</tr>
-					<tr>
-						<td>Description</td>
-						<td> :</td>
-						<td>{$product_description}</td>
-					</tr>
-					<tr>
-						<td>Label</td>
-						<td> :</td>
-						<td>{$label}</td>
-					</tr>
-
-				</table>
-
-			</div>
-            {/if}
-			<div class="main_user_home" style="min-height: 300px;">
-				<div class="product_form" style="min-height: 500px;">
-
-					<table style="float:left;">
-                        {if $cover}
-							<tr>
-								<td><img src="{$cover}" width="200" height="300"/></td>
-							</tr>
-                        {/if}
-						<tr>
-							<td><a href="html/BCGcode39.php?barcode={$barcode}&product_id={$product_id}&price={$selling_price}&name={$product_name}&type={$type}" target="blank" class="report_select">Print Barcode</a></td>
-						</tr>
-						<tr>
-							<td><a href="inventory.php?job=edit&id={$id}" class="report_select">Edit</a></td>
-						</tr>
-						<tr>
-							<td><a href="inventory.php?job=add_new" class="report_select">Add new</a></td>
-						</tr>
-
-					</table>
-
-					<table style="float:left; margin: 20px;">
-
-						<tr>
-							<td>Product Name</td>
-							<td> :</td>
-							<td>{$product_name}</td>
-						</tr>
-						<tr>
-							<td>Product ID</td>
-							<td> :</td>
-							<td>{$product_id}</td>
-						</tr>
-						<tr>
-							<td>Author</td>
-							<td> :</td>
-							<td>{$author}</td>
-						</tr>
-						<tr>
-							<td>ISBN No</td>
-							<td> :</td>
-							<td>{$isbn}</td>
-						</tr>
-
-						<tr>
-							<td>Publication</td>
-							<td> :</td>
-							<td>{$publication}</td>
-						</tr>
-						<tr>
-							<td>Supplier</td>
-							<td> :</td>
-							<td>{$supplier}</td>
-						</tr>
-
-						<tr>
-							<td>Selling Price</td>
-							<td> :</td>
-							<td>{$selling_price}</td>
-						</tr>
-						<tr>
-							<td>Selling Discount</td>
-							<td> :</td>
-							<td>{$discount}</td>
-						</tr>
-
-						<tr>
-							<td>Buying Price</td>
-							<td> :</td>
-							<td>{$buying_price}</td>
-						</tr>
-						<tr>
-							<td>Buying Discount</td>
-							<td> :</td>
-							<td>{$buying_discount}</td>
-						</tr>
-						<tr>
-							<td>Currency Type</td>
-							<td> :</td>
-							<td>{$type}</td>
-						</tr>
-						<tr>
-							<td>Measure Type</td>
-							<td> :</td>
-							<td>{$measure_type}</td>
-						</tr>
-						<tr>
-							<td>Quantity</td>
-							<td> :</td>
-							<td>{$count}</td>
-						</tr>
-						<tr>
-							<td>Pur Date</td>
-							<td>:</td>
-							<td>{$purchased_date}</td>
-						</tr>
-						<tr>
-							<td>Exp Date</td>
-							<td>:</td>
-							<td>{$exp_date}</td>
-						</tr>
-						<tr>
-							<td>Page</td>
-							<td> :</td>
-							<td>{$page_count}</td>
-						</tr>
-						<tr>
-							<td>Size  </td>
-							<td> :</td>
-							<td>{$size}</td>
-						</tr>
-						<tr>
-							<td>Weight</td>
-							<td> :</td>
-							<td>{$weight}</td>
-						</tr>
-						<tr>
-							<td>Description</td>
-							<td> :</td>
-							<td>{$product_description}</td>
-						</tr>
-						<tr>
-							<td>Label</td>
-							<td> :</td>
-							<td>{$label}</td>
-						</tr>
-
-					</table>
-
+						<div class="col-lg-8">
+							<div class="row">
+								<div class="col-lg-6">
+									<b>Product Name</b>
+								</div>
+								<div class="col-lg-6">
+									: {$product_name}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<b>Product Id</b>
+								</div>
+								<div class="col-lg-6">
+									: {$product_id}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<b>Author</b>
+								</div>
+								<div class="col-lg-6">
+									: {$author}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<b>ISBN No</b>
+								</div>
+								<div class="col-lg-6">
+									: {$isbn}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<b>Publication</b>
+								</div>
+								<div class="col-lg-6">
+									: {$publication}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<b>Supplier</b>
+								</div>
+								<div class="col-lg-6">
+									: {$supplier}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<b>Selling Price</b>
+								</div>
+								<div class="col-lg-6">
+									: {$selling_price}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<b>Selling Discount</b>
+								</div>
+								<div class="col-lg-6">
+									: {$discount}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<b>Buying Price</b>
+								</div>
+								<div class="col-lg-6">
+									: {$buying_price}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<b>Buying Discount</b>
+								</div>
+								<div class="col-lg-6">
+									: {$buying_discount}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<b>Currency Type</b>
+								</div>
+								<div class="col-lg-6">
+									: {$type}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<b>Measure Type</b>
+								</div>
+								<div class="col-lg-6">
+									: {$measure_type}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<b>Quantity</b>
+								</div>
+								<div class="col-lg-6">
+									: {$quantity}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<b>Pur Date</b>
+								</div>
+								<div class="col-lg-6">
+									: {$purchased_date}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<b>Exp Date</b>
+								</div>
+								<div class="col-lg-6">
+									: {$exp_date}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<b>Page</b>
+								</div>
+								<div class="col-lg-6">
+									: {$page_count}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<b>Exp Date</b>
+								</div>
+								<div class="col-lg-6">
+									: {$exp_date}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<b>Size</b>
+								</div>
+								<div class="col-lg-6">
+									: {$size}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<b>Weight</b>
+								</div>
+								<div class="col-lg-6">
+									: {$weight}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<b>Description</b>
+								</div>
+								<div class="col-lg-6">
+									: {$product_description}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<b>Label</b>
+								</div>
+								<div class="col-lg-6">
+									: {$label}
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6"></div>
+					</div>
 				</div>
 			</div>
+		</section>
+	</div>
+</div>
 
-		</div>
 
-
-{include file="user_footer.tpl"}
+{include file="js_footer.tpl"}
