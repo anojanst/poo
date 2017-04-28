@@ -417,35 +417,32 @@ function list_sales_search($sales_no_search, $customer_search){
 }
 
 
-function list_sales_search_report($customer_search, $sales_no_search, $to_date, $from_date){
+function list_sales_search_report($customer_search, $sales_no_search){
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 	
-		
-	if($sales_no_search){
-		$sales_no_check="AND sales_no='$sales_no_search'";
+	if($sales_no_search && $customer_search){
+		$and="AND ";
 	}
-
+	else{
+		$and="";
+	}
+	
+	if($sales_no_search){
+		$sales_no_check="sales_no='$sales_no_search'";
+	}
+	else{
+		$sales_no_check="";
+	}
 
 	if($customer_search){
-		$customer_check="AND customer_name='$customer_search'";
+		$customer_check="customer_name='$customer_search'";
+	}
+	else{
+		$customer_check="";
 	}
 	
-	
-	if ($to_date && $from_date) {
-		$date_check = "AND date BETWEEN '$from_date' AND '$to_date'";
-	} elseif ($from_date) {
-		$date_check = "AND date>='$from_date'";
-		$limit = "";
-	} elseif ($to_date) {
-		$date_check = "AND date<='$to_date'";
-		$limit = "";
-	} else {
-		$date_check = "";
-		$limit = "LIMIT 50";
-	}
-	
-
+	if($sales_no_search || $customer_search){
 	
 	echo '<div class="table-responsive">
               <table class="table">
@@ -462,15 +459,13 @@ function list_sales_search_report($customer_search, $sales_no_search, $to_date, 
 	</thead>
 	<tbody valign="top">';
 $i=1;
-
-	$result=mysqli_query($conn, "SELECT * FROM sales WHERE cancel_status='0' $customer_check $sales_no_check $date_check   ORDER BY id DESC LIMIT 500");
+	$result=mysqli_query($conn, "SELECT * FROM sales WHERE $customer_check $and $sales_no_check AND cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo '
 		<tr>
 		<td>'.$i.'</td>
-			<td><div class="col-lg-1" style="color:white;"><a href="sales.php?job=print_sales&sales_no=' . $row ['sales_no'] . '&date='.$row['date'].'" class="btn btn-xs btn-primary" target="_blank">' . $row ['sales_no'] . '</a></div></td>
-			
+			<td>'.$row[sales_no].'</td>
 					
 			<td>'.$row[date].'</td>
 					
@@ -493,7 +488,7 @@ $i=1;
 	}
 	
 	echo '<tr><th colspan="4">Total</th><th>'.number_format($total, 2).'</th><th>'.number_format($due_total, 2).'</th><th>'.number_format($paid_total, 2).'</th></tr></tbody></table></div>';
-	
+	}
 	
 	include 'conf/closedb.php';
 }
@@ -525,8 +520,8 @@ function list_sales(){
 		echo '
 		<tr>
 			<td>'.$i.'</td>
-			<td><div class="col-lg-1" style="color:white;"><a href="sales.php?job=print_sales&sales_no=' . $row ['sales_no'] . '&date='.$row['date'].'" class="btn btn-xs btn-primary" target="_blank">' . $row ['sales_no'] . '</a></div></td>
-				
+			<td>'.$row[sales_no].'</td>
+					
 			<td>'.$row[date].'</td>
 					
 			<td>'.$row[customer_name].'</td>
@@ -640,72 +635,4 @@ function get_sales_item_id($sales_no) {
 	}
 
 	include 'conf/closedb.php';
-}
-
-
-function print_past_sales_item($sales_no){
-	include 'conf/config.php';
-	include 'conf/opendb.php';
-	
-	
-	$result=mysqli_query($conn, "SELECT * FROM sales_has_items WHERE sales_no='$sales_no' AND cancel_status='0' ORDER BY id ASC");
-	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
-	{
-		$total=$row[quantity]*$row[selling_price];
-        
-		echo'<div class="row">
-                <div class="col-lg-12">
-                    <p>'.$row[product_name].'</p>
-                </div>
-             </div>
-             <div class="row" >
-                <div class="col-lg-9" style="margin-top:-30px;">
-                    <p>('.$row[quantity].' * '.$row[selling_price].')</p>
-                </div>
-                 <div class="col-lg-3" style="margin-top:-50px;">
-                    <p style="text-align: right;">'.number_format($total,2).'</p>
-                </div>
-             </div>';
-        $sub_total += $total;
-	}
-    echo '
-    <strong>-----------------------------------------------</strong>';
-    echo'<table style="width: 100%;" class="table-responsive dt-responsive">
-       <tr>
-            <td><strong>SUB TOTAL</strong></td>
-            <td align="right">'.number_format($sub_total,2).'</td>
-        </tr>';
-       
-    $result1=mysqli_query($conn, "SELECT * FROM sales WHERE sales_no='$sales_no' AND cancel_status='0'");
-	while($row1= mysqli_fetch_array($result1, MYSQLI_ASSOC))
-	{
-        $discount=$row1[discount];
-      echo' <tr>
-            <td></td>
-            <td align="right">-'.$row1[discount].'</td>
-        </tr></table>
-        <strong>-----------------------------------------------</strong>
-        <table style="width: 100%;" class="table-responsive dt-responsive">
-        <tr>
-            <td><strong>SUB TOTAL</strong></td>
-			
-            <td align="right">'.number_format($row1[total_after_discount],2).'</td>
-        </tr>
-        <tr>
-            <td><strong>CASH</strong></td>
-			
-            <td align="right">'.number_format($row1[customer_amount],2).'</td>
-        </tr></table>
-       <strong>-----------------------------------------------</strong>
-       <table style="width: 100%;" class="table-responsive dt-responsive">       
-        <tr>
-            <td><strong>BALANCE</strong></td>
-			
-            <td align="right">'.number_format($row1[balance],2).'</td>
-        </tr>';
-    }
-    echo'</table>';
-	include 'conf/closedb.php';
-
-
 }
