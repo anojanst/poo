@@ -181,6 +181,22 @@ if ($_SESSION['login'] == 1) {
 		$smarty->assign('page',"sales");
 		$smarty->display('sales/sales.tpl');
 	}
+	
+	
+	elseif ($_REQUEST['job']=='print_sales'){
+		$sales_info=get_product_info_from_sales_has_items($product_id, $sales_no);
+
+		$_SESSION['sales_no']=$sales_no=$_REQUEST['sales_no'];
+		$date=$_REQUEST['date'];
+
+		$smarty->assign('org_name',"$_SESSION[org_name]");
+        $smarty->assign('date',"$date");
+		$smarty->assign('sales_no',"$sales_no");
+
+		$smarty->assign('page',"sales");
+		$smarty->display('sales_reports/past_sales.tpl');
+	}
+	
 	elseif ($_REQUEST['job']=='delete_item'){
 		$id=$_REQUEST['id'];
 		$info=get_product_info_from_sales_has_items_by_id($id);

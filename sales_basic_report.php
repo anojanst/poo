@@ -16,7 +16,11 @@ if ($_SESSION['login'] == 1) {
 
 			$_SESSION['search_name']=$_POST['search_name'];
 			$_SESSION['search_no']=$_POST['search_no'];
-
+			$_SESSION['from_date']=$_POST['from_date'];
+			$_SESSION['to_date']=$_POST['to_date'];
+			
+			$smarty->assign('to_branch',"$_SESSION[to_branch]");
+			$smarty->assign('from_date',"$_SESSION[from_date]");
 			$smarty->assign('org_name',"$_SESSION[org_name]");
 			$smarty->assign('search_name',"$_SESSION[search_name]");
 			$smarty->assign('search_no',"$_SESSION[search_no]");
