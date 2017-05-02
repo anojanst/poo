@@ -145,6 +145,18 @@ function get_multiple_stock_by_name($product_name) {
     {
         return $row;
     }
+}
+function get_multiple_stock_by_product_id($product_id) {
+    include 'conf/config.php';
+    include 'conf/opendb.php';
+
+    $result = mysqli_query ($conn, "SELECT * FROM multiple_stock_has_inventory WHERE product_id='$product_id'" );
+
+    while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) )
+
+    {
+        return $row;
+    }
 
 
 }

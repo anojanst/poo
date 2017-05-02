@@ -636,3 +636,16 @@ function get_sales_item_id($sales_no) {
 
 	include 'conf/closedb.php';
 }
+
+function add_pending_order($title, $newname,$url,$company_id,$place_id,$start_date,$end_date,$marketing_person){
+    include 'conf/config.php';
+    include 'conf/opendb.php';
+
+    mysqli_select_db ( $conn, $dbname );
+    $query = "INSERT INTO ad (id,title, image, url,company_id,place_id,start_date,end_date,marketing_person)
+	VALUES ('','$title','$newname', '$url','$company_id','$place_id','$start_date','$end_date','$marketing_person')";
+
+    mysqli_query ($conn, $query ) or die ( mysqli_connect_error () );
+
+
+}

@@ -5,6 +5,7 @@ include 'functions/sales_functions.php';
 include 'functions/ledger_functions.php';
 include 'functions/user_functions.php';
 include 'functions/navigation_functions.php';
+include 'functions/multiple_stock_functions.php';
 
 $module_no = 3;
 
@@ -27,6 +28,7 @@ if ($_SESSION['login'] == 1) {
 		//$stock=get_total_stock($info['product_id']);
         $stock = get_branch_stock($product_id);
 		$quantity=get_quantity($product_id, $_SESSION['sales_no'])+1;
+		$multiple_info=get_multiple_stock_by_product_id($product_id);
 
 		if(check_added_items($product_id, $_SESSION['sales_no'])==1){
 			$info_for_sales_has_items=get_product_info_from_sales_has_items($product_id, $sales_no);
@@ -36,21 +38,20 @@ if ($_SESSION['login'] == 1) {
 			$item_total=($quantity*$selling_price/100)*(100-$discount);
 			
 			if($stock<$quantity){
-
+                //add_pending_order($selected_item, $product_name, $stock);
 				$smarty->assign('error_report',"on");
 				$smarty->assign('error_message',"Not Enough Stock.");
 			}
 			
-			else{
-			
-				if($_SESSION['edit']==1 && $info_for_sales_has_items['saved']==1){
-					reupdate_inventory($product_id, $info_for_sales_has_items['quantity'], $stock);
-				}
-				else{
-				}
-				update_sales_item_for_repeative_adding($product_id, $quantity, $item_total);
-				//update_sales_item_ledger($product_id ,$_SESSION['sales_no']);
-			}
+			else {
+
+                if ($_SESSION['edit'] == 1 && $info_for_sales_has_items['saved'] == 1) {
+                    reupdate_inventory($product_id, $info_for_sales_has_items['quantity'], $stock);
+                } else {
+                }
+                update_sales_item_for_repeative_adding($product_id, $quantity, $item_total);
+                //update_sales_item_ledger($product_id ,$_SESSION['sales_no']);
+            }
 		}
 		else{
 			$discount=$info['discount'];
@@ -58,16 +59,17 @@ if ($_SESSION['login'] == 1) {
 			
 			
 			if($stock<$quantity){
+			    //add_pending_order($product_id);
 				$smarty->assign('error_report',"on");
 				$smarty->assign('error_message',"Not Enough Stock.");
 			}
 			
-			else{
+			else{}
 			
 				add_sales_item($selected_item, $product_name, $stock, $selling_price, $discount, $_SESSION['sales_no']);
 				$total_to_ledger=($selling_price/100)*(100-$discount);
                 add_sales_items_ledger($_SESSION['sales_no'], $product_id, $total_to_ledger);
-			} 
+
 		}
 
 		$smarty->assign('customer_name',"$sales_info[customer_name]");
@@ -108,7 +110,7 @@ if ($_SESSION['login'] == 1) {
 			$smarty->assign('error_report',"on");
 			$smarty->assign('error_message',"Not Enough Stock.");
 		}
-		else{
+		else{}
 		
 			if($_SESSION['edit']==1 && $item_info['saved']==1){
 				reupdate_inventory($product_id, $item_info['quantity'], $stock);
@@ -117,7 +119,7 @@ if ($_SESSION['login'] == 1) {
 			}
 			update_sales_item($product_id, $quantity, $item_total, $selling_price, $discount, $sales_no, $stock);
 			update_sales_item_ledger($product_id ,$sales_no);
-		}
+
 
 		$smarty->assign('customer_name',"$sales_info[customer_name]");
 		$smarty->assign('date',"$sales_info[date]");

@@ -18,7 +18,7 @@ function list_all_notifications() {
                   </thead>
                   <tbody valign="top">';
 	
-	$result = mysqli_query ( $conn, "SELECT * FROM notification" );
+	$result = mysqli_query ( $conn, "SELECT * FROM notification " );
 	while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) ) {
 
 				
@@ -61,7 +61,7 @@ function view_notification($product_id, $branch, $id) {
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 
-	$result = mysqli_query ( $conn, "SELECT * FROM notification WHERE product_id='$product_id' AND branch='$branch' AND id='$id'" );
+	$result = mysqli_query ( $conn, "SELECT * FROM notification WHERE product_id='$product_id' AND branch='$branch' AND id='$id' " );
 	while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) ) {
 		
 		echo'
