@@ -18,7 +18,7 @@ function list_all_notifications() {
                   </thead>
                   <tbody valign="top">';
 	
-	$result = mysqli_query ( $conn, "SELECT * FROM notification " );
+	$result = mysqli_query ( $conn, "SELECT * FROM notification" );
 	while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) ) {
 
 				

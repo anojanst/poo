@@ -10,6 +10,7 @@
 		});
 	})
 </script>
+<script src="js/jquery-2.2.3.min.js"></script>
 {/literal}
 <section class="content">
 	<div class="nav-tabs-custom">

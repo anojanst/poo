@@ -688,9 +688,12 @@ function update_inventory_after_sales($sales_no) {
 
 		$info = get_inventory_info_by_product_id($product_id);
 		$old_quantity = $info['quantity'];
-		$new_quantity = $old_quantity - $quantity;
-
-		mysqli_select_db($conn_for_changing_db, $dbname);
+		if($old_quantity==0) {
+		    $new_quantity=0;
+        }
+        else{
+            $new_quantity = $old_quantity - $quantity;
+		}
 		$query = "UPDATE inventory SET
 				quantity='$new_quantity'
 				WHERE product_id='$product_id'";
@@ -708,21 +711,23 @@ function update_inventory_after_sales_in_branch($sales_no, $branch) {
 		$quantity = $row['quantity'];
 
 		$info = get_inventory_info_by_product_id_in_branch($product_id, $branch);
-				
+        echo $info['product_name'];
 		$old_quantity = $info['stock'];
-		$new_quantity = $old_quantity - $quantity;
+        if($old_quantity==0) {
+            $new_quantity=0;
+        }
+        else{
+            $new_quantity = $old_quantity - $quantity;
+        }
 
-		mysqli_select_db($conn_for_changing_db, $dbname);
 		$query = "UPDATE multiple_stock_has_inventory SET
 				stock='$new_quantity'
 				WHERE product_id='$product_id' AND branch='$branch'";
 
 		if($info['reorder']>= $new_quantity){
-			echo 1;
 			reorder_level_check($product_id,$branch,$new_quantity,$info['product_name'],$info['reorder']);
 		}
 		else{
-			echo 2;
 		}
 		mysqli_query($conn, $query);
 	}
@@ -746,8 +751,8 @@ function get_inventory_info_by_product_id_in_branch($product_id, $branch){
 function reorder_level_check($product_id,$branch,$stock,$product_name,$reorder) {
 	include 'conf/config.php';
 	include 'conf/opendb.php';
-
-	mysqli_select_db($conn_for_changing_db, $dbname);
+echo "INSERT INTO notification (id, product_id, branch,stock,product_name,reorder)
+	VALUES ('', '$product_id', '$branch','$stock','$product_name','$reorder')";
 	$query = "INSERT INTO notification (id, product_id, branch,stock,product_name,reorder)
 	VALUES ('', '$product_id', '$branch','$stock','$product_name','$reorder')";
 	mysqli_query($conn, $query) or die(mysqli_error($conn));
