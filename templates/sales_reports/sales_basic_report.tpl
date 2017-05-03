@@ -2,23 +2,6 @@
 {include file="navigation.tpl"}
 
 {literal}
-<script>
-  $(function () { 
-    $('#datepicker2').datepicker({
-	  format: 'yyyy-mm-dd',
-      autoclose: true
-    });
-  });
-</script>
-<script>
-  $(function () {
-    $('#datepicker3').datepicker({
-	  format: 'yyyy-mm-dd',
-      autoclose: true
-    });
-  });
-</script>
-
 <script type="text/javascript">
 $(function() {
 	
@@ -30,7 +13,6 @@ $(function() {
 
 });
 </script>
-
 
 <script type="text/javascript">
 $(function() {
@@ -76,17 +58,6 @@ $(function() {
 								<input type="text" class='form-control' name="search_no" value="{$search_no}" size="15" placeholder="Search By Sales No"/> 
 							</div>
 						</div>
-						<div class="col-lg-2">	
-							<div class="form-group">
-								<input type="text" name="to_date" class="form-control" value="{$to_date}" id="datepicker3"  placeholder="To date"/>  
-							</div>
-						</div>
-						<div class="col-lg-2">	
-							<div class="form-group">
-								<input type="text" name="from_date" class="form-control" value="{$from_date}" id="datepicker2"  placeholder="From date"/>
-							</div>
-						</div>
-						
 						<div class="col-lg-2">
 							<button type="submit" name="ok" value="Search" class="btn btn-primary">Search</button>
 						</div>
@@ -99,7 +70,7 @@ $(function() {
 				<div class="col-lg-12">
 					<a href="sales_basic_report.php?job=print" class="more">Print</a>
 					{if $search_mode=='on'}
-					{php}list_sales_search_report($_SESSION[search_name], $_SESSION[search_no], $_SESSION[from_date], $_SESSION[to_date]);{/php}
+					{php}list_sales_search_report($_SESSION[search_name], $_SESSION[search_no]);{/php}
 					{else}
 					{php}list_sales();{/php}
 					{/if}
@@ -110,4 +81,4 @@ $(function() {
 	</div>
 </section>
 
-{include file="js_footer.tpl"}
+{include file="user_footer.tpl"}

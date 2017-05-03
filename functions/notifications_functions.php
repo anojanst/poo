@@ -57,6 +57,123 @@ function list_all_notifications() {
 	
 }
 
+
+function list_seen_notifications() {
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+
+	echo '<div class="box-body">
+			<table  id="example1" style="width: 100%;" class="table table-bordered table-striped">
+                  <thead>
+                       <tr>
+                           <th>Product ID</th>
+						   <th>Product Name</th>
+						   <th>Branch</th>
+						   <th>Stock </th>
+						   <th>Re-order Level</th>
+						   <th>Seen Status</th>
+						   <th>View</th>
+                       </tr>
+                  </thead>
+                  <tbody valign="top">';
+
+	$result = mysqli_query ( $conn, "SELECT * FROM notification WHERE seen_status='1'" );
+	while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) ) {
+
+
+		echo '
+		<td>'.$row[product_id].' </td>
+		<td>'.$row[product_name].' </td>
+		<td>'.$row[branch].' </td>
+		<td>'.$row[stock].' </td>
+		<td>'.$row[reorder].' </td>
+
+		<td> ';
+		if ($row[seen_status] == '0'){
+			echo'
+							<a href="notification.php?job=update_unseen&product_id='.$row['product_id'].'&branch='.$row[branch].'&id='.$row[id].'"> <button type="button" class="btn btn-block btn-warning">Mark As Seen</button></a>';
+		}
+		else{
+			echo'
+							<h5>Seen</h5>';
+		}
+		echo'
+		</td>
+
+		<td><a href="notification.php?job=view_not&product_id='.$row[product_id].'&branch='.$row[branch].'&id='.$row[id].'"> <i class="fa fa-eye"></i></a></td>
+
+		
+
+		</tr>';
+
+		$i ++;
+	}
+
+	echo '</tbody>
+          </table>
+          </div>';
+
+
+}
+
+function list_unseen_notifications() {
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+
+	echo '<div class="box-body">
+			<table  id="example1" style="width: 100%;" class="table table-bordered table-striped">
+                  <thead>
+                       <tr>
+                           <th>Product ID</th>
+						   <th>Product Name</th>
+						   <th>Branch</th>
+						   <th>Stock </th>
+						   <th>Re-order Level</th>
+						   <th>Seen Status</th>
+						   <th>View</th>
+                       </tr>
+                  </thead>
+                  <tbody valign="top">';
+
+	$result = mysqli_query ( $conn, "SELECT * FROM notification WHERE seen_status='0'" );
+	while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) ) {
+
+
+		echo '
+		<td>'.$row[product_id].' </td>
+		<td>'.$row[product_name].' </td>
+		<td>'.$row[branch].' </td>
+		<td>'.$row[stock].' </td>
+		<td>'.$row[reorder].' </td>
+
+		<td> ';
+		if ($row[seen_status] == '0'){
+			echo'
+							<a href="notification.php?job=update_unseen&product_id='.$row['product_id'].'&branch='.$row[branch].'&id='.$row[id].'"> <button type="button" class="btn btn-block btn-warning">Mark As Seen</button></a>';
+		}
+		else{
+			echo'
+							<h5>Seen</h5>';
+		}
+		echo'
+		</td>
+
+		<td><a href="notification.php?job=view_not&product_id='.$row[product_id].'&branch='.$row[branch].'&id='.$row[id].'"> <i class="fa fa-eye"></i></a></td>
+
+
+
+		</tr>';
+
+		$i ++;
+	}
+
+	echo '</tbody>
+          </table>
+          </div>';
+
+
+}
+
 function view_notification($product_id, $branch, $id) {
 	include 'conf/config.php';
 	include 'conf/opendb.php';

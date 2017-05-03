@@ -148,6 +148,7 @@
                 </li>
 
                 <li><a href="notification.php?job=notifications"><i class="fa fa-bell-o"></i><span>Notifications</span></a></li>
+				<li><a href="quotation.php?job=quotation_page"><i class="fa fa-clone"></i><span>Quoatation</span></a></li>
 
                 <li><a href="#"><i class="fa fa-file-text"></i><span>Reports</span></a></li>
                 <li><a href="#"> <i class="fa fa-book"></i> <span>Accounts</span></a></li>
