@@ -5,7 +5,7 @@ include 'functions/author_functions.php';
 include 'functions/notifications_functions.php';
 include 'functions/navigation_functions.php';
 
-$module_no = 19;
+$module_no = 22;
 
 if ($_SESSION['login'] == 1) {
 	if (check_access($module_no, $_SESSION['user_id']) == 1) {
@@ -55,6 +55,21 @@ if ($_SESSION['login'] == 1) {
             $smarty->display ( 'notifications/notification_view.tpl' );
 
         }
+        
+        elseif ($_REQUEST ['job'] == "view_seen") {
+        
+			$smarty->assign('page',"Notifications");
+			$smarty->display('notifications/notification_view_seen.tpl');
+        
+        }
+        
+        elseif ($_REQUEST ['job'] == "view_unseen") {
+        
+        	$smarty->assign('page',"Notifications");
+        	$smarty->display('notifications/notification_view_unseen.tpl');
+        
+        }
+        
 		
 	} 
 	else {
