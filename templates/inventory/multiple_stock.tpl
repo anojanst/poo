@@ -20,7 +20,7 @@
     <div class="nav-tabs-custom">
         <!-- Tabs within a box -->
         <div class="tab-content">
-
+            <form id="add_multiple_stock" method="post" class="product" action="multiple_stock.php?job=save" enctype="multipart/form-data"> 
                 <div class="row">
                     <form action="multiple_stock.php?job=product_details"  name="select_item_form" method="post" >
                         <div class="col-lg-8">
@@ -55,17 +55,18 @@
                     </div>
                 </div>
 
-                <div class="row" style="margin-top: 10px; margin-left: -250px;">
-                    <div class="col-lg-3" >
-                        <input type="submit" value="Save" />
-                    </div>
-                    <div class="col-lg-9"></div>
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-lg-3" >
+                    <input type="submit" value="Save" />
                 </div>
-                <div class="row" style="margin-top: 10px;">
-                    <div class="col-lg-12">
-                        {php}list_multiple_stock();{/php}
-                    </div>
+                <div class="col-lg-9"></div>
+            </div>
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-lg-12">
+                    {php}list_multiple_stock();{/php}
                 </div>
+            </div>
+        </form>
         </div>
     </div>
 </section>
