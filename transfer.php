@@ -5,11 +5,65 @@ include 'functions/user_functions.php';
 include 'functions/transfer_functions.php';
 include 'functions/employees_functions.php';
 include 'functions/navigation_functions.php';
+include 'functions/inventory_functions.php';
+include 'functions/notifications_functions.php';
 
 $module_no = 10;
 if ($_SESSION['login'] == 1) {
-	if (check_access($module_no, $_SESSION['user_id']) == 1) {
-		if ($_REQUEST['job'] == 'add') {
+	if (1 == 1) {
+		
+		if ($_REQUEST['job']=='barcode'){
+		
+			$selected_item=$_POST['barcode'];
+		
+		        if (!isset($_SESSION['transfer_no'])) {
+                    $_SESSION['transfer_no']=$transfer_no=get_transfer_no();
+                }
+            	else{
+                }
+		
+                
+                $info=get_item_info_by_barcode($selected_item);
+                
+ 				$transfer_no=$_SESSION['transfer_no'];
+				$product_name = $info['product_name'];
+				$product_id=$info['product_id'];
+				$quantity = $_POST['quantity'];
+				
+                
+				$stock_info=get_stock_by_branch_product_id($product_id, $_SESSION['branch']);
+				$stock=$stock_info['stock'];
+				$branch=$_SESSION['branch'];
+
+				if (check_product_name($product_name)==1){
+					
+					if($stock>$quantity){
+						save_transfer_has_items($transfer_no, $product_id, $product_name, $quantity);
+					}else{
+						$ref_type='Transfer';
+						save_transfer_has_items($transfer_no, $product_id, $product_name, $quantity);
+						
+						save_notification($product_id, $product_name, $branch, $quantity, $transfer_no, $ref_type);
+						
+						$smarty->assign('error_report',"on");
+						$smarty->assign('error_message',"Not Enough Stock.");
+					}
+				}else{
+						$smarty->assign('stock_warning',"on");
+					$smarty->assign('stock_warning_message',"Stock Mismatch Warning.");
+				
+				}
+                $smarty->assign('transfer_no',"$_SESSION[transfer_no]");
+                $smarty->assign('branch',"$_SESSION[branch]");
+                $smarty->assign ( 'to_branch_names', list_branch() );
+				$smarty->assign('page', "transfer");
+				$smarty->display('transfer/transfer.tpl');
+					
+		
+		}
+		
+		
+		else if ($_REQUEST['job'] == 'add') {
             
 				$product_name = $_POST['product_name'];
 				$quantity = $_POST['quantity'];
@@ -47,12 +101,25 @@ if ($_SESSION['login'] == 1) {
                 
 				$stock_info=get_stock_by_branch_product_id($product_id, $_SESSION['branch']);
 				$stock=$stock_info['stock'];
-				
-				if($stock>$quantity){
-					save_transfer_has_items($transfer_no, $product_id, $product_name, $quantity);
+				$branch=$_SESSION['branch'];
+
+				if (check_product_name($product_name)==1){
+					
+					if($stock>$quantity){
+						save_transfer_has_items($transfer_no, $product_id, $product_name, $quantity);
+					}else{
+						$ref_type='Transfer';
+						save_transfer_has_items($transfer_no, $product_id, $product_name, $quantity);
+						
+						save_notification($product_id, $product_name, $branch, $quantity, $transfer_no, $ref_type);
+						
+						$smarty->assign('error_report',"on");
+						$smarty->assign('error_message',"Not Enough Stock.");
+					}
 				}else{
-					$smarty->assign('error_report', "on");
-					$smarty->assign('error_message', "You Don't Have Enough stock for transfer");
+						$smarty->assign('stock_warning',"on");
+					$smarty->assign('stock_warning_message',"Stock Mismatch Warning.");
+				
 				}
                 $smarty->assign('transfer_no',"$_SESSION[transfer_no]");
                 $smarty->assign('branch',"$_SESSION[branch]");
@@ -86,6 +153,7 @@ if ($_SESSION['login'] == 1) {
                     $product_id=$info['product_id'];
                     save_transfer($transfer_no, $branch, $to_branch);
 					update_stock($to_branch, $transfer_no );
+					
                 }
                 else {
         
@@ -150,6 +218,58 @@ if ($_SESSION['login'] == 1) {
 				$smarty->assign('page', "transfer");
 				$smarty->display('transfer/from_store.tpl');
 		}
+		
+		elseif($_REQUEST['job']=='update_item'){
+		
+				$product_id=$_REQUEST['product_id'];
+				
+				$info=get_item_info_by_name($product_id);
+                
+ 				$transfer_no=$_SESSION['transfer_no'];
+				$product_name = $info['product_name'];
+				
+				$quantity = $_POST['quantity'];
+				
+                
+				$stock_info=get_stock_by_branch_product_id($product_id, $_SESSION['branch']);
+				$stock=$stock_info['stock'];
+				$branch=$_SESSION['branch'];
+
+				if (check_product_name($product_name)==1){
+					
+					if($stock>$quantity){
+						//save_transfer_has_items($transfer_no, $product_id, $product_name, $quantity);
+						update_transfer_has_items($transfer_no, $product_id, $product_name, $quantity);
+					}else{
+						$ref_type='Transfer';
+						update_transfer_has_items($transfer_no, $product_id, $product_name, $quantity);
+						
+						save_notification($product_id, $product_name, $branch, $quantity, $transfer_no, $ref_type);
+						
+						$smarty->assign('error_report',"on");
+						$smarty->assign('error_message',"Not Enough Stock.");
+					}
+				}else{
+					$smarty->assign('stock_warning',"on");
+					$smarty->assign('stock_warning_message',"Stock Mismatch Warning.");
+				
+				}
+                $smarty->assign('transfer_no',"$_SESSION[transfer_no]");
+                $smarty->assign('branch',"$_SESSION[branch]");
+                $smarty->assign ( 'to_branch_names', list_branch() );
+				$smarty->assign('page', "transfer");
+				$smarty->display('transfer/transfer.tpl');
+		}
+		
+		elseif ($_REQUEST['job']=='must_new'){
+			
+			unset($_SESSION['edit']);
+			unset($_SESSION['transfer_no']);
+		
+			$smarty->assign('page', "transfer");
+			$smarty->display('transfer/transfer.tpl');
+		}
+		
 			
 	else {
             $smarty->assign ( 'to_branch_names', list_branch() );

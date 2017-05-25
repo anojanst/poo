@@ -45,7 +45,8 @@ if ($_SESSION['login'] == 1) {
 			$smarty->assign('org_name', "$_SESSION[org_name]");
 			$smarty->assign('page', "Confirm Purchase Order");
 			$smarty->display('confirm/confirm.tpl');
-		} else {
+		}
+		else {
 			$smarty->assign('org_name', "$_SESSION[org_name]");
 			$smarty->assign('page', "Confirm Purchase Order");
 			$smarty->display('confirm/confirm.tpl');

@@ -9,109 +9,158 @@
     });
   });
 </script>
+
+	<script>
+        $(document).ready(function() {
+            $('#product_name').autocomplete({
+                source: 'ajax/query_transfer.php?query=%QUERY'
+            });
+        })
+	</script>
+	<script src="js/jquery-2.2.3.min.js"></script>
+
+	<script>
+        $(document).ready(function() {
+            $('#selected_item').autocomplete({
+                source: 'ajax/query_transfer.php?query=%QUERY'
+            });
+        })
+	</script>
+
 {/literal}
+
+<section class="content-header">
+	<h1>
+		Purchase Order
+	</h1>
+	<ol class="breadcrumb">
+		<li><a href="index.php"><i class="fa fa-dashboard"></i> Home</a></li>
+		<li class="active">Purchase Order</li>
+	</ol>
+</section>
+
 <section class="content">
 	<div class="nav-tabs-custom">
 		<div class="tab-content">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3><strong>Purchase Order</strong></h3>
+                    {if $error_report=='on'}
+						<div class="alert alert-warning alert-dismissible" style="height:35px;">
+							<button type="button" style="margin-top: -7px;" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+							<h4 style="margin-top: -8px; text-align: center; color: black;">{$error_message}</h4>
+						</div>
+                    {/if}
+
+                    {if $stock_warning=='on'}
+						<div class="alert alert-danger alert-dismissible" style="height:35px;">
+							<button type="button" style="margin-top: -7px;" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+							<h4 style="margin-top: -8px; text-align: center; color: yellow;">{$stock_warning_message}</h4>
+						</div>
+                    {/if}
+
+                    {if $pay_error=='on'}
+						<div class="alert alert-danger alert-dismissible" style="height:35px;">
+							<button type="button" style="margin-top: -7px;" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+							<h4 style="margin-top: -8px; text-align: center; color: yellow;">{$pay_error_msg}</h4>
+						</div>
+                    {/if}
 				</div>
+
 			</div>
-			<div class="row">				
-				{if $error_report=='on'}
-					<div class="error_report">
-						<strong>{$error_message}</strong>
+			<div class="row">
+				<div class="col-lg-3 col-xs-6">
+					<div class="small-box bg-aqua">
+						<div class="inner">
+							<strong><h4 style="margin-top: -5px; font-weight: 900;">Barcode</h4></strong>
+							<form action="purchase_order.php?job=barcode" name="select_item_form" method="post" >
+								<input type="text" class="form-control" name="barcode" placeholder="For Barcode" autofocus  onchange="this.form.submit()"/>
+
+							</form>
+						</div>
 					</div>
-				{/if}
-					<form action="purchase_order.php?job=search" method="post" class="search">
-						<div class="col-lg-5">								
-							<input type="text" class='form-control' name="supplier_search" value="{$supplier_search}" placeholder="Search By Supplier"/> 
-						</div>				
-						<div class="col-lg-5">				
-							<input type="text" class='form-control' name="purchase_order_no_search" value="{$purchase_order_no_search}"  placeholder="Search By Purchase No"/> 
-						</div>					
-						<div class="col-lg-2">	
-							<input type="image" src="./images/search.png" height="28" width="28"/>
-						</div>		
+				</div>
+				
+				<div class="col-lg-3 col-xs-6">
+					<div class="small-box bg-green">
+						<div class="inner">
+							<strong><h4 style="margin-top: -5px; font-weight: 900;">Select Items</h4></strong>
+							<form action="purchase_order.php?job=select" name="select_item_form" method="post">
+								<input type="text" class="form-control" id="product_name" name="selected_item" placeholder="Select Items"/>
+								<!--<input type="submit" style="margin-top: 5px;" class="form-control btn btn-primary" name="add" value="Add"/>
+							--></form>
+						</div>
+					</div>
+				</div>
+				
+			</div>		
+						
+
+				<div class="row">
+						<div class="col-lg-9">
+							<table class="table table-bordered table-striped">
+								<thead>
+								<tr>
+									<th>Delete</th>
+									<th>Product Name</th>
+									<th>Buying Price</th>
+									<th>Quantity</th>
+									<th>Discount (%)</th>
+									<th>Total</th>
+									<th>Update</th>
+								</tr>
+								</thead>
+								<tbody>
+                                {php}list_item_by_purchase($_SESSION['purchase_order_no']);{/php}
+								
+								</tbody>
+							</table>
+						</div>
+				
+				<div class="col-lg-3">
+					<form name="sales_form" action="purchase_order.php?job=purchase" method="post" class="product">
+						<div class="row" style="margin-right: 5px; margin-top: 5px;">
+							<input class="btn btn-success" type="submit" name="ok" value="Finish the Purchase" tabindex="6" />
+						</div>
+						<div class="row" style="margin-right: 5px;">
+							<label> <strong>Purchase Order No</strong> </label>
+							<input type="text" class="form-control" name="purchase_order_no" value="{$purchase_order_no}" size="25" required readonly="readonly" placeholder="Purchase Order No" tabindex="3"/>
+						</div>
+						<div class="row" style="margin-right: 5px; margin-top: 5px;">
+							<label> <strong>Total </strong> </label>
+							<input type="text" class="form-control" name="total" id="total" value="{$total}" size="25"  placeholder="Total" tabindex="5" readonly="readonly"/>
+						</div>
+						<div class="row" style="margin-right: 5px; margin-top: 5px;">
+							<label> <strong>Discount </strong> </label>
+                            {if $discount_display=='off'}
+                            {else}
+								<input type="text" class="form-control" name="discount" value="{$discount}"  size="25" placeholder="Discount" tabindex="5"/>
+                            {/if}
+						</div>
+						
+						<div class="row" style="margin-right: 5px; margin-top: 5px;">
+							<label> <strong>Supplier Name</strong> </label>
+							<input type="text" class="form-control" name="supplier_name"size="25" placeholder="Supplier Name" tabindex="4"/></td>
+						</div>
+						
+						<div class="row" style="margin-right: 5px; margin-top: 5px;" hidden="hidden">
+							<label> <strong>Prepared by </strong> </label>
+							<input type="text" class="form-control" name="prepared_by" value="{$prepared_by}" size="25" required readonly="readonly"/>
+						</div>
+						<div class="row" style="margin-right: 5px; margin-top: 5px;" hidden="hidden">
+                            {if $edit_mode=='on'}
+								<input type="text" class="form-control" name="updated_by" value="{$updated_by}" size="25" required readonly="readonly"/>
+                            {/if}
+						</div>
+						
+						<div id="cus_amount"></div>
+
 					</form>
-			</div><br>
-			<div class="row">
-				{if $search_mode=='on'}
-					{php}list_purchase_order_search($_SESSION[purchase_order_no_search], $_SESSION[supplier_search]);{/php}
-				{/if}
-			
-				<div class="col-lg-12">
-						<h4 style="margin-left: 15px;">Add New Purchase order</h4>
-					{if $new}
-						<p style="margin-left: 530px; margin-top: -50px;">{$new}</p>				
-					{/if}
 				</div>
-			</div>
-			<div class="row">
-				<form name="purchase_item_form" action="purchase_order.php?job=purchase_item" method="post" class="product">
-					<div class="col-lg-3">		 
-						<input style="width: 250px;" type="text" class="form-control" name="product_name" value="{$product_name}" placeholder="Product Name" required/>									
-					</div>
-					<div class="col-lg-1">
-						<input style="width: 80px;" type="text" class="form-control" name="product_id" value="{$product_id}" placeholder="Id" required/>
-					</div>
-					<div class="col-lg-1">
-						<select style="width: 80px;" name="catagory" required>
-								<option>Catagory</option>
-								<option>{$catagory}</option>
-							{section name=parent_catagory loop=$parent_catagorys}
-								<option>{$parent_catagorys[parent_catagory]}</option>
-							{/section}
-						</select> 
-					</div> 
-					<div class="col-lg-3">
-						<input style="width: 250px;" type="text" class="form-control" name="product_description" value="{$product_description}" placeholder="Description" required/>
-					</div>
-					<div class="col-lg-1">
-						<input style="width: 80px;" type="text" class="form-control" name="qty" value="{$qty}" placeholder="Qty" required/>
-					</div>
-					<div class="col-lg-1">
-						<select style="width: 80px;" name="measure_type" required>
-							<option>{$measure_type}</option>
-							<option>Piece</option>
-							<option>Box</option>
-							<option>Dozen</option>
-							<option>Meters</option>
-							<option>Gram</option>
-							<option>Kilogram</option>
-							<option>Liters</option>
-						</select>
-					</div>
-					<div class="col-lg-1">
-						<input style="width: 80px;" type="text" class="form-control" name="buying_price" value="{$buying_price}" placeholder="buying Price" required/>										
-					</div>
-					<div class="col-lg-1">
-						<input type="submit" name="ok" value="Add"/>
-					</div>
-						{php}list_item_by_purchase_order($_SESSION['purchase_order_no']);{/php}								
-				</form>				
-			</div><br><br>	
-			<div class="row">
-				<form name="purchase_form" action="purchase_order.php?job=purchase" method="post" class="product">
-					<div class="col-lg-12">	
-						<input style="width: 400px;" type="text" class="form-control" name="purchase_order_no" value="{$purchase_order_no}" placeholder="Purchase Order No" required readonly="readonly"/>
-						<input type="text" style="width: 150px;" class="form-control" id="datepicker" placeholder="Date">
-						<input style="width: 400px;" type="text" class="form-control" name="supplier_name" placeholder="Supplier" value="{$supplier_name}" required />
-						<input style="width: 400px;" type="text" class="form-control" name="remarks" placeholder="Remarks" value="{$remarks}" required />
-						<input style="width: 400px;" type="text" class="form-control"name="prepared_by" placeholder="Prepared By" value="{$prepared_by}"  required readonly="readonly"/>					
-						{if $edit_mode=='on'}
-						<input type="text" name="updated_by" value="{$updated_by}" placeholder="Updated By" required readonly="readonly"/>
-						{/if}
-						{if $edit_mode=='on'}
-						<input class="pull-left" type="submit" name="ok" value="Update"/>
-						{else}
-						<input class="pull-left" type="submit" name="ok" value="Save"/>
-						{/if}
-					</div>
-				</form>					
+				</div>
 			</div>
 		</div>
-	</div>
+
 </section>
+
+
 {include file="js_footer.tpl"}

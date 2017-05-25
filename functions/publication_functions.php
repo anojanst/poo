@@ -8,11 +8,11 @@ function list_publication() {
 	$result = mysqli_query($conn, "SELECT * FROM publication WHERE cancel_status='0' ORDER BY id DESC");
 	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 		echo '<tr>
-				<td align="center"><a href="publication.php?job=edit&id=' . $row[id] . '"  ><img src="images/edit.png" alt="Edit" width="24" height="24"/></a></td>
+				<td align="center"><a href="publication.php?job=edit&id=' . $row[id] . '"  ><i class="fa fa-pencil-square-o fa-2x"></i></a></td>
 				<td>' . $row[publication_id] . '</td>
 				<td>' . $row[publication] . '</td>
 				<td>' . $row[description] . '</td>
-				<td align="center"><a href="#" onclick="javascript:showConfirm(\'Are you sure you want to delete this entry?\',\'\',\'Yes\',\'publication.php?job=delete&id=' . $row[id] . '\',\'No\',\'publication.php\')"><img src="images/close.png" alt="Delete" height="24" width="24"/></a></td>
+				<td align="center"><a href="publication.php?job=delete&id='.$row[id].'" onclick="javascript:showConfirm(\'Are you sure you want to delete this entry?\',\'\',\'Yes\',\'publication.php?job=delete&id=' . $row[id] . '\',\'No\',\'publication.php\')"><i class="fa fa-times fa-2x"></i></a></td>
 				</tr>';
 	}
 	echo '</tbody>';

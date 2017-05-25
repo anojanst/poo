@@ -22,13 +22,16 @@ $(function () {
 					<div class="col-lg-4">
 						<input type="text" class='auto form-control' name="search" value="{$search}" placeholder="Search Inventory"/> 
 					</div>
-					<div class="col-lg-1">
+					<div class="col-lg-2">
 							<button type="submit" name="ok" value="Search" class="btn btn-primary">Search</button>
 					</div>
-					<div class="col-lg-3">
-						<a href="inv_basic_report.php?job=print" class="more">Print</a>
+					<div class="col-lg-1">
+						<a href="inv_basic_report.php?job=print" class="btn btn-primary">Print</a>
 					</div>
-					<div class="col-lg-4" style="margin-left: 50px; margin-top: -30px;">
+					<div class="col-lg-1">
+						<a href="reports.php" class="btn btn-primary">Back</a>
+					</div>
+					<div class="col-lg-4" >
 						<a href="inv_basic_report.php?job=select_fields" class="more" style="width: 200px; margin-left: 100px;">custom Report</a>
 					</div>
 				</form>

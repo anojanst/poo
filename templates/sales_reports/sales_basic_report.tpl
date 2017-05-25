@@ -64,12 +64,12 @@ $(function() {
 				<div>
 				<form action="sales_basic_report.php?job=search" method="post" class="search">
 					 <div class="row">
-						<div class="col-lg-3">	
+						<div class="col-lg-2">	
 							<div class="form-group">
 								<input type="text" class='form-control' name="search_name" value="{$search_name}" size="25" placeholder="Sold TO"/> 
 							</div>
 						</div>
-						<div class="col-lg-3">	
+						<div class="col-lg-2">	
 							<div class="form-group">
 								<input type="text" class='form-control' name="search_no" value="{$search_no}" size="15" placeholder="Search By Sales No"/> 
 							</div>
@@ -87,14 +87,20 @@ $(function() {
 						 <div class="col-lg-2">
 							<button type="submit" name="ok" value="Search" class="btn btn-primary">Search</button>
 						</div>
+						 <div class="col-lg-1">
+						<a href="sales_basic_report.php?job=print" class="btn btn-primary">Print</a>
+					</div>
+					<div class="col-lg-1">
+						<a href="reports.php" class="btn btn-primary">Back</a>
+					</div>
 					 </div>			
 				</form>
 				</div>
 				
 				
+			
 			<div class="row">
 				<div class="col-lg-12">
-					<a href="sales_basic_report.php?job=print" class="more">Print</a>
 					{if $search_mode=='on'}
                         {php}list_sales_search_report($_SESSION[search_name], $_SESSION[search_no], $_SESSION[from_date], $_SESSION[to_date]);{/php}
                     {else}

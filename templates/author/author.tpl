@@ -29,12 +29,12 @@ $(function () {
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-lg-11"></div>
-						<div class="col-lg-1">
+						
+						<div class="col-lg-3" style="margin-top: 15px;">
 							{if $edit_mode=='on'}
-							<input type="submit" name="ok" value="Update" />
+							<input type="submit" name="ok" value="Update" class="btn btn-primary"/>
 							{else}
-							<input type="submit" name="ok" value="Save" />
+							<input type="submit" name="ok" value="Save" class="btn btn-primary"/>
 							{/if}
 						</div>
 					</div>

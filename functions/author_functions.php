@@ -6,11 +6,11 @@ function list_author() {
 	$result = mysqli_query($conn, "SELECT * FROM author WHERE cancel_status='0' ORDER BY id DESC LIMIT 50");
 	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 		echo '<tr>
-				<td align="center"><a href="author.php?job=edit&id=' . $row[id] . '"  ><img src="images/edit.png" alt="Edit" width="24" height="24"/></a></td>
+				<td align="center"><a href="author.php?job=edit&id=' . $row[id] . '"  ><i class="fa fa-pencil-square-o fa-2x"></i></a></td>
 				<td>' . $row[author_id] . '</td>					
 				<td>' . $row[author] . '</td>
 				<td>' . $row[description] . '</td>
-				<td align="center"><a href="#" onclick="javascript:showConfirm(\'Are you sure you want to delete this entry?\',\'\',\'Yes\',\'author.php?job=delete&id=' . $row[id] . '\',\'No\',\'author.php\')"><img src="images/close.png" alt="Delete" height="24" width="24"/></a></td>
+				<td align="center"><a href="author.php?job=delete&id='.$row[id].'" onclick="javascript:showConfirm(\'Are you sure you want to delete this entry?\',\'\',\'Yes\',\'author.php?job=delete&id=' . $row[id] . '\',\'No\',\'author.php\')"><i class="fa fa-times fa-2x"></i></a></td>
 				</tr>';
 	}
 	echo '</tbody>';
@@ -63,7 +63,7 @@ function update_author($id, $author, $author_id, $description){
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 	
-	mysqli_select_db($conn_for_changing_db, $dbname);
+	mysqli_select_db($conn, $dbname);
 	$query = "UPDATE author SET
 	author='$author',
 	author_id='$author_id',
@@ -80,7 +80,8 @@ function cancel_author($id) {
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 
-	mysqli_select_db($conn_for_changing_db, $dbname);
+	mysqli_select_db($conn, $dbname);
+
 	$query = "UPDATE author SET
 	cancel_status='1',
 	canceled_by='$_SESSION[user_name]' 

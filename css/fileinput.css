@@ -1,5 +1,5 @@
 /*!
- * bootstrap-fileinput v4.3.2
+ * bootstrap-fileinput v4.3.5
  * http://plugins.krajee.com/file-input
  *
  * Author: Kartik Visweswaran
@@ -132,25 +132,15 @@
 }
 
 .file-preview-other {
-    left:0;
-    top:0;
-    right:0;
-    bottom:0;
-    margin:auto;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
     text-align: center;
     vertical-align: middle;
     padding: 10px;
 }
-
-/*
-.file-preview-other {
-    display: table-cell;
-    text-align: center;
-    vertical-align: middle;
-    border: 2px solid #999;
-    border-radius: 30px;
-}
-*/
 
 .file-preview-other:hover {
     opacity: 0.8;
@@ -164,6 +154,7 @@
     font-size: 4.8em;
 }
 
+/* noinspection CssOverwrittenProperties */
 .file-zoom-dialog .file-other-icon {
     font-size: 8em;
     font-size: 55vmin;
@@ -173,6 +164,21 @@
 .file-input-new .fileinput-remove-button, .file-input-new .fileinput-upload-button,
 .file-input-ajax-new .fileinput-remove-button, .file-input-ajax-new .fileinput-upload-button {
     display: none;
+}
+
+.file-caption-main {
+    width: 100%;
+}
+
+.file-input-ajax-new .no-browse .input-group-btn,
+.file-input-new .no-browse .input-group-btn {
+    display: none;
+}
+
+.file-input-ajax-new .no-browse .form-control,
+.file-input-new .no-browse .form-control {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
 }
 
 .file-thumb-loading {
@@ -233,8 +239,26 @@
 
 .file-drop-zone-title {
     color: #aaa;
-    font-size: 40px;
+    font-size: 1.6em;
     padding: 85px 10px;
+    cursor: default;
+}
+
+.file-preview .clickable,
+.clickable .file-drop-zone-title {
+    cursor: pointer;
+}
+
+.file-drop-zone.clickable:hover {
+    border: 2px dashed #999;
+}
+
+.file-drop-zone.clickable:focus {
+    border: 2px solid #5acde2;
+}
+
+.file-drop-zone .file-preview-thumbnails {
+    cursor: default;
 }
 
 .file-highlighted {

@@ -52,7 +52,7 @@ if ($_SESSION['login']==1){
 				
 				$filename = stripslashes ($_FILES['cover'] ['name']);
 				if($filename){
-					$file_name=$product_id.'.'.$filename;
+					$file_name=$product_id.'_'.$filename;
 					$cover="cover/".$file_name;
 					$copied = copy($_FILES['cover']['tmp_name'],$cover);
 				}
@@ -62,7 +62,7 @@ if ($_SESSION['login']==1){
 
 
                 save_product($product_id, $product_name, $author, $isbn, $publication, $barcode, $count, $selling_price, $discount, $buying_price, $buying_discount, $product_description, $measure_type, $purchased_date, $exp_date, $supplier, $page, $size, $weight, $cover, $location, $name_in_ta, $type, $item_type, $serial_no, $quantity);
-                save_items($product_id,$product_name,$count);
+                save_items($product_id,$product_name,$count,$location);
 
                 $nlabel = count($label);
 				 
@@ -73,6 +73,8 @@ if ($_SESSION['login']==1){
 				
 				
 				$info=get_inventory_info_by_product_id($product_id);
+				$label_info=get_label_for_product_id($info['product_id']);
+				
 				$smarty->assign('product_id',$info['product_id']);
 				$smarty->assign('id',$info['id']);
 				$smarty->assign('product_name',$info['product_name']);
@@ -97,6 +99,7 @@ if ($_SESSION['login']==1){
 				$smarty->assign('location',$info['location']);
 				$smarty->assign('name_in_ta',$info['name_in_ta']);
 				$smarty->assign('quantity',$info['quantity']);
+				$smarty->assign('label',$label_info);
 				
 				
 				$smarty->assign('user_name',"$_SESSION[user_name]");
@@ -111,7 +114,7 @@ if ($_SESSION['login']==1){
 				$isbn=$_POST['isbn'];
 				$publication=$_POST['publication'];
 				$barcode=$_POST['barcode'];
-				$count=$_POST['quantity'];
+				$count=$_POST['count'];
 				$selling_price=$_POST['selling_price'];
 				$buying_discount="";
 				$buying_price=$selling_price;
@@ -120,7 +123,7 @@ if ($_SESSION['login']==1){
 				$measure_type=$_POST['measure_type'];
 				$purchased_date=date("Y-m-d");
 				$exp_date=date("Y-m-d");
-				
+				$label=$_POST['label'];
 				$supplier="";
 				$page=$_POST['page'];
 				$size=$_POST['size'];
@@ -133,7 +136,7 @@ if ($_SESSION['login']==1){
 				$product_id=$info['product_id'];
 				$filename = stripslashes ($_FILES['cover'] ['name']);
 				if($filename){
-					$file_name=$info['product_id'].'.'.$filename;
+					$file_name=$info['product_id'].'_'.$filename;
 					$cover="cover/".$file_name;
 					$copied = copy($_FILES['cover']['tmp_name'],$cover);
 				}
@@ -167,6 +170,7 @@ if ($_SESSION['login']==1){
 				unset($_SESSION['id']);
 				
 				$info=get_product_info($id);
+				$label_info=get_label_for_product_id($info['product_id']);
 				$smarty->assign('product_id',$info['product_id']);
 				$smarty->assign('id',$id);
 				$smarty->assign('product_name',$info['product_name']);
@@ -192,6 +196,8 @@ if ($_SESSION['login']==1){
 				$smarty->assign('name_in_ta',$info['name_in_ta']);
 				$smarty->assign('type',$info['type']);
 				$smarty->assign('quantity',$info['quantity']);
+				$smarty->assign('label',$label_info);
+				
 				
 				$smarty->assign('user_name',"$_SESSION[user_name]");
 				$smarty->assign('page',"Inventory");
@@ -218,11 +224,11 @@ if ($_SESSION['login']==1){
 			$smarty->display('inventory/add_stock.tpl');
 		}
 		elseif ($_REQUEST['job']=='edit'){
-			$module_no = 111;
-			if (check_access($module_no, $_SESSION['user_id'])==1){
 				$info=get_product_info($_REQUEST['id']);
 				$_SESSION['id']=$_REQUEST['id'];
-	
+				$label_info=get_label_for_product_id($info['product_id']);
+				
+				
 				$smarty->assign('product_name',$info['product_name']);
 				$smarty->assign('quantity',$info['quantity']);
 				$smarty->assign('buying_price',$info['buying_price']);
@@ -245,23 +251,16 @@ if ($_SESSION['login']==1){
 				$smarty->assign('name_in_ta',$info['name_in_ta']);
 				$smarty->assign('type',$info['type']);
 				$smarty->assign('item_type',$info['item_type']);
+				$smarty->assign('label',$label_info);
 				
+
 				$smarty->assign('parent_catagorys',list_parent_catagory());
 				$smarty->assign('user_name',"$_SESSION[user_name]");
 				$smarty->assign('edit',"Product");
 				$smarty->assign('edit_mode',"on");
 				$smarty->assign('page',"Inventory");
 				$smarty->display('inventory/add_new.tpl');
-			}
-		
-			else{
-				$user_name=$_SESSION['user_name'];
-				$smarty->assign('user_name',"$_SESSION[user_name]");
-				$smarty->assign('error_report',"on");
-				$smarty->assign('error_message',"Dear $user_name, you don't have permission to EDIT an item.");
-				$smarty->assign('page',"Access Error");
-				$smarty->display('user_home/access_error.tpl');
-			}
+			
 		}
 		elseif ($_REQUEST['job']=='delete'){
 			$module_no= 101;

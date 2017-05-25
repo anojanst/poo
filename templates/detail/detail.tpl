@@ -3,12 +3,12 @@
 <section class="content">
 	<div class="nav-tabs-custom">
 		<div class="tab-content">
-			<div class="row">
+			<div class="row" style="margin-left: 20px;">
 				<div class="col-lg-12">
 					<h1><strong>Basic Details</strong></h1>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" style="margin-left: 20px;">
 				<div class="col-lg-12">
 					<form action="detail.php?job=save" method="post" class="settings">
 						<input type="text" class="form-control" name="org_name" style="width: 400px;" value="{$org_name}" placeholder="Organization Name" required />	
@@ -19,7 +19,7 @@
 						<input type="text" class="form-control" style="width: 400px;" name="owner_name" value="{$owner_name}" placeholder="Owner Name" required />	
 						<input type="text" class="form-control" style="width: 400px;"  name="owner_telephone" value="{$owner_telephone}" placeholder="Owner's Telephone No " required />		
 						<input type="text" class="form-control" style="width: 400px;" name="owner_email" value="{$owner_email}" placeholder="Owner's E-mail" required /><br/>
-						<input type="submit" name="save" value="Save"/>	
+						<input type="submit" name="save" value="Save" class="btn btn-primary"/>	
 					</form>
 				</div>
 			</div>

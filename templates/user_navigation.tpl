@@ -26,7 +26,7 @@
 			</a>
 		</li>
 		<li>
-			<a href="sales.php" class="title">
+			<a href="sales.php?job=must_new" class="title">
 				<div>
 					<img src="./images/sales.png" width="48" height="48"/>
 					<p class="home_icon_short">Sales</p>

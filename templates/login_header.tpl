@@ -9,7 +9,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>Invest | {$page}</title>
+	<title>Poobalasingham Book Depot | {$page}</title>
 
 	  <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">

@@ -216,10 +216,10 @@ function update_inventory($purchase_order_no){
 			$old_quantity=$info['quantity'];
 			$new_quantity=$old_quantity+$quantity;
 
-			update_product_by_product_id($product_id, $product_name, $new_quantity, $selling_price, $buying_price, $discount, $catagory, $product_description, $measure_type, $purchased_date, $label, $supplier);
+			update_product_by_product_id($product_id, $product_name, $author, $isbn, $publication, $count, $selling_price, $discount, $buying_price, $buying_discount, $product_description, $measure_type, $purchased_date, $exp_date, $label, $supplier, $page, $size, $weight, $location, $name_in_ta, $type);
 		}
 		else{
-			save_product($product_id, $product_name, $quantity, $selling_price, $buying_price, $discount, $catagory, $product_description, $measure_type, $purchased_date, $label, $supplier);
+			save_product($product_id, $product_name, $author, $isbn, $publication, $barcode, $count, $selling_price, $discount, $buying_price, $buying_discount, $product_description, $measure_type, $purchased_date, $exp_date, $supplier, $page, $size, $weight, $cover, $location, $name_in_ta, $type, $item_type, $serial_no);
 		}
 
 	}

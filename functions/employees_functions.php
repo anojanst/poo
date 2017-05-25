@@ -22,7 +22,7 @@ function list_employees(){
 	{
 		echo '
 				<tr>
-					<td><a href="employees.php?job=edit&id='.$row[id].'"  ><img src="images/edit.png" alt="Edit" /></a></td>
+					<td><a href="employees.php?job=edit&id='.$row[id].'"  ><i class="fa fa-pencil-square-o fa-2x"></i></a></td>
 						
 					<td>'.$row[full_name].'</td>
 							
@@ -32,13 +32,13 @@ function list_employees(){
 					echo '
 					<td>'.strtolower($row[employee_name]).'</td>
 					
-					<td align="center"><a href="employees.php?job=access&id='.$row[id].'"  ><img src="images/lock.png" alt="Edit" width="24" height="24"/></a></td>';
+					<td align="center"><a href="employees.php?job=access&id='.$row[id].'"  ><i class="fa fa-lock" ></i></a></td>';
 				}
 				else{
 					echo'<td></td><td></td>';
 				}
 				echo'
-					<td align="center"><a href="employees.php?job=delete&id='.$row[id].'" onclick="javascript:showConfirm(\'Are you sure you want to delete this entry?\',\'\',\'Yes\',\'employees.php?job=delete&id='.$row[id].'\',\'No\',\'employees.php\')"><img src="images/close.png" alt="Delete" /></a></td>
+					<td align="center"><a href="employees.php?job=delete&id='.$row[id].'" onclick="javascript:showConfirm(\'Are you sure you want to delete this entry?\',\'\',\'Yes\',\'employees.php?job=delete&id='.$row[id].'\',\'No\',\'employees.php\')"><i class="fa fa-times fa-2x"></i></a></td>
 				</tr>';
 	}
 	echo '  </tbody>
@@ -166,6 +166,7 @@ function update_employees($id, $employee_name, $full_name, $department, $branch,
 	full_name='$full_name',
 	department='$department',
 	email='$email',
+	branch='$branch',
 	telephone='$telephone',
 	mobile='$mobile',
 	address='$address',
@@ -200,11 +201,6 @@ function list_not_user_module($user_id){
 	include 'conf/opendb.php';
 
 	$result=mysqli_query($conn, "SELECT * FROM modules WHERE modules.module_no NOT IN (SELECT user_has_module.module_no FROM user_has_module WHERE user_has_module.user_id='$user_id' )");
-	echo '<p style="color: black; text-align: center; margin-bottom: 5px;">Permissions, User don\'t Have</p><table class="employee_home_table">
-	<tr>
-		<th>Module Name</th>
-		<th>Grant Permission</th>
-	</tr>';
 
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
@@ -226,11 +222,6 @@ function list_user_module($user_id){
 	include 'conf/opendb.php';
 
 	$result=mysqli_query($conn, "SELECT * FROM user_has_module WHERE user_id='$user_id'");
-	echo '<p style="color: black; text-align: center; margin-bottom: 5px;">Permissions, User Already Have</p><table class="employee_home_table">
-	<tr>
-		<th>Module Name</th>
-		<th>Deny Permission</th>
-	</tr>';
 
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{

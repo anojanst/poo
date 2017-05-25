@@ -134,14 +134,14 @@
 									: {$publication}
 								</div>
 							</div>
-							<div class="row">
+						<!--	<div class="row">
 								<div class="col-lg-6">
 									<b>Supplier</b>
 								</div>
 								<div class="col-lg-6">
 									: {$supplier}
 								</div>
-							</div>
+							</div>-->
 							<div class="row">
 								<div class="col-lg-6">
 									<b>Selling Price</b>
@@ -150,14 +150,14 @@
 									: {$selling_price}
 								</div>
 							</div>
-							<div class="row">
+						<!--	<div class="row">
 								<div class="col-lg-6">
 									<b>Selling Discount</b>
 								</div>
 								<div class="col-lg-6">
 									: {$discount}
 								</div>
-							</div>
+							</div>-->
 							<div class="row">
 								<div class="col-lg-6">
 									<b>Buying Price</b>
@@ -166,14 +166,14 @@
 									: {$buying_price}
 								</div>
 							</div>
-							<div class="row">
+						<!--	<div class="row">
 								<div class="col-lg-6">
 									<b>Buying Discount</b>
 								</div>
 								<div class="col-lg-6">
 									: {$buying_discount}
 								</div>
-							</div>
+							</div>-->
 							<div class="row">
 								<div class="col-lg-6">
 									<b>Currency Type</b>
@@ -246,14 +246,14 @@
 									: {$weight}
 								</div>
 							</div>
-							<div class="row">
+						<!--	<div class="row">
 								<div class="col-lg-6">
 									<b>Description</b>
 								</div>
 								<div class="col-lg-6">
 									: {$product_description}
 								</div>
-							</div>
+							</div>-->
 							<div class="row">
 								<div class="col-lg-6">
 									<b>Label</b>

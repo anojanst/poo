@@ -9,6 +9,9 @@ function get_product_id($item_type){
         if($item_type=="BOOK"){
             $item_type="B";
         }
+		elseif($item_type=="TEMP"){
+			$item_type="T";
+		}
         else{
             $item_type="A";
         }
@@ -17,6 +20,9 @@ function get_product_id($item_type){
         return "$item_type-$no";
     }
 }
+
+
+
 
 function get_serial_no($item_type){
 	include 'conf/config.php';
@@ -31,45 +37,7 @@ function get_serial_no($item_type){
 	include 'conf/closedb.php';
 }
 
-function list_inventory() {
-	include 'conf/config.php';
-	include 'conf/opendb.php';
-	
-	echo'<tbody>';
-	$result = mysqli_query($conn, "SELECT * FROM inventory WHERE cancel_status='0' ORDER BY id DESC LIMIT 100");
-	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-		echo '
-				<tr>
-					<td><a href="inventory.php?job=edit&id=' . $row[id] . '"  ><img src="images/edit.png" alt="Edit" width="24" height="24"/></a></td>
-					<td>' . $row[product_id] . '</td>					
-					<td>' . $row[product_name] . '</td>
-							
-					<td align="right">' . $row[quantity] . '</td>
-				';
-		if ($row[selling_price] == 0) {
-			echo '
-						<td style="background-color:#920606; color:white;" align="right">' . $row[selling_price] . '</td>';
-		} else {
-			echo '
-						<td align="right">' . $row[selling_price] . '</td>';
-		}
-		echo '
-					
-					
-					
-					<td align="right">' . $row[buying_price] . '</td>
-				
-					<td align="center">' . $row[purchased_date] . '</td>
-				
-					<td><a href="#" onclick="javascript:showConfirm(\'Are you sure you want to delete this entry?\',\'\',\'Yes\',\'inventory.php?job=delete&id=' . $row[id] . '\',\'No\',\'inventory.php\')"><img src="images/close.png" alt="Delete" height="24" width="24"/></a></td>
-					
-					<td><a href="html/BCGcode39.php?barcode=' . $row[barcode] . '&product_id=' . $row[product_id] . '&price=' . $row[selling_price] . '&name=' . $row[product_name] . '&type=' . $row[type] . '" target="blank" class="btn btn-sm btn-success" style="height: 30px; padding: 2px;">Print</a></td>
-				</tr>';
-	}
-	echo '</tbody>';
 
-	include 'conf/closedb.php';
-}
 
 function list_inventory_basic_report() {
 	include 'conf/config.php';
@@ -481,6 +449,19 @@ function get_product_info($id) {
 	include 'conf/closedb.php';
 }
 
+function get_label_for_product_id($product_id){
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+
+	$result = mysqli_query($conn, "SELECT * FROM item_has_label WHERE product_id='$product_id'");
+	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+		$label=$row['label'].', '.$label;
+	}
+	
+	return $label;
+	include 'conf/closedb.php';
+}
+
 function save_catagory($catagory, $parent_catagory) {
 	include 'conf/config.php';
 	include 'conf/opendb.php';
@@ -620,6 +601,29 @@ function get_item_info_by_name($product_id) {
 	include 'conf/closedb.php';
 }
 
+function get_item_info_by_barcode($barcode) {
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+
+	$result = mysqli_query($conn, "SELECT * FROM inventory WHERE barcode='$barcode'");
+	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+		return $row;
+	}
+	include 'conf/closedb.php';
+}
+
+
+function get_item_info_by_selected_name($selected_item) {
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+
+	$result = mysqli_query($conn, "SELECT * FROM inventory WHERE product_name='$selected_item'");
+	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+		return $row;
+	}
+	include 'conf/closedb.php';
+}
+
 function check_added_items_inventory($product_id) {
 	include 'conf/config.php';
 	include 'conf/opendb.php';
@@ -709,29 +713,50 @@ function update_inventory_after_sales_in_branch($sales_no, $branch) {
 	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 		$product_id = $row['product_id'];
 		$quantity = $row['quantity'];
-
+		
+		$multiple_info=get_multiple_stock_by_product_id($product_id);
 		$info = get_inventory_info_by_product_id_in_branch($product_id, $branch);
-        echo $info['product_name'];
-		$old_quantity = $info['stock'];
-        if($old_quantity==0) {
-            $new_quantity=0;
-        }
-        else{
-            $new_quantity = $old_quantity - $quantity;
-        }
-
-		$query = "UPDATE multiple_stock_has_inventory SET
-				stock='$new_quantity'
-				WHERE product_id='$product_id' AND branch='$branch'";
-
+		$info2= get_inventory_info_by_product_id_in_inventory($product_id);
+        if($row['product_name']!='COMMON ITEM'){
+			$old_quantity = $info['stock'];
+			$new_quantity = $old_quantity - $quantity;
+			if($old_quantity==0||$new_quantity<=0) {
+				$new_quantity=0;
+			}
+			else{
+				
+			}
+			
+			if(check_multiple_stock_has_inventory($product_id, $branch)==1){
+			$query = "UPDATE multiple_stock_has_inventory SET
+					stock='$new_quantity'
+					WHERE product_id='$product_id' AND branch='$branch'";
+					mysqli_query($conn, $query);
+			}
+			else{
+				$location='common';
+				$quantity=0;
+				save_items($product_id,$info2['product_name'],$quantity,$location);
+			}
+		}
+		else{
+			
+		}
+	}
+		$ref_type='Sales';
+		
 		if($info['reorder']>= $new_quantity){
-			reorder_level_check($product_id,$branch,$new_quantity,$info['product_name'],$info['reorder']);
+			reorder_level_check($product_id,$branch,$new_quantity,$info2['product_name'],$info['reorder'], $sales_no, $ref_type);
 		}
 		else{
 		}
-		mysqli_query($conn, $query);
-	}
+	
+	//mysqli_query($conn, $query);
+	include 'conf/closedb.php';
 }
+
+
+
 function get_inventory_info_by_product_id_in_branch($product_id, $branch){
         include 'conf/config.php';
         include 'conf/opendb.php';
@@ -744,17 +769,39 @@ function get_inventory_info_by_product_id_in_branch($product_id, $branch){
             return $row;
         }
 
-
-
 }
 
-function reorder_level_check($product_id,$branch,$stock,$product_name,$reorder) {
+function get_item_info_by_product_no($product_no) {
 	include 'conf/config.php';
 	include 'conf/opendb.php';
-echo "INSERT INTO notification (id, product_id, branch,stock,product_name,reorder)
-	VALUES ('', '$product_id', '$branch','$stock','$product_name','$reorder')";
-	$query = "INSERT INTO notification (id, product_id, branch,stock,product_name,reorder)
-	VALUES ('', '$product_id', '$branch','$stock','$product_name','$reorder')";
+	
+	$result = mysqli_query($conn, "SELECT * FROM inventory WHERE item_type='ACC' AND product_id LIKE '%$product_no'");
+	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+		return $row;
+	}
+	include 'conf/closedb.php';
+}
+
+function get_inventory_info_by_product_id_in_inventory($product_id){
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+
+	$result = mysqli_query ($conn, "SELECT * FROM inventory WHERE product_id='$product_id'" );
+
+	while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) )
+
+	{
+		return $row;
+	}
+	include 'conf/closedb.php';
+}
+
+function reorder_level_check($product_id,$branch,$stock,$product_name,$reorder, $sales_no, $ref_type) {
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+
+	$query = "INSERT INTO notification (id, product_id, branch,stock,product_name,reorder, ref_no, ref_type)
+	VALUES ('', '$product_id', '$branch','$stock','$product_name','$reorder', '$sales_no', '$ref_type')";
 	mysqli_query($conn, $query) or die(mysqli_error($conn));
 
 	include 'conf/closedb.php';
@@ -769,11 +816,18 @@ function update_inventory_after_return($return_no) {
 	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 		$product_id = $row['product_id'];
 		$quantity = $row['quantity'];
-
+		
+		
 		$info = get_inventory_info_by_product_id($product_id);
 		$old_quantity = $info['quantity'];
 		$new_quantity = $old_quantity + $quantity;
 
+		
+		$query = "UPDATE multiple_stock_has_inventory SET
+				stock='$new_quantity'
+				WHERE product_id='$product_id' AND branch='$branch'";
+		
+		
 		mysqli_select_db($conn_for_changing_db, $dbname);
 		$query = "UPDATE inventory SET
 				quantity='$new_quantity'
@@ -781,6 +835,58 @@ function update_inventory_after_return($return_no) {
 		mysqli_query($conn, $query);
 	}
 }
+
+function update_inventory_after_returns_in_branch($return_no, $branch) {
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+
+	$result = mysqli_query($conn, "SELECT * FROM return_has_items WHERE return_no='$return_no' AND saved='0' AND cancel_status='0'");
+	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+		
+		$product_id = $row['product_id'];
+		$quantity = $row['quantity'];
+		
+		$multiple_info=get_multiple_stock_by_product_id($product_id);
+		$info = get_inventory_info_by_product_id_in_branch($product_id, $branch);
+		$info2= get_inventory_info_by_product_id_in_inventory($product_id);
+         if($row['product_name']!='COMMON ITEM'){
+				$old_quantity = $info['stock'];
+				$item_type=$info2['item_type'];
+				echo $item_type;
+				if($item_type!= 'TEMP'){
+					$new_quantity = $old_quantity + $quantity;
+				}
+				else{
+					$new_quantity = $old_quantity;
+				}
+				if(check_multiple_stock_has_inventory($product_id, $branch)==1){
+						
+				$query = "UPDATE multiple_stock_has_inventory SET
+						stock='$new_quantity'
+						WHERE product_id='$product_id' AND branch='$branch'";
+						mysqli_query($conn, $query);
+				}
+				else{
+					$location='common';
+					save_items($product_id,$info2['product_name'],$quantity,$location);
+				}
+			}
+			
+			else{
+			}
+	}
+		$ref_type='Sales';
+		
+		if($info['reorder']>= $new_quantity){
+			reorder_level_check($product_id,$branch,$new_quantity,$info2['product_name'],$info['reorder'], $sales_no, $ref_type);
+		}
+		else{
+		}
+		
+		include 'conf/closedb.php';
+	}
+
+	
 
 function coustom_inventory_report($product_name, $supplier, $qty_less_than, $qty_more_than, $bp_less_than, $bp_more_than, $sp_less_than, $sp_more_than, $purchased_after, $purchased_before) {
 	include 'conf/config.php';
@@ -1411,6 +1517,59 @@ function without_sales() {
 
 }
 
+
+function list_inventory() {
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+	
+	echo'<div class="box-body"> 
+                        <table id="example1" style="width: 100%;" class=" table-responsive table-bordered table-striped dt-responsive" cellspacing="0">
+                              <thead>
+                                  <tr style="height: 30px;">
+                                    <th>Edit</th>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Stock</th>
+                                    <th>S.Price</th>
+                                    <th>B.Price</th>
+                                    <th>P.Date</th>
+                                    
+                                    <th></th>                  
+                                  </tr>
+                              </thead>
+                              <tbody>';
+	$result = mysqli_query($conn, "SELECT * FROM inventory WHERE cancel_status='0' ORDER BY id DESC LIMIT 100");
+	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+		echo '
+				<tr>
+					<td><a href="inventory.php?job=edit&id=' . $row[id] . '"  ><i class="fa fa-pencil-square-o"></i></a></td>
+					<td>' . $row[product_id] . '</td>					
+					<td>' . $row[product_name] . '</td>
+							
+					<td align="right">' . $row[quantity] . '</td>
+				';
+		if ($row[selling_price] == 0) {
+			echo '
+						<td style="background-color:#920606; color:white;" align="right">' . $row[selling_price] . '</td>';
+		} else {
+			echo '
+						<td align="right">' . $row[selling_price] . '</td>';
+		}
+		echo '
+					<td align="right">' . $row[buying_price] . '</td>
+				
+					<td align="center">' . $row[purchased_date] . '</td>
+				
+					
+					<td><a href="html/BCGcode39.php?barcode=' . $row[barcode] . '&product_id=' . $row[product_id] . '&price=' . $row[selling_price] . '&name=' . $row[product_name] . '&type=' . $row[type] . '" target="blank" class="btn btn-sm btn-success" style="height: 30px; padding: 2px;">Print</a></td>
+				</tr>';
+	}
+	echo '</tbody></table></div></div>';
+
+	include 'conf/closedb.php';
+}
+
+
 function update_temp_catagory(){
 	include 'conf/config.php';
 	include 'conf/opendb.php';
@@ -1796,4 +1955,21 @@ function count_stock($product_id){
 		}
 			
 
+}
+
+
+function list_inventory_label($product_id){
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+	
+	$result=mysqli_query($conn, "SELECT * FROM label WHERE product_id='$product_id' )" );
+	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+	{
+		$label = $row ['label'];
+
+		$i ++;
+
+	}
+	
+		return $label;
 }
