@@ -314,7 +314,8 @@ function save_sales($sales_no, $date, $customer_name, $prepared_by, $remarks,$di
 	include 'conf/opendb.php';
 
 	$date = date("Y-m-d", strtotime($date));
-	
+	echo "INSERT INTO sales (id, sales_no, customer_name, prepared_by, remarks, date, total, due, customer_amount,total_after_discount, discount, balance, payment_type, gift_card_no)
+	VALUES ('', '$sales_no', '$customer_name', '$prepared_by', '$remarks', '$date', '$total', '$total', '$customer_amount','$total_after_discount', '$discount', '$balance','$payment_type', '$gift_card_no')";
 	mysqli_select_db($conn_for_changing_db, $dbname);
 	$query = "INSERT INTO sales (id, sales_no, customer_name, prepared_by, remarks, date, total, due, customer_amount,total_after_discount, discount, balance, payment_type, gift_card_no)
 	VALUES ('', '$sales_no', '$customer_name', '$prepared_by', '$remarks', '$date', '$total', '$total', '$customer_amount','$total_after_discount', '$discount', '$balance','$payment_type', '$gift_card_no')";

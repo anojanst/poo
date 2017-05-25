@@ -6,6 +6,7 @@ include 'functions/ledger_functions.php';
 include 'functions/user_functions.php';
 include 'functions/navigation_functions.php';
 include 'functions/multiple_stock_functions.php';
+include 'functions/gift_voucher_functions.php';
 
 $module_no = 3;
 
@@ -121,7 +122,6 @@ if ($_SESSION['login'] == 1) {
 
                         add_sales_item($product_id, $product_name, $stock, $selling_price, $discount, $_SESSION['sales_no']);
                         $total_to_ledger = ($selling_price / 100) * (100 - $discount);
-                        echo $total_to_ledger;
                         add_sales_items_ledger($_SESSION['sales_no'], $product_id, $total_to_ledger);
 
                     }
@@ -680,11 +680,7 @@ if ($_SESSION['login'] == 1) {
                         $balance=$customer_amount-$total_after_discount;
                         save_sales($sales_no, $date, $customer_name, $prepared_by, $remarks,$discount,$customer_amount, $total_after_discount, $total,$balance, $payment_type, $gift_card_no);
                         add_sales_ledger($sales_no);
-                        $info=get_sales_info_by_sales_no($sales_no);
-                        if($info['payment_type']=='CASH' || $info['payment_type']=='CARD') {
-                            add_sales_payment_ledger($sales_no);
-                        }
-                        else{}
+                        add_sales_quick_payment_ledger($sales_no);
                         $branch=$_SESSION['branch'];
                         update_inventory_after_sales($_SESSION['sales_no']);
                         update_inventory_after_sales_in_branch($sales_no, $branch);
