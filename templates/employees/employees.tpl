@@ -39,23 +39,12 @@ $(function () {
 <section class="content">
 	<div class="nav-tabs-custom">
 		<div class="tab-content">															
-            <div class="row">
-                <form action="employees.php?job=search" method="post" class="search">
-                    <div class="col-lg-4"></div>
-                    <div class="col-lg-4" style="padding-left: 170px; margin-top: -10px; ">
-                        <h5 width="80">Add New Employee
+            <div class="row" style="margin-left: 5px;">
+                
                             <a href="employees.php?job=add_new">
-                                <img alt="add" src="./images/add.png">
-                            </a>
-                        </h5>&nbsp;
-                    </div>
-                    <div class="col-lg-3" style="margin-left: -20px;">
-                        <input type="text" class='auto form-control' name="search" value="{$search}" size="27" placeholder="Search"/> 
-                    </div>	
-                    <div class="col-lg-1" style="margin-left: -10px;">	
-                        <input type="image" src="./images/search.png" height="28" width="28"/>
-                    </div>		
-                </form>					
+                                <input type="submit" class="btn btn-primary" name="add" value="Add New Employee"/> 
+							</a>	
+                         		
             </div>
             <div class="row">
                 {php}list_employees();{/php}

@@ -33,7 +33,7 @@
 			
 			<div class="row">
 				<div class="col-lg-12">
-					<h3><strong>Transfer From Store</strong></h3>
+					<h3><strong>Transfer In Store</strong></h3>
 				</div>
 			</div>
             
@@ -48,7 +48,7 @@
             <div>
 				<form action="transfer.php?job=from_store_search" method="post" class="search">
 					 <div class="row">
-							<div class="col-lg-3">	
+							<div class="col-lg-2">	
 								<div class="form-group">
 									<input type="text" id="branch" class='form-control' name="from_branch" value="{$from_branch}" placeholder="Branch"/> 
 								</div>
@@ -65,6 +65,9 @@
 							</div>
 							<div class="col-lg-2">
 								<button type="submit" name="ok" value="Search" class="btn btn-primary">Search</button>
+							</div>
+							<div class="col-lg-1">
+								<a href="reports.php" class="btn btn-primary">Back</a>
 							</div>
 						 </div>			
 				</form>

@@ -20,17 +20,27 @@
     <div class="nav-tabs-custom">
         <!-- Tabs within a box -->
         <div class="tab-content">
-            <form id="add_multiple_stock" method="post" class="product" action="multiple_stock.php?job=save" enctype="multipart/form-data"> 
-                <div class="row">
-                    <form action="multiple_stock.php?job=product_details"  name="select_item_form" method="post" >
-                        <div class="col-lg-8">
-                            <input class="form-control" type="text" value="{$product_name}" id="product_name" name="product_name" placeholder="Product Name"  required>
-                        </div>
-                        <div class="col-lg-4">
-                            <input type="submit" name="ok" value="Next"/>
-                        </div>
-                    </form>
-                </div>
+            <!--<a href="#demo" data-toggle="collapse">-->
+            <div class="row">
+				<form action="multiple_stock.php?job=barcode" name="select_item_form" method="post" >
+					<div class="col-lg-3">
+						<input type="text" class="form-control" name="barcode" placeholder="For Barcode" autofocus tabindex="1" onchange="this.form.submit()"/> 
+					</div>
+				</form>
+						
+                <form action="multiple_stock.php?job=product_details"   name="select_item_form" method="post" >
+                    <div class="col-lg-7">
+                        <input class="form-control" type="text" value="{$product_name}" id="product_name" name="product_name" placeholder="Product Name"  required>
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="submit" name="ok" value="Next" class="btn btn-primary"/>
+                    </div>
+                </form>
+            </div>
+            </a>
+            {if $display=="on"}
+            <!--<div id="demo" class="collapse row" style="margin-top: 10px;">-->
+            <form id="add_multiple_stock" method="post" class="product" action="multiple_stock.php?job=save" enctype="multipart/form-data">
                 <div class="row" style="margin-top: 10px;">
                     <div class="col-lg-4">
                         <select class="form-control" name="branch" value="{$branch}"  required>
@@ -55,18 +65,22 @@
                     </div>
                 </div>
 
-            <div class="row" style="margin-top: 10px;">
-                <div class="col-lg-3" >
-                    <input type="submit" value="Save" />
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-lg-3" >
+						<input class="btn btn-primary" type="submit" name="ok" value="Save" />
+                        
+                    </div>
+                   
                 </div>
-                <div class="col-lg-9"></div>
-            </div>
+                
+            </form>
+            {/if}
+            
             <div class="row" style="margin-top: 10px;">
-                <div class="col-lg-12">
-                    {php}list_multiple_stock();{/php}
+                    <div class="col-lg-12">
+                        {php}list_multiple_stock();{/php}
+                    </div>
                 </div>
-            </div>
-        </form>
         </div>
     </div>
 </section>

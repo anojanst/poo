@@ -4,9 +4,8 @@
 {literal}
 <script>
 	$(document).ready(function() {
-		$('input.product').typeahead({
-			name: 'product',
-			remote: 'ajax/query_inventory.php?query=%QUERY'
+		$('#product_name').autocomplete({
+			source: 'ajax/query_transfer.php?query=%QUERY'
 		});
 	})
 </script>
@@ -40,7 +39,7 @@
 						</div>
 						<div class="col-lg-4">
 							<form action="quotation.php?job=select" name="select_item_form" method="post">
-								<input type="text" class="form-control product" name="selected_item" placeholder="Select Items"/>														
+								<input type="text" class="form-control product" id="product_name" name="selected_item" placeholder="Select Items"/>														
 						</div>
 						<div class="col-lg-4">
 								<input type="submit" class="btn btn-primary" name="add" value="Add"/> &nbsp; &nbsp; &nbsp; &nbsp;

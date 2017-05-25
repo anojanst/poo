@@ -272,6 +272,71 @@ if ($_SESSION['login'] == 1) {
 		$smarty->display('quotation/quotation.tpl');
 	
 	}
+	
+	elseif ($_REQUEST['job']=='select'){
+	
+		
+		$selected_item=$_POST['selected_item'];
+
+		if (!isset($_SESSION['quotation_no'])) {
+			$_SESSION['quotation_no']=$quotation_no=get_quotation_no();
+		}
+		else{
+		}
+		$quotation_no=$_SESSION['quotation_no'];
+		$quotation_info=get_quotation_info_by_quotation_no($quotation_no);
+
+		$info=get_item_info_by_name($selected_item);
+		$product_name=$info['product_name'];
+        $product_id=$info['product_id'];
+		//$stock=get_total_stock($info['product_id']);
+		$quantity=get_quantity($product_id, $_SESSION['quotation_no'])+1;
+
+		
+		if(check_added_items($product_id, $_SESSION['quotation_no'])==1){
+			$info_for_quotation_has_items=get_product_info_from_quotation_has_items($product_id, $quotation_no);
+			$selling_price=$info_for_quotation_has_items['selling_price'];
+			$discount=$info_for_quotation_has_items['discount'];
+            $quantity=$quantity+1;
+			$item_total=($quantity*$selling_price/100)*(100-$discount);
+			
+				if($_SESSION['edit']==1 && $info_for_quotation_has_items['saved']==1){
+					reupdate_inventory($product_id, $info_for_quotation_has_items['quantity'], $stock);
+				}
+				else{
+				}
+				update_quotation_item_for_repeative_adding($product_id, $quantity, $item_total);
+
+		}
+		else{
+			$discount=$info['discount'];
+			$selling_price=$info['selling_price'];
+						
+				add_quotation_item($selected_item, $product_name, $stock, $selling_price, $discount, $_SESSION['quotation_no']);
+				//$total_to_ledger=($selling_price/100)*(100-$discount);
+                //add_quotation_items_ledger($_SESSION['quotation_no'], $product_id, $total_to_ledger);
+                
+		}
+
+		$smarty->assign('customer_name',"$quotation_info[customer_name]");
+		$smarty->assign('date',"$quotation_info[date]");
+		$smarty->assign('remarks',"$quotation_info[remarks]");
+		$smarty->assign('quotation_no',"$_SESSION[quotation_no]");
+		if($_SESSION['edit']==1){
+			$smarty->assign('edit_mode',"on");
+			$smarty->assign('prepared_by',"$quotation_info[prepared_by]");
+			$smarty->assign('updated_by',"$_SESSION[user_name]");
+		}
+		else{
+			$smarty->assign('prepared_by',"$_SESSION[user_name]");
+		}
+		$smarty->assign('org_name',"$_SESSION[org_name]");
+		$smarty->assign('total',get_total_quotation($_SESSION['quotation_no']));
+		$smarty->assign('page',"quotation");
+		$smarty->display('quotation/quotation.tpl');
+	
+	
+	}
 
 	elseif ($_REQUEST['job']=='delete'){
 		$module_no = 103;

@@ -163,7 +163,7 @@ function list_item_by_quotation($quotation_no){
 	{
 		echo'<tr>
 		<form name="update_item" action="quotation.php?job=update_item&product_id='.$row[product_id].'" method="post">
-		<td align="center" ><a href="quotation.php?job=delete_item&id='.$row[id].'" ><img src="images/close.png" alt="Delete" /></a></td>'."
+		<td align="center" ><a href="quotation.php?job=delete_item&id='.$row[id].'" ><i class="fa fa-times fa-2x"></i></a></td>'."
 		<td>".$row[product_name]."</td>
 		<td align='right'><input type='text' name='selling_price' value=".$row[selling_price]." size='10' style='color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;'/></td>
 		<td align='right'><input type='text' name='quantity' value=".$row[quantity]." size='6' style='color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;'/></td>

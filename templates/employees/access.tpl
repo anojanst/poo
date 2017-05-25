@@ -1,21 +1,65 @@
 {include file="home_header.tpl"}
 {include file="navigation.tpl"}
-	<div id="contents">
-		<div  style="min-height: 300px;">
-			<div style="width: 99%; margin-right: 10px;">
-				<h4 style="margin-top: -10px;">Add or Remove Permissions</h4>
-				<a href="employees.php"><p style="color: orange; margin-top: -45px; margin-left: 720px;" >Back To Employees Page.</p></a>
-			</div>
-			<div style="width: 99%; background-color: #eee; color: black; text-align: center; height: 30px; margin-top: -20px; margin-bottom: 10px; border-radius: 10px; padding-top: 2px;">
-				<strong>User Name : </strong>{$full_name}
-			</div>
-			<div style="width: 49%; float: left; margin-right: 27px;">
-				{php}list_not_user_module($_SESSION['id']);{/php}
-			</div>
-			<div style="width: 47%; float: left;">
-				{php}list_user_module($_SESSION['id']);{/php}				
-			</div>
+
+<section class="content">
+	<div class="nav-tabs-custom">
+		<div class="tab-content">
+			<div>
+				<div class="row">
+					<div class="col-lg-12" style="margin-top: -20px;">
+						<h3><strong>Add or Remove Permissions</strong></h3>
+					</div>
+				</div>
+            	<div class="row" style="margin-top: 20px; margin-left: 10px;">
+					{if $error_report=='on'}
+						<div class="error_report" style="margin-bottom: 50px;">
+							<strong>{$error_message}</strong>
+						</div>
+					{/if}
+				</div>
+
+
+				<div class="row">
+					<div class="col-lg-12">
+				
+						<div class="col-lg-6">
+							<table class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>Module Name</th>
+										<th>Grant Permission</th>
+									</tr>
+								</thead>
+								<tbody>
+								{php}list_not_user_module($_SESSION['id']);{/php}
+			
+								</tbody>
+							</table>
+						</div>
+
+						<div class="col-lg-6">
+							<table class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>Module Name</th>
+										<th>Deny Permission</th>
+									</tr>
+								</thead>
+								<tbody>
+								{php}list_user_module($_SESSION['id']);{/php}	
+			
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+				</div>
+
+			</div>                    
 		</div>
 	</div>
+</section>
+
+
 
 {include file="js_footer.tpl"}

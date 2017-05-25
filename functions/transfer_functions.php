@@ -56,6 +56,19 @@ function save_transfer_has_items($transfer_no, $product_id, $product_name, $quan
 	include 'conf/closedb.php';
 }
 
+function update_transfer_has_items($transfer_no, $product_id, $product_name, $quantity) {
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+
+
+	mysqli_select_db($conn_for_changing_db, $dbname);
+	$query = "UPDATE transfer_has_items SET
+	quantity='$quantity'
+	WHERE product_id='$product_id' AND transfer_no='$transfer_no'";
+	mysqli_query($conn, $query);
+
+	include 'conf/closedb.php';
+}
 
 
 
@@ -71,6 +84,22 @@ function get_stock_by_branch_product_id($product_id, $to_branch) {
 	include 'conf/closedb.php';
 }
 
+function check_product_name($product_name) {
+
+		include 'conf/config.php';
+		include 'conf/opendb.php';
+		
+		if(mysqli_num_rows(mysqli_query($conn, "SELECT * FROM inventory WHERE product_name='$product_name'"))){
+			return 1;
+		}
+		else{
+			return 0;
+		}
+
+		include 'conf/closedb.php';
+}
+
+
 function list_item_by_transfer($transfer_no){
 	include 'conf/config.php';
 	include 'conf/opendb.php';
@@ -78,11 +107,15 @@ function list_item_by_transfer($transfer_no){
 	$result=mysqli_query($conn, "SELECT * FROM transfer_has_items WHERE transfer_no='$transfer_no' ");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
-		echo'<tr>
-            <td align="center" ><a href="transfer.php?job=delete_item&id='.$row[id].'" ><img src="images/close.png" alt="Delete" /></a></td>		
+		echo'
+	<tr>
+		<form name="update_item" action="transfer.php?job=update_item&product_id='.$row[product_id].'" method="post">		
+		    <td align="center" ><a href="transfer.php?job=delete_item&id='.$row[id].'"onclick="javascript:return confirm(\'Are you sure you want to delete this entry?\')"><i class="fa fa-times fa-2x"></i></a></td>		
 		    <td>'.$row[product_name].'</td>
-            <td>'.$row[quantity].'</td>	
-		</tr>';
+            <td> <input type="text" name="quantity" value="'.$row[quantity].'" size="6" style="color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;"/></td>
+            <td align="right"><input type="submit" name="update" value="Update" size="9" class="more" style="width: 70px; border: 0; padding: 1.5px;"/></td>			
+         </form>   		
+	</tr>';
 	}
 	include 'conf/closedb.php';
 
@@ -129,24 +162,53 @@ function update_stock($to_branch, $transfer_no ){
 				$quantity=$row2['quantity'];
 				
 				$info =get_stock_by_branch_product_id($product_id, $_SESSION['branch']);
+				$info3=get_item_info_by_name($product_id);
+				$product_name=$info3['product_name'];
 				$stock=$info['stock'];
 				$new_stock= $stock-$quantity;
+				if($new_stock<0){
+					$new_stock=0;
+				}else{
+					$new_stock;
+				}
+				$reorder=$new_stock*0.1;
+				if($info){
+					mysqli_select_db($conn_for_changing_db, $dbname);
+					$query = "UPDATE multiple_stock_has_inventory SET
+					stock='$new_stock',
+					reorder='$reorder'
+					WHERE product_id='$product_id' AND branch='$_SESSION[branch]'";
+					mysqli_query($conn, $query);
+				}else{
+					mysqli_select_db ( $conn, $dbname );
+					$query = "INSERT INTO multiple_stock_has_inventory (id,product_id, product_name, branch,stock,reorder) 
+					VALUES ('','$product_id','$product_name', '$_SESSION[branch]','0','0')";
 				
-				mysqli_select_db($conn_for_changing_db, $dbname);
-				$query = "UPDATE multiple_stock_has_inventory SET
-				stock='$new_stock'
-				WHERE product_id='$product_id' AND branch='$_SESSION[branch]'";
-				mysqli_query($conn, $query);
+					mysqli_query ($conn, $query ) or die ( mysqli_connect_error () );
+				}
 				
 				$info2 =get_stock_by_branch_product_id($product_id, $to_branch);
+				$info3=get_item_info_by_name($product_id);
+				$product_name=$info3['product_name'];
 				$stock2=$info2['stock'];
 				$new_stock2= $stock2+$quantity;
+				$reorder2= $new_stock2*0.1;
+				if($info2){
+					mysqli_select_db($conn_for_changing_db, $dbname);
+					$query = "UPDATE multiple_stock_has_inventory SET
+					stock='$new_stock2',
+					reorder='$reorder2'
+					
+					WHERE product_id='$product_id' AND branch='$to_branch'";
+					mysqli_query($conn, $query);
+				}else{
+					
+					mysqli_select_db ( $conn, $dbname );
+					$query = "INSERT INTO multiple_stock_has_inventory (id,product_id, product_name, branch,stock,reorder) 
+					VALUES ('','$product_id','$product_name', '$to_branch','$new_stock2','$reorder2')";
 				
-				mysqli_select_db($conn_for_changing_db, $dbname);
-				$query = "UPDATE multiple_stock_has_inventory SET
-				stock='$new_stock2'
-				WHERE product_id='$product_id' AND branch='$to_branch'";
-				mysqli_query($conn, $query);
+					mysqli_query ($conn, $query ) or die ( mysqli_connect_error () );
+				}
 				
 		}
 	}

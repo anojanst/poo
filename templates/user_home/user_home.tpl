@@ -1,103 +1,235 @@
 {include file="home_header.tpl"}
 {include file="navigation.tpl"}
-<section class="content">
+
+<section class="content" style="margin-bottom: -30px;">
+	<div class="row">
+
+		<!-- /.col -->
+
+		<div class="col-md-6">
+			<!-- USERS LIST -->
+			<div class="box box-danger">
+				<div class="box-header with-border">
+					<h3 class="box-title">Inventory</h3>
+
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+						</button>
+					</div>
+				</div>
+				<!-- /.box-header -->
+				<div class="box-body no-padding">
+					<ul class="users-list clearfix">
+						<li>
+							<a class="users-list-name" href="inventory.php">
+								<img src="dist/img/view.png" alt="User Image">
+								<a class="users-list-name" href="inventory.php">View</a>
+							</a>
+						</li>
+						<li>
+							<a class="users-list-name" href="inventory.php?job=add_new">
+								<img src="dist/img/Add.png" alt="User Image">
+								<a class="users-list-name" href="inventory.php?job=add_new">Add</a>
+							</a>
+						</li>
+						<li>
+							<a class="users-list-name" href="multiple_stock.php">
+								<img src="dist/img/abc.png" alt="User Image">
+								<a class="users-list-name" href="multiple_stock.php">Stock</a>
+							</a>
+						</li>
+						<li>
+							<a class="users-list-name" href="transfer.php">
+								<img src="dist/img/Transfer.png" alt="User Image">
+								<a class="users-list-name" href="transfer.php">Transfer</a>
+							</a>
+						</li>
+					</ul>
+					<!-- /.users-list -->
+				</div>
+
+			</div>
+			<!--/.box -->
+		</div>
+		<!-- /.col -->
+
+		<div class="col-md-6">
+			<!-- USERS LIST -->
+			<div class="box box-danger">
+				<div class="box-header with-border">
+					<h3 class="box-title">Operations</h3>
+
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+						</button>
+					</div>
+				</div>
+				<!-- /.box-header -->
+				<div class="box-body no-padding">
+					<ul class="users-list clearfix">
+						<li>
+							<a class="users-list-name" href="sales.php?job=must_new">
+								<img src="dist/img/report-512.png" alt="User Image">
+								<a class="users-list-name" href="sales.php?job=must_new">Sales</a>
+							</a>
+						</li>
+						<li>
+							<a class="users-list-name" href="return.php">
+								<img src="dist/img/r_sa.png" alt="User Image">
+								<a class="users-list-name" href="return.php">Return Sales</a>
+							</a>
+						</li>
+						<li>
+							<a class="users-list-name" href="purchase_order.php">
+								<img src="dist/img/61452-200.png" alt="User Image">
+								<a class="users-list-name" href="purchase_order.php">Purcharse</a>
+							</a>
+						</li>
+						<li>
+							<a class="users-list-name" href="quotation.php?job=quotation_page">
+								<img src="dist/img/qua.png" alt="User Image">
+								<a class="users-list-name" href="quotation.php?job=quotation_page">Quoatation</a>
+							</a>
+						</li>
+					</ul>
+					<!-- /.users-list -->
+				</div>
+
+			</div>
+			<!--/.box -->
+		</div>
+	</div>
+</section>
+
+<section class="content" xmlns="http://www.w3.org/1999/html">
 	<div class="nav-tabs-custom">
 		<div class="tab-content">
 			<div id="contents">
 				<div class="user_home">
 					<div id="navigation_user">
-						<div class="row" >
-							<div class="col-lg-3">
-								<a href="detail.php" class="title">
-									<img src="./images/settings.png"/>
-									<p class="home_icon">User Settings</p>
-									<p class="home_icon_detail">Customize your</p>
-									<p class="home_icon_detail">details</p>
-								</a>
-							</div>
-							<div class="col-lg-3">
-								<a href="inventory.php" class="title">
-									<img src="./images/cabin.png"/>
-									<p class="home_icon">Inventory</p>
-									<p class="home_icon_detail">Manage your stock</p>
-								</a>
-							</div>
-							<div class="col-lg-3">
+						<div class="row">
+							<div class="col-md-3 col-sm-6 col-xs-12">
 								<a href="sales.php" class="title">
-									<img src="./images/sales.png" width="48" height="48"/>
-									<p class="home_icon">Sales</p>
-									<p class="home_icon_detail"  style="width: 150px;">Manage sales & return</p> 	
+          						<div class="info-box">
+            						<span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+
+            						<div class="info-box-content">
+              							<span class="info-box-number">Sales</span>
+              							<span class="info-box-text">Manage sales </br>& return</span>
+            						</div>
+           	 						<!-- /.info-box-content -->
+          						</div>
+          						<!-- /.info-box -->
 								</a>
-							</div>
-							<div class="col-lg-3">
+        					</div>
+
+							<div class="col-md-3 col-sm-6 col-xs-12">
 								<a href="purchase_order.php" class="title">
-									<img src="./images/purchase.png" width="48" height="48"/>
-									<p class="home_icon">Purchase Orders</p>
-									<p class="home_icon_detail" style="width: 150px;">Manage your purchases</p>
+          						<div class="info-box">
+            						<span class="info-box-icon bg-yellow"><i class="fa fa-area-chart"></i></span>
+
+            						<div class="info-box-content">
+              							<span class="info-box-number">Purchase Orders</span>
+              							<span class="info-box-text">Manage your</br> purchases</span>
+            						</div>
+           	 						<!-- /.info-box-content -->
+          						</div>
+          						<!-- /.info-box -->
 								</a>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-3">
+        					</div>
+
+<!----- fin first line -->
+
+							<div class="col-md-3 col-sm-6 col-xs-12">
 								<a href="payment.php" class="title">
-									<img src="./images/pay.png" width="48" height="48"/>
-									<p class="home_icon">Payments</p>
-									<p class="home_icon_detail">Receive & make</p>
-									<p class="home_icon_detail">payments</p>
+          						<div class="info-box">
+            						<span class="info-box-icon bg-navy"><i class="fa fa-money"></i></span>
+
+            						<div class="info-box-content">
+              							<span class="info-box-number">Payments</span>
+              							<span class="info-box-text">Receive & make</br> payments</span>
+            						</div>
+           	 						<!-- /.info-box-content -->
+          						</div>
+          						<!-- /.info-box -->
 								</a>
-							</div>
-							<div class="col-lg-3">
+        					</div>
+
+							<div class="col-md-3 col-sm-6 col-xs-12">
 								<a href="confirm.php" class="title">
-									<img src="./images/stamp.png" width="48" height="48"/>
-									<p class="home_icon">Confirms</p>
-									<p class="home_icon_detail">Confirm Purchases</p>									
+          						<div class="info-box">
+            						<span class="info-box-icon bg-lime"><i class="fa fa-check-square-o"></i></span>
+
+            						<div class="info-box-content">
+              							<span class="info-box-number">Confirms</span>
+              							<span class="info-box-text">Confirm  </br> Purchases</span>
+            						</div>
+           	 						<!-- /.info-box-content -->
+          						</div>
+          						<!-- /.info-box -->
 								</a>
-							</div>
-							<div class="col-lg-3">
-									<a href="reports.php" class="title">
-											<img src="./images/chart.png" width="48" height="48"/>
-											<p class="home_icon">Reports</p>
-											<p class="home_icon_detail"  style="width: 150px;">Generate & view report</p>
-									</a>
-							</div>
-							<div class="col-lg-3">				
-								<a href="chart_of_accounts.php" class="title">										
-									<img src="./images/man.png"/>
-									<p class="home_icon">Chart of Accounts</p>
-									<p class="home_icon_detail"  style="width: 150px;">Manage your accounts</p>										
-                                </a>
-							</div>
+        					</div>
 						</div>
 						<div class="row">
-							<div class="col-lg-3">								
-								<a href="employees.php" class="title">								
-									<img src="./images/supplier.png" width="48" height="48"/>
-									<p class="home_icon">Employees</p>
-									<p class="home_icon_detail">Employees Details</p>								
+							<div class="col-md-3 col-sm-6 col-xs-12">
+								<a href="reports.php" class="title">
+          						<div class="info-box">
+            						<span class="info-box-icon bg-Gray"><i class="fa fa-file-word-o"></i></span>
+
+            						<div class="info-box-content">
+              							<span class="info-box-number">Reports</span>
+              							<span class="info-box-text">Generate &  </br>view report</span>
+            						</div>
+           	 						<!-- /.info-box-content -->
+          						</div>
+          						<!-- /.info-box -->
 								</a>
-							</div>
-							<div class="col-lg-3">				
-								<a href="reciept.php" class="title">								
-									<img src="./images/bank.png" width="48" height="48"/>
-									<p class="home_icon">Bank</p>
-									<p class="home_icon_detail">Bank Reconcilation</p>
+        					</div>
+
+							<div class="col-md-3 col-sm-6 col-xs-12">
+								<a href="chart_of_accounts.php" class="title">	
+          						<div class="info-box">
+            						<span class="info-box-icon bg-navy"><i class="fa fa-credit-card-alt"></i></span>
+
+            						<div class="info-box-content">
+              							<span class="info-box-number">Chart of Accounts</span>
+              							<span class="info-box-text">Manage your</br> accounts</span>
+            						</div>
+           	 						<!-- /.info-box-content -->
+          						</div>
+          						<!-- /.info-box -->
 								</a>
-							</div>
-							<div class="col-lg-3">								
-								<a href="gift.php" class="title">								
-									<img src="./images/gift.png" width="48" height="48"/>
-									<p class="home_icon">Gift</p>
-									<p class="home_icon_detail">Gift Voucher</p>
-									<p class="home_icon_detail">Management.</p>
+        					</div>
+<!-- ---------- fin 2nd line --------------->
+							<div class="col-md-3 col-sm-6 col-xs-12">
+								<a href="employees.php" class="title">	
+          						<div class="info-box">
+            						<span class="info-box-icon bg-aqua"><i class="fa fa-users"></i></span>
+
+            						<div class="info-box-content">
+              							<span class="info-box-number">Employees</span>
+              							<span class="info-box-text">Employees  </br> Details</span>
+            						</div>
+           	 						<!-- /.info-box-content -->
+          						</div>
+          						<!-- /.info-box -->
 								</a>
-							</div>
-							<div class="col-lg-3">								
-								<a href="./login.php?job=logout" class="title">								
-									<img src="./images/logout.png" width="48" height="45"/>
-									<p class="home_icon">logout</p>
+        					</div>
+							<div class="col-md-3 col-sm-6 col-xs-12">
+								<a href="./login.php?job=logout" class="title">	
+          						<div class="info-box">
+            						<span class="info-box-icon bg-red"><i class="fa fa-sign-out"></i></span>
+
+            						<div class="info-box-content">
+              							<span class="info-box-number">Logout</span>
+              							
+            						</div>
+           	 						<!-- /.info-box-content -->
+          						</div>
+          						<!-- /.info-box -->
 								</a>
-							</div>							
-						</div
+        					</div>
+						</div>
 					</div>
 				</div>
 			</div>

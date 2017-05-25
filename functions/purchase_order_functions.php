@@ -50,6 +50,10 @@ function save_item($product_id, $product_name, $quantity, $buying_price, $catago
 	$date = date("Y-m-d");
 	$total = $quantity*$buying_price;
 	mysqli_select_db($conn_for_changing_db, $dbname);
+	
+	echo "INSERT INTO purchase_order_has_items (id, product_id, product_name, quantity, buying_price, date, catagory, product_description, measure_type, purchase_order_no, user_name, total)
+	VALUES ('', '$product_id', '$product_name', '$quantity', '$buying_price', '$date', '$catagory', '$product_description', '$measure_type', '$purchase_order_no', '$user_name', '$total')";
+	
 	$query = "INSERT INTO purchase_order_has_items (id, product_id, product_name, quantity, buying_price, date, catagory, product_description, measure_type, purchase_order_no, user_name, total)
 	VALUES ('', '$product_id', '$product_name', '$quantity', '$buying_price', '$date', '$catagory', '$product_description', '$measure_type', '$purchase_order_no', '$user_name', '$total')";
 	mysqli_query($conn, $query) or die (mysqli_error($conn));
@@ -61,7 +65,7 @@ function list_item_by_purchase_order($purchase_order_no){
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 
-	$result=mysqli_query($conn, "SELECT * FROM purchase_order_has_items WHERE purchase_order_no='$purchase_order_no' AND cancel_status='0' ORDER BY id ASC LIMIT 500");
+	$result=mysqli_query($conn, "SELECT * FROM purchase_order_has_items WHERE purchase_order_no='$purchase_order_no' AND cancel_status='0' ORDER BY id ASC");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo"<table>
@@ -183,7 +187,7 @@ function list_purchase_order_search($purchase_order_no_search, $supplier_search)
 	</thead>
 	<tbody valign="top">';
 
-	$result=mysqli_query($conn, "SELECT * FROM purchase_order WHERE $suppier_check $and $purchase_order_no_check AND cancel_status='0' ORDER BY id DESC LIMIT 500");
+	$result=mysqli_query($conn, "SELECT * FROM purchase_order WHERE $suppier_check $and $purchase_order_no_check AND cancel_status='0' ORDER BY id DESC");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo '
@@ -346,5 +350,139 @@ function get_purchase_order_item_id($purchase_order_no) {
 		return $row['MAX(id)'];
 	}
 	
+	include 'conf/closedb.php';
+}
+
+function check_purchase_added_items($product_id, $purchase_order_no){
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+
+	$result=mysqli_query($conn, "SELECT count(id) FROM purchase_order_has_items WHERE product_id='$product_id' AND purchase_order_no='$purchase_order_no' AND cancel_status='0'");
+	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+	{
+		if ($row['count(id)'] >=1) {
+			return 1;
+		}
+		else{
+			return 0;
+		}
+	}
+
+	include 'conf/closedb.php';
+}
+
+
+function get_product_info_from_purchase_has_items($product_id, $purchase_order_no){
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+
+	$result=mysqli_query($conn, "SELECT * FROM purchase_order_has_items WHERE product_id='$product_id' AND purchase_order_no='$purchase_order_no'");
+	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+	{
+		return $row;
+	}
+	include 'conf/closedb.php';
+}
+
+
+function get_purchase_quantity($product_id, $purchase_order_no){
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+
+	$result=mysqli_query($conn, "SELECT sum(quantity) as total FROM purchase_order_has_items WHERE product_id='$product_id' AND purchase_order_no='$purchase_order_no' AND cancel_status='0'");
+	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+	{
+		$total=$row[total];
+	}
+
+	return $total;
+
+	include 'conf/closedb.php';
+}
+
+
+function update_purchase_item_for_repeative_adding($product_id, $quantity, $item_total){
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+	
+	mysqli_select_db($conn_for_changing_db, $dbname);
+	$query = "UPDATE purchase_order_has_items SET
+	quantity='$quantity',
+	total='$item_total',
+	saved='0'
+	WHERE product_id='$product_id' AND cancel_status='0'";
+	mysqli_query($conn, $query);
+
+	include 'conf/closedb.php';
+}
+
+
+function list_item_by_purchase($purchase_order_no){
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+
+	$result=mysqli_query($conn, "SELECT * FROM purchase_order_has_items WHERE purchase_order_no='$purchase_order_no' AND cancel_status='0' ORDER BY id ASC");
+	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+	{
+		echo'<tr>
+		<form name="update_item" action="purchase_order.php?job=update_item&id='.$row[id].'&product_id='.$row[product_id].'" method="post">
+			
+			<td align="center" ><a href="purchase_order.php?job=delete_item&id='.$row[id].'" ><i class="fa fa-times fa-2x"></i></a></td>'."
+			
+			<td>".$row[product_name]."</td>
+			
+			<td align='right'>".$row[buying_price]."<input type='hidden' name='buying_price' value=".$row[buying_price]."/></td>
+			
+			<td align='right'><input type='text' name='quantity' value=".$row[quantity]." size='4' style='color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;'/></td>
+			
+			<td align='right'><input type='text' name='discount' value=".$row[buying_discount]." size='6' style='color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;'/></td>
+			
+			<td align='right'>".$row[total]."</td>
+			
+			<td align='right'><input type='submit' name='update' value='Update' size='9' class='btn btn-sm btn-primary' style='width: 70px; border: 0; padding: 1.5px;'/></td>
+		
+		</form></tr>";
+	}
+		echo'<tr>
+				<form name="update_item" action="purchase_order.php?job=add_item" method="post">
+					<td></td>
+					<td><input type="text" name="product_name" size="14" style="color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: left;"/></td>
+					
+					<td align="right"><input type="text" name="buying_price" size="10" style="color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;"/></td>
+					
+					<td align="right"><input type="text" name="quantity"  size="4" style="color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;"/></td>
+					
+					<td align="right"><input type="text" name="discount"  size="6" style="color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;"/></td>
+					<td align="right">'.$row[total].'</td>
+					<td align="right"><input type="submit" name="update" value="Add" size="9" class="btn btn-sm btn-primary" style="width: 70px; border: 0; padding: 1.5px;"/></td>
+				</form>
+			</tr>';
+	include 'conf/closedb.php';
+
+}
+
+function update_purchase_item($id, $product_id, $quantity, $item_total, $buying_price, $discount, $purchase_order_no){
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+
+	
+	echo "UPDATE purchase_order_has_items SET
+	quantity='$quantity',
+	buying_price='$buying_price',
+	buying_discount='$discount',
+	total='$item_total',
+	saved='0'
+	WHERE id='$id' AND product_id='$product_id' AND cancel_status='0' AND purchase_order_no='$purchase_order_no'";
+	
+	mysqli_select_db($conn_for_changing_db, $dbname);
+	$query = "UPDATE purchase_order_has_items SET
+	quantity='$quantity',
+	buying_price='$buying_price',
+	buying_discount='$discount',
+	total='$item_total',
+	saved='0'
+	WHERE id='$id' AND product_id='$product_id' AND cancel_status='0' AND purchase_order_no='$purchase_order_no'";
+	mysqli_query($conn, $query);
+
 	include 'conf/closedb.php';
 }

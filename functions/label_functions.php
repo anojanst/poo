@@ -8,10 +8,10 @@ function list_label() {
 	$result = mysqli_query($conn, "SELECT * FROM label WHERE cancel_status='0' ORDER BY id DESC LIMIT 50");
 	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 		echo '<tr>
-				<td align="center"><a href="label.php?job=edit&id=' . $row[id] . '"  ><img src="images/edit.png" alt="Edit" width="24" height="24"/></a></td>
+				<td align="center"><a href="label.php?job=edit&id=' . $row[id] . '"  ><i class="fa fa-pencil-square-o fa-2x"></i>></a></td>
 				<td>' . $row[id] . '</td>					
 				<td>' . $row[label] . '</td>
-				<td align="center"><a href="#" onclick="javascript:showConfirm(\'Are you sure you want to delete this entry?\',\'\',\'Yes\',\'label.php?job=delete&id=' . $row[id] . '\',\'No\',\'label.php\')"><img src="images/close.png" alt="Delete" height="24" width="24"/></a></td>
+				<td align="center"><a href="author.php?job=delete&id='.$row[id].'" onclick="javascript:showConfirm(\'Are you sure you want to delete this entry?\',\'\',\'Yes\',\'label.php?job=delete&id=' . $row[id] . '\',\'No\',\'label.php\')"><i class="fa fa-times fa-2x"></i></a></td>
 				</tr>';
 	}
 	echo '</tbody> ';

@@ -11,15 +11,15 @@ $module_no = 7;
 if ($_SESSION['login'] == 1) {
 	if (check_access($module_no, $_SESSION['user_id']) == 1) {
 		if($_REQUEST['job']=='search'){
-			unset($_SESSION['searching']);
-			$_SESSION['searching']=1;
+			
 
 			$_SESSION['search_name']=$_POST['search_name'];
 			$_SESSION['search_no']=$_POST['search_no'];
             $_SESSION['from_date']=$_POST['from_date'];
             $_SESSION['to_date']=$_POST['to_date'];
+			
 
-            $smarty->assign('to_branch',"$_SESSION[to_branch]");
+            $smarty->assign('to_date',"$_SESSION[to_date]");
             $smarty->assign('from_date',"$_SESSION[from_date]");
 
 			$smarty->assign('org_name',"$_SESSION[org_name]");

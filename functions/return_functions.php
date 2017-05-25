@@ -31,14 +31,14 @@ function get_total_return($return_no){
 	include 'conf/closedb.php';
 }
 
-function add_return_item($selected_item, $product_id, $stock, $selling_price, $discount, $return_no){
+function add_return_item($product_id, $product_name, $stock, $selling_price, $discount, $return_no){
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 
 	$date = date("Y-m-d");
 	mysqli_select_db($conn_for_changing_db, $dbname);
 	$query = "INSERT INTO return_has_items (id, product_id, product_name, stock, selling_price, date, discount, return_no, quantity, user_name, total)
-	VALUES ('', '$product_id', '$selected_item', '$stock', '$selling_price', '$date', '$discount', '$return_no', '1', '$_SESSION[user_name]', '$selling_price')";
+	VALUES ('', '$product_id', '$product_name', '$stock', '$selling_price', '$date', '$discount', '$return_no', '1', '$_SESSION[user_name]', '$selling_price')";
 	mysqli_query($conn, $query) or die (mysqli_error($conn));
 
 	include 'conf/closedb.php';
@@ -106,9 +106,11 @@ function check_added_items_return($product_id, $return_no){
 	include 'conf/closedb.php';
 }
 
-function update_return_item($product_id, $quantity, $item_total, $selling_price, $discount, $return_no, $stock){
+function update_return_item($id, $product_id, $quantity, $item_total, $selling_price, $discount, $return_no, $stock){
 	include 'conf/config.php';
 	include 'conf/opendb.php';
+
+	$price= $quantity*$selling_price;
 	
 	mysqli_select_db($conn_for_changing_db, $dbname);
 	$query = "UPDATE return_has_items SET
@@ -116,9 +118,10 @@ function update_return_item($product_id, $quantity, $item_total, $selling_price,
 	selling_price='$selling_price',
 	discount='$discount',
 	total='$item_total',
+	price='$price',
 	saved='0',
 	stock='$stock'
-	WHERE product_id='$product_id' AND cancel_status='0' AND return_no='$return_no'";
+	WHERE id='$id' AND product_id='$product_id' AND cancel_status='0' AND return_no='$return_no'";
 	mysqli_query($conn, $query);
 
 	include 'conf/closedb.php';
@@ -162,25 +165,63 @@ function list_item_by_return($return_no){
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo'<tr>
-		<form name="update_item" action="return.php?job=update_item&product_id='.$row[product_id].'" method="post"><td align="center" ><a href="return.php?job=delete_item&id='.$row[id].'" ><img src="images/close.png" alt="Delete" /></a></td>'."
-		<td>$row[product_name]</td>
-		<td>$row[product_id]</td>
-		<td align='right'>$row[stock]</td>
-		<td align='right'><input type='text' name='selling_price' value='$row[selling_price]' size='10' style='color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;'/></td>
-		<td align='right'><input type='text' name='quantity' value='$row[quantity]' size='6' style='color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;'/></td>
-		<td align='right'><input type='text' name='discount' value='$row[discount]' size='9' style='color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;'/></td>
-		<td align='right'>$row[total]</td>
-		<td align='right'><input type='submit' name='update' value='Update' size='9' class='more' style='width: 70px; border: 0; padding: 1.5px;'/></td>
+		<form name="update_item" action="return.php?job=update_item&id='.$row[id].'&product_id='.$row[product_id].'" method="post">
+			<td align="center" ><a href="return.php?job=delete_item&id='.$row[id].'" ><i class="fa fa-times fa-2x"></i></a></td>'."
+			<td>".$row[product_name]."</td>
+			<td align='right'>".$row[selling_price]."<input type='hidden' name='selling_price' value=".$row[selling_price]."/></td>
+			<td align='right'><input type='text' name='quantity' value=".$row[quantity]." size='4' style='color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;'/></td>
+			<td align='right'><input type='text' name='discount' value=".$row[discount]." size='6' style='color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;'/></td>
+			<td align='right'>".$row[total]."</td>
+			<td align='right'><input type='submit' name='update' value='Update' size='9' class='btn btn-sm btn-primary' style='width: 70px; border: 0; padding: 1.5px;'/></td>
 		</form></tr>";
 
 	}
+	echo'<tr>
+			<form name="update_item" action="return.php?job=add_item" method="post">
+				<td></td>
+				<td><input type="text" name="product_name" size="14" style="color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: left;"/></td>
+				<td align="right"><input type="text" name="selling_price" size="10" style="color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;"/></td>
+				<td align="right"><input type="text" name="quantity"  size="4" style="color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;"/></td>
+				<td align="right"><input type="text" name="discount"  size="6" style="color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;"/></td>
+				<td align="right">'.$row[total].'</td>
+				<td align="right"><input type="submit" name="update" value="Add" size="9" class="btn btn-sm btn-primary" style="width: 70px; border: 0; padding: 1.5px;"/></td>
+			</form>
+		</tr>';
+	include 'conf/closedb.php';
+}
 
+function add_quick_return_item($product_id, $product_name, $stock, $selling_price, $discount,$total, $return_no){
+	include 'conf/config.php';
+	include 'conf/opendb.php';
 
+	$date = date("Y-m-d");
+	mysqli_select_db($conn_for_changing_db, $dbname);
+	$query = "INSERT INTO return_has_items (id, product_id, product_name, stock, selling_price, date, discount, return_no, quantity, user_name, total)
+	VALUES ('', '$product_id', '$product_name', '$stock', '$selling_price', '$date', '$discount', '$return_no', '$stock', '$_SESSION[user_name]', '$total')";
+	mysqli_query($conn, $query) or die (mysqli_error($conn));
 
 	include 'conf/closedb.php';
-
-
 }
+
+function net_total_return($return_no){
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+	
+	$net_total=0;
+
+	$result=mysqli_query($conn, "SELECT * FROM return_has_items WHERE return_no='$return_no' AND cancel_status='0' ORDER BY id ASC");
+	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+	{
+		$total=$row[quantity]*$row[selling_price];
+		$net_total=$net_total+$total;
+
+	}
+
+	return $net_total;
+
+	include 'conf/closedb.php';
+}
+
 
 function get_product_info_from_return_has_items($product_id, $return_no){
 	include 'conf/config.php';
@@ -242,7 +283,7 @@ function save_return($return_no, $date, $customer_name, $prepared_by, $remarks, 
 	$date = date("Y-m-d", strtotime($date));
 	
 	mysqli_select_db($conn_for_changing_db, $dbname);
-	$query = "INSERT INTO returns (id, return_no, customer_name, prepared_by, remarks, date, total, due)
+	$query = "INSERT INTO returns (id, return_no, customer_name, prepared_by, remarks, date, total, paid)
 	VALUES ('', '$return_no', '$customer_name', '$prepared_by', '$remarks', '$date', '$total', '$total')";
 	mysqli_query($conn, $query) or die (mysqli_error($conn));
 
@@ -409,3 +450,81 @@ function get_return_item_id($return_no) {
 
 	include 'conf/closedb.php';
 }
+
+function get_total_without_discount_return($return_no){
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+		
+	$net_total=0;
+	
+	$result=mysqli_query($conn, "SELECT * FROM return_has_items WHERE return_no='$return_no' AND cancel_status='0'");
+	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+	{
+		$total=$row[quantity]*$row[selling_price];
+		$net_total=$net_total+$total;
+	}
+	return $net_total;
+	include 'conf/closedb.php';
+}
+
+function print_return_item($return_no){
+    include 'conf/config.php';
+    include 'conf/opendb.php';
+
+    $i=0;
+    $sub_total=0;
+    echo'<table style="width: 100%;" class="table-responsive dt-responsive">';
+    $result=mysqli_query($conn, "SELECT * FROM return_has_items WHERE return_no='$return_no' AND cancel_status='0' ORDER BY id ASC");
+    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+    {
+        
+        echo'<tr>
+                <td colspan="2">'.$row[product_name].'</td>
+            </tr>
+            <tr>
+                <td>('.$row[quantity].' * '.$row[selling_price].')</td>
+                <td>('.$row[discount].'%)</td>
+                <td align="right"><strong>'.number_format($row[total],2).'</strong></td>
+            </tr>';
+        $sub_total += $row[total];
+        $i+=1;
+    }
+    echo '</table>
+    <strong>--------------------------------------------------</strong>';
+    echo'<table style="width: 100%;" class="table-responsive dt-responsive">
+       <tr>
+            <td><strong>TOTAL</strong></td>
+            <td align="right"><strong>'.number_format($sub_total,2).'</strong></td>
+        </tr></table>';
+    include 'conf/closedb.php';
+
+
+}
+
+function no_of_return_items($return_no){
+    include 'conf/config.php';
+    include 'conf/opendb.php';
+
+    $result=mysqli_query($conn, "SELECT count(id) FROM return_has_items WHERE return_no='$return_no' AND cancel_status='0'");
+    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+    {
+        $count=$row['count(id)'];
+        return $count;
+    }
+
+    include 'conf/closedb.php';
+}
+
+function no_of_return_pieces($return_no){
+    include 'conf/config.php';
+    include 'conf/opendb.php';
+
+    $result=mysqli_query($conn, "SELECT sum(quantity) AS pieces FROM return_has_items WHERE return_no='$return_no' AND cancel_status='0'");
+    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+    {
+        return $row['pieces'];
+    }
+
+    include 'conf/closedb.php';
+}
+

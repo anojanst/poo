@@ -204,71 +204,29 @@ function add_discount_sales_payment_ledger($sales_payment_no) {
 	include 'conf/closedb.php';
 }
 
-function add_sales_payment_ledger($sales_payment_no) {
+function add_sales_payment_ledger($sales_no) {
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 
-	$result=mysqli_query($conn, "SELECT * FROM sales_payment WHERE sales_payment_no='$sales_payment_no'");
-	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
-	{
-		$date=$row['date'];
-		$flag='SALES PAYMENT';
-		$$sales_payment_no=$ref_no=$row['sales_payment_no'];
-		$customer_name=addslashes($row['customer_name']);
-		$cheque_amount=$row['cheque_amount'];
-		$cheque_no=$row['cheque_no'];
-		$cash_amount=$row['cash_amount'];
+    $result=mysqli_query($conn, "SELECT * FROM sales WHERE sales_no = '$sales_no' AND cancel_status='0' ORDER BY id DESC");
+    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+    {
+        $date=$row['date'];
+        $flag='SALES';
+        $sales_no=$ref_no=$row['sales_no'];
+        $narration=addslashes($row['customer_name']);
+        $total=$row['total'];
 
-		if ($cash_amount=='0.00' AND $cheque_amount>0) {
+        mysqli_select_db($conn_for_changing_db, $dbname);
+        $query3 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no)
+        VALUES ('$narration', '$date', '$flag', '$ref_no', 'CASH', '', '$total', '')";
+        mysqli_query($conn, $query3) or die (mysqli_error($conn));
 
-			mysqli_select_db($conn_for_changing_db, $dbname);
-			$query1 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no)
-			VALUES ('$customer_name', '$date', '$flag', '$ref_no', 'CHEQUES IN HAND', '', '$cheque_amount', '$cheque_no')";
-			mysqli_query($conn, $query1) or die (mysqli_error($conn));
+        mysqli_select_db($conn_for_changing_db, $dbname);
+        $query4 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no)
+        VALUES ('CASH', '$date', '$flag', '$ref_no', '$narration', '$total', '', '')";
+        mysqli_query($conn, $query4) or die (mysqli_error($conn));
 
-			mysqli_select_db($conn_for_changing_db, $dbname);
-			$query2 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no)
-			VALUES ('CHEQUES IN HAND', '$date', '$flag', '$ref_no', '$customer_name', '$cheque_amount', '', '$cheque_no')";
-			mysqli_query($conn, $query2) or die (mysqli_error($conn));
-		}
-
-		elseif ($cheque_amount=='0.00' AND $cash_amount>0) {
-
-			mysqli_select_db($conn_for_changing_db, $dbname);
-			$query3 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no)
-			VALUES ('$customer_name', '$date', '$flag', '$ref_no', 'CASH', '', '$cash_amount', '')";
-			mysqli_query($conn, $query3) or die (mysqli_error($conn));
-
-			mysqli_select_db($conn_for_changing_db, $dbname);
-			$query4 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no)
-			VALUES ('CASH', '$date', '$flag', '$ref_no', '$customer_name', '$cash_amount', '', '')";
-			mysqli_query($conn, $query4) or die (mysqli_error($conn));
-		}
-
-		elseif ($cheque_amount>0 AND $cash_amount>0) {
-
-			mysqli_select_db($conn_for_changing_db, $dbname);
-			$query1 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no)
-			VALUES ('$customer_name', '$date', '$flag', '$ref_no', 'CHEQUES IN HAND', '', '$cheque_amount', '$cheque_no')";
-			mysqli_query($conn, $query1) or die (mysqli_error($conn));
-
-			mysqli_select_db($conn_for_changing_db, $dbname);
-			$query2 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no)
-			VALUES ('CHEQUES IN HAND', '$date', '$flag', '$ref_no', '$customer_name', '$cheque_amount', '', '$cheque_no')";
-			mysqli_query($conn, $query2) or die (mysqli_error($conn));
-
-			mysqli_select_db($conn_for_changing_db, $dbname);
-			$query3 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no)
-			VALUES ('$customer_name', '$date', '$flag', '$ref_no', 'CASH', '', '$cash_amount', '')";
-			mysqli_query($conn, $query3) or die (mysqli_error($conn));
-
-			mysqli_select_db($conn_for_changing_db, $dbname);
-			$query4 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no)
-			VALUES ('CASH', '$date', '$flag', '$ref_no', '$customer_name', '$cash_amount', '', '')";
-			mysqli_query($conn, $query4) or die (mysqli_error($conn));
-		}
-
-		else{}
 	}
 	
 	include 'conf/closedb.php';
@@ -539,20 +497,16 @@ function add_sales_ledger($sales_no) {
 	$result=mysqli_query($conn, "SELECT * FROM sales WHERE sales_no = '$sales_no' AND cancel_status='0' ORDER BY id DESC");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
-		$date=$row['sales_date'];
+		$date=$row['date'];
 		$flag='SALES';
 		$sales_no=$ref_no=$row['sales_no'];
 		$narration=addslashes($row['customer_name']);
+        $total=$row['total'];
 		$account="SALES";
 		//customer
 		include 'conf/opendb.php';
 
 		mysqli_select_db($conn_for_changing_db, $dbname) or die (mysqli_error($conn));
-
-		mysqli_select_db($conn_for_changing_db, $dbname);
-		$query1 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no, remarks)
-		VALUES ('$account', '$date', '$flag', '$ref_no', '$narration', '', '$total', '',  '')";
-		mysqli_query($conn, $query1) or die (mysqli_error($conn));
 
 		mysqli_select_db($conn_for_changing_db, $dbname);
 		$query2 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no, remarks)
@@ -569,22 +523,11 @@ function update_sales_ledger($sales_no) {
 
 	$sales_info=get_sales_info_by_sales_no($sales_no);
 	$account='SALES';
-	$date=$sales_info['sales_date'];
+	$date=$sales_info['date'];
 	$flag='SALES';
 	$total=$sales_info['total'];
 	$narration=addslashes($sales_info['customer_name']);
 
-
-	mysqli_select_db($conn_for_changing_db, $dbname);
-	$query1 = "UPDATE ledger SET
-	account='$account',
-	date='$date',	
-	flag='$flag',
-	narration='$narration',
-	credit='$total', 	
-	remarks='$remarks'
-	WHERE ref_no='$sales_no' AND flag='SALES' AND debit='0' AND cancel_status='0'";
-	mysqli_query($conn, $query1);
 
 	mysqli_select_db($conn_for_changing_db, $dbname);
 	$query2 = "UPDATE ledger SET
@@ -638,7 +581,7 @@ function update_sales_item_ledger($product_id ,$sales_no) {
 
 	$item_info=get_product_info_from_sales_has_items($product_id, $sales_no);
 	$account=$product_id;
-	$date=$sales_info['sales_date'];
+	$date=$item_info['date'];
 	$flag='SALES ITEM';
 	$total=$item_info['total'];
 	$id=$item_info['id'];
@@ -691,20 +634,16 @@ function add_return_ledger($return_no) {
 	$result=mysqli_query($conn, "SELECT * FROM returns WHERE return_no = '$return_no' AND cancel_status='0' ORDER BY id DESC");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
-		$date=$row['return_date'];
+		$date=$row['date'];
 		$flag='RETURN';
 		$return_no=$ref_no=$row['return_no'];
 		$narration=addslashes($row['customer_name']);
+        $total=$row['total'];
 		$account="RETURN";
 		//customer
 		include 'conf/opendb.php';
 
 		mysqli_select_db($conn_for_changing_db, $dbname) or die (mysqli_error($conn));
-
-		mysqli_select_db($conn_for_changing_db, $dbname);
-		$query1 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no, remarks)
-		VALUES ('$account', '$date', '$flag', '$ref_no', '$narration', '$total', '', '',  '')";
-		mysqli_query($conn, $query1) or die (mysqli_error($conn));
 
 		mysqli_select_db($conn_for_changing_db, $dbname);
 		$query2 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no, remarks)
@@ -721,22 +660,11 @@ function update_return_ledger($return_no) {
 
 	$return_info=get_return_info_by_return_no($return_no);
 	$account='RETURN';
-	$date=$return_info['return_date'];
+	$date=$return_info['date'];
 	$flag='RETURN';
 	$total=$return_info['total'];
 	$narration=addslashes($return_info['customer_name']);
 
-
-	mysqli_select_db($conn_for_changing_db, $dbname);
-	$query1 = "UPDATE ledger SET
-	account='$account',
-	date='$date',	
-	flag='$flag',
-	narration='$narration',
-	debit='$total', 	
-	remarks='$remarks'
-	WHERE ref_no='$return_no' AND flag='return' AND credit='0' AND cancel_status='0'";
-	mysqli_query($conn, $query1);
 
 	mysqli_select_db($conn_for_changing_db, $dbname);
 	$query2 = "UPDATE ledger SET
@@ -790,7 +718,7 @@ function update_return_item_ledger($product_id ,$return_no) {
 
 	$item_info=get_product_info_from_return_has_items($product_id, $return_no);
 	$account=$product_id;
-	$date=$return_info['return_date'];
+	$date=$item_info['date'];
 	$flag='RETURN ITEM';
 	$total=$item_info['total'];
 	$id=$item_info['id'];

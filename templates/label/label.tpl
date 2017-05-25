@@ -19,11 +19,11 @@
 							<div class="col-lg-9">
 								<input class="form-control" type="text" value="{$label}" name="label" placeholder="Label" autofocus="autofocus" required>
 							</div>
-							<div class="col-lg-3">
+							<div class="col-lg-3" >
 								{if $edit_mode=='on'}
-								<input type="submit" name="ok" value="Update" />
+								<input type="submit" name="ok" value="Update" class="btn btn-primary"/>
 								{else}
-								<input type="submit" name="ok" value="Save" />
+								<input type="submit" name="ok" value="Save" class="btn btn-primary"/>
 								{/if}
 							</div>
 						</div>							

@@ -7,7 +7,7 @@
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>P</b>BD</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Poobalasingam</b></span>
+            <span class="logo-lg"><b>Poobalasingham</b></span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
@@ -17,21 +17,28 @@
             </a>
 
             <div class="navbar-custom-menu">
-                <ul class="nav navbar-nav">
-                    <!-- Messages: style can be found in dropdown.less-->
-
-                </ul>
+                
             </div>
             <div class="navbar-custom-menu" style="margin-right: 100px;">
                 <ul class="nav navbar-nav">
+                   <li class="user-footer">  
                     <!-- Notifications: style can be found in dropdown.less -->
                     {php}list_notification();{/php}
                     <!-- Tasks: style can be found in dropdown.less -->
+                   </li>
+                
+                </ul>
+              <ul class="nav navbar-nav">
+                     <li class="user-footer">               
+                    
+                      <a href="login.php?job=logout" ><i class="fa fa-sign-out"></i></a>
+                  
+                </li>
                 </ul>
             </div>
         </nav>
     </header>
-
+               
     <aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
@@ -71,23 +78,17 @@
                             <ul class="treeview-menu">
                                 <li class="active"><a href="inventory.php"><i class="fa fa-eye"></i> View Inventory</a></li>
                                 <li><a href="inventory.php?job=add_new"><i class="fa fa-plus-square-o"></i> Add To Inventory </a></li>
-                                <li><a href="multiple_stock.php"><i class="fa fa-database"></i> Multiple Stock </a></li>
-                                 <li><a href="transfer.php"><i class="fa fa-database"></i> Add Transfer </a></li>
-                            </ul>
+                                <li><a href="multiple_stock.php"><i class="fa fa-database"></i> Stock </a></li>
+                           </ul>
                         </li>
                         <li><a href='author.php'><i class="fa fa-male"></i>Author</a></li>
                         <li><a href='publication.php'><i class="fa fa-newspaper-o"></i>Publication</a></li>
                         <li><a href='label.php'><i class="fa fa-tag"></i>Label</a></li>
                     </ul>
                 </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-folder-open"></i> <span>Operations</span>
-                        <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>
-                    </a>
-                    <ul class="treeview-menu">
+                <li><a href="transfer.php?job=must_new"><i class="fa fa-file"></i><span>Transfer</span></a></li>
+
+
                         <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-shopping-bag fa-rotate-90"></i> <span>Sales</span>
@@ -96,12 +97,12 @@
                             </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li class="active"><a href='sales.php'><i class="fa fa-shopping-bag fa-rotate-90"></i> Sales</a></li>
+                                <li class="active"><a href='sales.php?job=must_new'><i class="fa fa-shopping-bag fa-rotate-90"></i> Sales</a></li>
                                 <li><a href='return.php'><i class="fa fa-shopping-bag fa-rotate-270"></i>Return Sales </a></li>
                             </ul>
                         </li>
-                    </ul>
-                    <ul class="treeview-menu">
+                 
+                   
                         <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-shopping-cart"></i> <span>Purcharse</span>
@@ -126,8 +127,8 @@
                                 <li><a href='return_purchase_order.php'><i class="fa fa-shopping-cart fa-flip-horizontal"></i>Return Purchase</a></li>
                             </ul>
                         </li>
-                    </ul>
-                    <ul class="treeview-menu">
+                 
+                    
                         <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-credit-card"></i> <span>Payment</span>
@@ -144,17 +145,82 @@
                                 <li><a href='other_incomes.php'><i class="fa fa-usd"></i>Other Incomes</a></li>
                             </ul>
                         </li>
-                    </ul>
-                </li>
+               
 
                 <li><a href="notification.php?job=notifications"><i class="fa fa-bell-o"></i><span>Notifications</span></a></li>
 				<li><a href="quotation.php?job=quotation_page"><i class="fa fa-clone"></i><span>Quoatation</span></a></li>
 
-                <li><a href="#"><i class="fa fa-file-text"></i><span>Reports</span></a></li>
-                <li><a href="#"> <i class="fa fa-book"></i> <span>Accounts</span></a></li>
-                <li>
-                    <a href="login.php?job=logout"><i class="fa fa-sign-out"></i> <span>Logout</span></a>
+			
+            
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-bar-chart"></i> <span>Reports</span>
+                        <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+                </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-area-chart"></i> <span>Reports About Inventory</span>
+                                <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="active"><a href="inv_basic_report.php"><i class="fa fa-files-o"></i> Report Summary</a></li>
+                                <li><a href="inv_full_report.php"><i class="fa fa-file-code-o"></i> Detailed Report</a></li>
+                          </ul>
+                        </li>
+                        
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-area-chart"></i> <span>Reports About Sales</span>
+                                <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="active"><a href="sales_basic_report.php"><i class="fa fa-files-o"></i> Report Summary</a></li>
+                                <li><a href="sales_full_report.php"><i class="fa fa-file-code-o"></i> Detailed Report</a></li>
+                          </ul>
+                        </li>
+                        
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-area-chart"></i> <span>Reports About Transfer</span>
+                                <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="active"><a href="transfer.php?job=to_store"><i class="fa fa-files-o"></i> Transfer Out Store</a></li>
+                                <li><a href="transfer.php?job=from_store"><i class="fa fa-file-code-o"></i> Transfer In Store</a></li>
+                          </ul>
+                        </li>
+                        
+                    </ul>
                 </li>
+               
+               <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-cog"></i> <span>Settings</span>
+                        <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+                </span>
+                    </a>
+                    
+                        <ul class="treeview-menu">
+                                <li class="active"><a href="modules.php"><i class="fa fa-files-o"></i> Modules</a></li>
+                                 <li class="active"><a href="detail.php"><i class="fa fa-files-o"></i> User Settings</a></li>
+                                     <li class="active"><a href="employees.php"><i class="fa fa-files-o"></i> Employees</a></li>
+                      
+                         </ul>
+                       
+                </li>
+               <li><a href="gift_voucher.php?job=gift_voucher"> <i class="fa fa-gift"></i> <span>Gift Voucher</span></a></li>
+                <li><a href="#"> <i class="fa fa-book"></i> <span>Accounts</span></a></li>
+                
 
             </ul>
         </section>

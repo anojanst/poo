@@ -240,3 +240,16 @@ function update_unseen_as_seen($product_id, $branch, $id) {
 	mysqli_query ($conn, $query );
 
 }
+
+
+
+function save_notification($product_id, $product_name, $branch, $quantity, $transfer_no, $ref_type) {
+	include 'conf/config.php';
+	include 'conf/opendb.php';
+
+	$query = "INSERT INTO notification (id, product_id, branch,product_name, stock, ref_no, ref_type)
+	VALUES ('', '$product_id', '$branch', '$product_name','$quantity' ,'$transfer_no', '$ref_type')";
+	mysqli_query($conn, $query) or die(mysqli_error($conn));
+
+	include 'conf/closedb.php';
+}

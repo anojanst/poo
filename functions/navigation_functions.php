@@ -13,15 +13,15 @@ function list_notification(){
             <li>
             	<ul class="menu">   		';
 
-    $result = mysqli_query($conn, "SELECT * FROM notification WHERE cancel_status='0' AND seen_status='0' LIMIT 5");
+    $result = mysqli_query($conn, "SELECT * FROM notification WHERE cancel_status='0' AND seen_status='0' LIMIT 3");
     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
         echo '
             <!-- inner menu: contains the actual data -->
                     <li>
                         <a  href="notification.php?job=view_not&product_id='.$row[product_id].'&branch='.$row[branch].'&id='.$row[id].'">
-                        	<strong>' . $row[product_name] . '</strong>';
+                        	<strong>' . $row[product_name] . '</br></strong>';
         			if($_SESSION['branch']=='HEAD OFFICE'){
-                        	echo'<br>' . $row[branch] . ' <br>';
+                        	echo'<br>' . $row[branch] . ' </br>';
         			}
         			else{}
                           	echo'<i class="fa fa-warning text-yellow"></i> stock is '.$row[stock].' its time to reoder    		

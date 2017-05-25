@@ -4,23 +4,24 @@ include 'functions/user_functions.php';
 include 'functions/multiple_stock_functions.php';
 include 'functions/inventory_functions.php';
 include 'functions/navigation_functions.php';
+include 'functions/transfer_functions.php';
 
 $module_no = 200;
 
 if ($_SESSION['login'] == 1) {
     if (check_access($module_no, $_SESSION['user_id']) == 1) {
         if ($_REQUEST ['job'] == "save") {
-
-            $product_name = $_POST ['product_name'];
+            $product_name = $_SESSION['product_name'];
+            $inv_info =get_product_id_by_product_name($product_name);
+            $product_id=$inv_info['product_id'];
             $branch = $_POST ['branch'];
             $stock = $_POST ['stock'];
             $reorder = $_POST ['reorder'];
             $location = $_POST ['location'];
 
-            save_multiple_stock($product_name, $branch, $stock, $reorder, $location);
-        }
-        elseif
-        ($_REQUEST ['job'] == "edit"){
+            save_multiple_stock($product_id,$product_name, $branch, $stock, $reorder, $location);
+		}
+		elseif($_REQUEST ['job'] == "edit"){
             $_SESSION ['id'] = $id = $_REQUEST ['id'];
             $info = get_multiple_stock_by_id($id);
 
@@ -31,15 +32,31 @@ if ($_SESSION['login'] == 1) {
             $smarty->assign('location', $info ['location']);
             $smarty->assign('edit', 'on');
 
-
         }
+		elseif
+        ($_REQUEST ['job'] == "barcode"){
+            $barcode = $_POST ['barcode'];
+			
+			$product_info=get_item_info_by_barcode($barcode);
+            $info = get_multiple_stock_by_name($product_info['product_name'], $_SESSION['branch']);
+
+            $smarty->assign('display', "on");
+            $smarty->assign('product_name', $product_info['product_name']);
+            $smarty->assign('branch', $_SESSION['branch']);
+            $smarty->assign('stock', $info ['stock']);
+            $smarty->assign('reorder', $info ['reorder']);
+            $smarty->assign('location', $info ['location']);
+        }
+		
         elseif
         ($_REQUEST ['job'] == "product_details"){
             $_SESSION ['product_name'] = $product_name = $_POST ['product_name'];
-            $info = get_multiple_stock_by_name($product_name);
 
-            $smarty->assign('product_name', $info ['product_name']);
-            $smarty->assign('branch', $info ['branch']);
+
+            $smarty->assign('display', "on");
+            $smarty->assign('product_name', "$product_name");
+            $info = get_multiple_stock_by_name($product_name, $_SESSION['branch']);
+            $smarty->assign('branch', $_SESSION['branch']);
             $smarty->assign('stock', $info ['stock']);
             $smarty->assign('reorder', $info ['reorder']);
             $smarty->assign('location', $info ['location']);
