@@ -57,9 +57,10 @@ if ($_SESSION['login'] == 1) {
 
 			$smarty->assign('org_name', "$_SESSION[org_name]");
 			$smarty->assign('page', "Chart of Accounts");
-			$smarty->display('chart_of_accounts/chart_of_accounts.tpl');
+			$smarty->display('chart_of_accounts/add_new_chart_of_account.tpl');
 		}
 		elseif ($_REQUEST['job'] == "edit") {
+			
 			$_SESSION['id'] = $id = $_REQUEST['id'];
 			$info = get_account_info_by_id($id);
 			$smarty->assign('account_name', $info['account_name']);
@@ -79,8 +80,9 @@ if ($_SESSION['login'] == 1) {
 
 			$smarty->assign('edit_mode', 'on');
 			$smarty->assign('edit', 'Accounts');
+			
 			$smarty->assign('page', "Chart of Accounts");
-			$smarty->display('chart_of_accounts/chart_of_accounts.tpl');
+			$smarty->display('chart_of_accounts/add_new_chart_of_account.tpl');
 		}
 		elseif ($_REQUEST['job'] == 'search') {
 
@@ -92,7 +94,18 @@ if ($_SESSION['login'] == 1) {
 			$smarty->assign('page', "Chart of Accounts");
 			$smarty->display('chart_of_accounts/chart_of_accounts.tpl');
 		}
+		
+		elseif ($_REQUEST['job'] == 'add_new_acc') {
+		
+			$smarty->assign('page', "Chart of Accounts");
+			$smarty->display('chart_of_accounts/add_new_chart_of_account.tpl');
+		}
+		
+		
 		elseif ($_REQUEST['job'] == "delete") {
+			$_SESSION['id'] = $id = $_REQUEST['id'];
+			echo 5354;
+			echo $_REQUEST['id'];
 			cancel_account($_REQUEST['id']);
 
 			$smarty->assign('org_name', "$_SESSION[org_name]");

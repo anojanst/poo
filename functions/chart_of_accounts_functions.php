@@ -3,14 +3,26 @@ function list_account(){
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 	
-	echo '<tbody>';
+	echo '<div class="table-responsive">
+              <table  id="example1"  style="width: 100%;" class="table-responsive table-bordered table-striped dt-responsive">
+				<thead valign="top">
+					<th>Edit</th>
+					<th>Account name</th>
+					<th>Address</th>
+					<th>Telephone</th>
+					<th>Fax</th>
+					<th>Email</th>
+					<th>Contact Person</th>
+					<th>Delete</th>
+				</thead>
+			<tbody valign="top">';
 
 	$result=mysqli_query($conn, "SELECT * FROM chart_of_accounts WHERE cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo '
 			<tr>
-				<td><a href="chart_of_accounts.php?job=edit&id='.$row[id].'"  ><img src="images/edit.png" alt="Edit" /></a></td>
+				<td><a href="chart_of_accounts.php?job=edit&id='.$row[id].'"  ><i class="fa fa-edit fa-2x"></i></a></td>
 	
 				<td>'.$row[account_name].'</td>
 						
@@ -24,10 +36,11 @@ function list_account(){
 			
 				<td>'.$row[contact_person].'</td>
 			
-				<td><a href="#" onclick="javascript:showConfirm(\'Are you sure you want to delete this entry?\',\'\',\'Yes\',\'chart_of_accounts.php?job=delete&id='.$row[id].'\',\'No\',\'chart_of_accounts.php\')"><img src="images/close.png" alt="Delete" /></a></td>
+				<td><a href="chart_of_accounts.php?job=delete&id='.$row[id].'" onclick="javascript:return confirm(\'Are you sure you want to delete this entry?\')"><i class="fa fa-times fa-2x"></i></a></td>
+						
 			</tr>';
 	}
-	echo '</tbody>';
+	echo '</tbody></table></div>';
 	
 	include 'conf/closedb.php';
 }
@@ -147,7 +160,7 @@ function get_account_info($account_name) {
 function cancel_account($id) {
 	include 'conf/config.php';
 	include 'conf/opendb.php';
-
+	
 	mysqli_select_db($conn_for_changing_db, $dbname);
 	$query = "UPDATE chart_of_accounts SET
 	cancel_status='1',

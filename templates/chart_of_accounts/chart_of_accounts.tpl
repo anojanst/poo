@@ -164,6 +164,15 @@ $(function() {
 				<div class="col-lg-4">
 					<h4>Customer Details</h4>
 				</div>
+			
+					<div class="col-lg-2" style="padding-left: 60px; margin-top: -5px; ">
+						<h5>Add New <a href="chart_of_accounts.php?job=add_new_acc">
+						<img alt="add" width="28" src="./images/add.png">
+						</a> </h5>											
+					</div>	
+	
+				<!--			
+
 				<form action="chart_of_accounts.php?job=search" method="post" class="search">
 					<div class="col-lg-2"></div>
 					<div class="col-lg-2" style="padding-left: 60px; margin-top: -5px; ">
@@ -178,37 +187,14 @@ $(function() {
 						<input type="image" src="./images/search.png" height="28" width="28"/>
 					</div>			
 				</form>
+
+				-->
+
 			</div>
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="box-body">
-						<table id="example1" class="table table-bordered table-striped table-responsive">
-							<thead>
-								<tr>
-									<th>Edit</th>
-									<th>Account Name</th>
-									<th>Address</th>
-									<th>Telephone No</th>
-									<th>Fax No</th>
-									<th>Email</th>
-									<th>Contact person</th>
-									<th>Delete</th>        
-								</tr>
-							</thead>
-							{php}list_account();{/php}
-							<tfoot>
-								<tr>
-									<th>Edit</th>
-									<th>Account Name</th>
-									<th>Address</th>
-									<th>Telephone No</th>
-									<th>Fax No</th>
-									<th>Email</th>
-									<th>Contact person</th>
-									<th>Delete</th>               
-								</tr>
-							</tfoot>
-						</table>           
+							{php}list_account();{/php}        
 					</div>
 				</div>
 			</div>						
