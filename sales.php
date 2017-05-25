@@ -72,7 +72,7 @@ if ($_SESSION['login'] == 1) {
 
                 $product_name = $info['product_name'];
                 $product_id = $info['product_id'];
-                $type = $info['type'];
+                $type=$info['type'];
                 //$stock=get_total_stock($info['product_id']);
                 $stock = get_branch_stock($product_id);
                 $quantity = get_quantity($product_id, $_SESSION['sales_no']);
@@ -121,6 +121,7 @@ if ($_SESSION['login'] == 1) {
 
                         add_sales_item($product_id, $product_name, $stock, $selling_price, $discount, $_SESSION['sales_no']);
                         $total_to_ledger = ($selling_price / 100) * (100 - $discount);
+                        echo $total_to_ledger;
                         add_sales_items_ledger($_SESSION['sales_no'], $product_id, $total_to_ledger);
 
                     }
@@ -175,11 +176,11 @@ if ($_SESSION['login'] == 1) {
             $sales_no=$_SESSION['sales_no'];
             $sales_info=get_sales_info_by_sales_no($sales_no);
 
-            $info=get_item_info_by_selected_name($selected_item) ;
+            $info=get_item_info_by_selected_name($selected_item);
 
             $product_name=$info['product_name'];
             $product_id=$info['product_id'];
-            $type = $info['type'];
+            $type=$info['type'];
             //$stock=get_total_stock($info['product_id']);
             $stock = get_branch_stock($product_id);
             $quantity=get_quantity($product_id, $_SESSION['sales_no']);
@@ -219,7 +220,7 @@ if ($_SESSION['login'] == 1) {
                         $selling_price=$info['selling_price']*3.5;
                     }
                     else{
-                            $selling_price=$info['selling_price'];
+                        $selling_price=$info['selling_price'];
                     }
                     $discount=$info['discount'];
 
@@ -336,7 +337,7 @@ if ($_SESSION['login'] == 1) {
 
             $product_name=$info['product_name'];
             $product_id=$info['product_id'];
-            $type = $info['type'];
+            $type=$info['type'];
             //$stock=get_total_stock($info['product_id']);
             $stock = get_branch_stock($product_id);
             $quantity=get_quantity($product_id, $_SESSION['sales_no']);
@@ -369,16 +370,16 @@ if ($_SESSION['login'] == 1) {
                     }
                 }
                 else{
-                if($type=="INDIA TAMIL"){
-                    $selling_price=$info['selling_price']*3.75;
-                }
-                elseif($type=="INDIA ENGLISH"){
-                    $selling_price=$info['selling_price']*3.5;
-                }
-                else{
-                    $selling_price=$info['selling_price'];
-                }
-                $discount=$info['discount'];
+                    if($type=="INDIA TAMIL"){
+                        $selling_price=$info['selling_price']*3.75;
+                    }
+                    elseif($type=="INDIA ENGLISH"){
+                        $selling_price=$info['selling_price']*3.5;
+                    }
+                    else{
+                        $selling_price=$info['selling_price'];
+                    }
+                    $discount=$info['discount'];
 
                     if($stock<$quantity){
                         //add_pending_order($product_id);
@@ -635,49 +636,55 @@ if ($_SESSION['login'] == 1) {
                 $total=get_total_sales($_SESSION['sales_no']);
                 $discount=($total/100)*$_POST['discount'];
                 $payment_type=$_POST['payment_type'];
-               
+
                 if($_POST['customer_amount']){
                     $customer_amount=$_POST['customer_amount'];
                 }
                 elseif($payment_type=='GIFT'){
                     $customer_amount=$_POST['customer_amount'];
                 }
-                else{echo 3;
+                else{
                     $customer_amount=$total;
                 }
-                
+
                 $gift_card_info=get_gift_card_amount_from_gift_voucher($gift_card_no);
                 $gift_card_amount=$gift_card_info['voucher_amount'];
-                
-                
+
+
+
                 if($payment_type=='GIFT'){
                     $customer_amount=$customer_amount+$gift_card_amount;
-                   
-                    
+
+
                 }else{
                     $customer_amount;
                 }
 
                 if( $payment_type!='GIFT'){
-                    if(($total-$discount)>$customer_amount || $discount>$total ){echo 1;
+                    if(($total-$discount)>$customer_amount || $discount>$total ){
                         $user_name = $_SESSION['user_name'];
                         $smarty->assign('org_name', "$_SESSION[org_name]");
                         $smarty->assign('pay_error', "on");
                         $smarty->assign('sales_no',"$_SESSION[sales_no]");
                         $smarty->assign('total',get_total_sales($_SESSION['sales_no']));
                         $smarty->assign('prepared_by',"$_SESSION[user_name]");
-                
+
                         $smarty->assign('pay_error_msg', "Dear $user_name, customer paying amount or Discount can't be less than TOTAL");
-    
-                       
+
+
                         $smarty->assign('page', "Sales");
                         $smarty->display('sales/sales.tpl');
                     }
                     else{
-                         $total_after_discount= $total-$discount;
+                        $total_after_discount= $total-$discount;
                         $balance=$customer_amount-$total_after_discount;
                         save_sales($sales_no, $date, $customer_name, $prepared_by, $remarks,$discount,$customer_amount, $total_after_discount, $total,$balance, $payment_type, $gift_card_no);
                         add_sales_ledger($sales_no);
+                        $info=get_sales_info_by_sales_no($sales_no);
+                        if($info['payment_type']=='CASH' || $info['payment_type']=='CARD') {
+                            add_sales_payment_ledger($sales_no);
+                        }
+                        else{}
                         $branch=$_SESSION['branch'];
                         update_inventory_after_sales($_SESSION['sales_no']);
                         update_inventory_after_sales_in_branch($sales_no, $branch);
@@ -685,8 +692,8 @@ if ($_SESSION['login'] == 1) {
                         $_SESSION['print_no']=$_SESSION['sales_no'];
                         unset($_SESSION['sales_no']);
                         $_SESSION['discount_percentage']=$_POST['discount'];
-    
-    
+
+
                         $smarty->assign('parent_catagorys',list_parent_catagory());
                         $smarty->assign('count',no_of_items($_SESSION['print_no']));
                         $smarty->assign('pieces',no_of_pieces($_SESSION['print_no']));
@@ -696,10 +703,10 @@ if ($_SESSION['login'] == 1) {
                         $smarty->assign('total',get_total_sales($_SESSION['sales_no']));
                         $smarty->assign('page',"sales");
                         $smarty->display('sales/print.tpl');
-                        
+
                     }
                 }
-                
+
                 if( $payment_type=='GIFT'){
                     if(($total-$discount)>$customer_amount || $discount>$total ){
                         $user_name = $_SESSION['user_name'];
@@ -708,47 +715,47 @@ if ($_SESSION['login'] == 1) {
                         $smarty->assign('sales_no',"$_SESSION[sales_no]");
                         $smarty->assign('total',get_total_sales($_SESSION['sales_no']));
                         $smarty->assign('prepared_by',"$_SESSION[user_name]");
-    
+
                         if(check_gift_card($gift_card_no)==1){
-                            $smarty->assign('pay_error_msg', "Dear $user_name, customer paying amount is $_POST[customer_amount] AND gift card amount is $gift_card_amount but total amount is $total ");                
+                            $smarty->assign('pay_error_msg', "Dear $user_name, customer paying amount is $_POST[customer_amount] AND gift card amount is $gift_card_amount but total amount is $total ");
                         }
                         else{
-                           $smarty->assign('pay_error_msg', "Dear $user_name, This Gift Card is Invalide ");                
-                      
+                            $smarty->assign('pay_error_msg', "Dear $user_name, This Gift Card is Invalide ");
+
                         }
-                                            
+
                         $smarty->assign('page', "Sales");
                         $smarty->display('sales/sales.tpl');
                     }
-            
-            
-                else{
-                    $total_after_discount= $total-$discount;
-                    $balance=$customer_amount-$total_after_discount;
-                    save_sales($sales_no, $date, $customer_name, $prepared_by, $remarks,$discount,$customer_amount, $total_after_discount, $total,$balance, $payment_type, $gift_card_no);
-                    add_sales_ledger($sales_no);
-                    $branch=$_SESSION['branch'];
-                    update_inventory_after_sales($_SESSION['sales_no']);
-                    update_inventory_after_sales_in_branch($sales_no, $branch);
-                    update_saved_sales($_SESSION['sales_no']);
-                    update_gift_voucher_status($gift_card_no);
-                    $_SESSION['print_no']=$_SESSION['sales_no'];
-                    unset($_SESSION['sales_no']);
-                    $_SESSION['discount_percentage']=$_POST['discount'];
 
 
-                    $smarty->assign('parent_catagorys',list_parent_catagory());
-                    $smarty->assign('count',no_of_items($_SESSION['print_no']));
-                    $smarty->assign('pieces',no_of_pieces($_SESSION['print_no']));
-                    $smarty->assign('org_name',"$_SESSION[org_name]");
-                    $smarty->assign('date',"$date");
-                    $smarty->assign('sales',"$_SESSION[print_no]");
-                    $smarty->assign('total',get_total_sales($_SESSION['sales_no']));
-                    $smarty->assign('page',"sales");
-                    $smarty->display('sales/print.tpl');
+                    else{
+                        $total_after_discount= $total-$discount;
+                        $balance=$customer_amount-$total_after_discount;
+                        save_sales($sales_no, $date, $customer_name, $prepared_by, $remarks,$discount,$customer_amount, $total_after_discount, $total,$balance, $payment_type, $gift_card_no);
+                        add_sales_ledger($sales_no);
+                        $branch=$_SESSION['branch'];
+                        update_inventory_after_sales($_SESSION['sales_no']);
+                        update_inventory_after_sales_in_branch($sales_no, $branch);
+                        update_saved_sales($_SESSION['sales_no']);
+                        update_gift_voucher_status($gift_card_no);
+                        $_SESSION['print_no']=$_SESSION['sales_no'];
+                        unset($_SESSION['sales_no']);
+                        $_SESSION['discount_percentage']=$_POST['discount'];
 
+
+                        $smarty->assign('parent_catagorys',list_parent_catagory());
+                        $smarty->assign('count',no_of_items($_SESSION['print_no']));
+                        $smarty->assign('pieces',no_of_pieces($_SESSION['print_no']));
+                        $smarty->assign('org_name',"$_SESSION[org_name]");
+                        $smarty->assign('date',"$date");
+                        $smarty->assign('sales',"$_SESSION[print_no]");
+                        $smarty->assign('total',get_total_sales($_SESSION['sales_no']));
+                        $smarty->assign('page',"sales");
+                        $smarty->display('sales/print.tpl');
+
+                    }
                 }
-            }
             }
             else {
 
