@@ -3,6 +3,7 @@ require_once 'conf/smarty-conf.php';
 include 'functions/user_functions.php';
 include 'functions/sales_functions.php';
 include 'functions/navigation_functions.php';
+include 'functions/multiple_stock_functions.php';
 
 if ($_REQUEST['job']=="login"){
 
@@ -24,7 +25,7 @@ if ($_REQUEST['job']=="login"){
 		$_SESSION['filled']=$info['filled'];
         $_SESSION['department']=$user_info['department'];
         $_SESSION['branch']=$branch=$user_info['branch'];
-        
+
         if($_SESSION['department']== 'sales'){
             $smarty->assign('Page',"Sales");
             $smarty->display("sales/sales.tpl");

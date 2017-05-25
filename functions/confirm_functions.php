@@ -33,7 +33,7 @@ function list_purchase_order_search_for_confirm($purchase_order_no_search, $supp
 		{
 		echo '
 				<tr>
-					<td align="center"><a href="confirm.php?job=view&id='.$row[id].'"  ><img src="images/view.png" alt="View" width="24" height="24"/></a></td>
+					<td align="center"><a href="confirm.php?job=view&id='.$row[id].'"  ><i class="fa fa-eye"></i></a></td>
 		
 					<td align="center">'.$row[purchase_order_no].'</td>
 							
@@ -47,7 +47,7 @@ function list_purchase_order_search_for_confirm($purchase_order_no_search, $supp
 					
 					<td>'.strtoupper($row[prepared_by]).'</td>
 					
-					<td align="center"><a href="confirm.php?job=confirm&id='.$row[id].'"  ><img src="images/stamp.png" alt="Confirm" width="24" height="24" /></a></td>
+					<td align="center"><a href="confirm.php?job=confirm&id='.$row[id].'"  ><i class="fa fa-check-circle"></i></a></td>
 					
 				</tr>';
 		}
@@ -68,7 +68,7 @@ function list_purchase_orders_for_confirm(){
 	{
 		echo '
 			<tr>
-				<td align="center"><a href="confirm.php?job=view&id='.$row[id].'"  ><img src="images/view.png" alt="View" width="24" height="24"/></a></td>
+				<td align="center"><a href="confirm.php?job=view&id='.$row[id].'"  ><i class="fa fa-eye"></i></a></td>
 	
 				<td align="center">'.$row[purchase_order_no].'</td>
 						
@@ -82,7 +82,7 @@ function list_purchase_orders_for_confirm(){
 				
 				<td>'.strtoupper($row[prepared_by]).'</td>
 				
-				<td align="center"><a href="confirm.php?job=confirm&id='.$row[id].'"  ><img src="images/stamp.png" alt="Confirm" width="24" height="24" /></a></td>
+				<td align="center"><a href="confirm.php?job=confirm&id='.$row[id].'"  ><i class="fa fa-check-circle"></i></a></td>
 				
 			</tr>';
 	}
@@ -192,7 +192,7 @@ function update_inventory($purchase_order_no){
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 
-	$result=mysqli_query($conn, "SELECT * FROM purchase_order_has_items WHERE purchase_order_no='$purchase_order_no'");
+	$result=mysqli_query($conn, "SELECT * FROM purchase_order_has_items WHERE purchase_order_no='$purchase_order_no' AND  cancel_status='0'");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		$product_id=$row['product_id'];
@@ -209,18 +209,16 @@ function update_inventory($purchase_order_no){
 		$selling_price="";
 		$discount="";
 		$label="";
+		
+		$branch='STORE';
+		$location='common';
 
-
-		if (check_added_items_inventory($product_id)==1){
-			$info=get_inventory_info_by_product_id($product_id);
-			$old_quantity=$info['quantity'];
+			$info=get_info_mutiple_stock_by_product_id_branch($product_id,$branch);
+			$old_quantity=$info['stock'];
 			$new_quantity=$old_quantity+$quantity;
 
-			update_product_by_product_id($product_id, $product_name, $author, $isbn, $publication, $count, $selling_price, $discount, $buying_price, $buying_discount, $product_description, $measure_type, $purchased_date, $exp_date, $label, $supplier, $page, $size, $weight, $location, $name_in_ta, $type);
-		}
-		else{
-			save_product($product_id, $product_name, $author, $isbn, $publication, $barcode, $count, $selling_price, $discount, $buying_price, $buying_discount, $product_description, $measure_type, $purchased_date, $exp_date, $supplier, $page, $size, $weight, $cover, $location, $name_in_ta, $type, $item_type, $serial_no);
-		}
+			update_purchase_quantity($product_id, $branch, $new_quantity);
+		
 
 	}
 
