@@ -81,9 +81,10 @@ function list_inventory_basic_report() {
 function list_inventory_custom_report() {
 	include 'conf/config.php';
 	include 'conf/opendb.php';
-	
-	$x=1;
-	echo '<table class="inventory_table" style="width: 100%">
+
+	echo '<div class="box-body">
+				<table id="example1"  style="width: 30%;" class="table-responsive table-bordered table-striped dt-responsive">
+	  
 	<thead valign="top">
 	<th>No</th>';
 	if ($_SESSION['product_id']){
@@ -182,9 +183,12 @@ function list_inventory_custom_report() {
 	}
 	if ($_SESSION['stock_value']){
 		$x=$x-1;
-	echo '<tr><th colspan='.$x.'>Total</th><th>'.number_format($total, 2).'</th></tr>';
+	echo '<tr>
+    <th colspan='.$x.'>Total</th>
+	<th align="right">'.number_format($total, 2).'</th>
+	</tr>';
 	}
-	echo'</tbody></table>';
+	echo'</tbody></table></div>';
 
 	include 'conf/closedb.php';
 }

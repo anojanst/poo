@@ -164,19 +164,20 @@ function list_other_expenses_search($other_expenses_no_search, $supplier_search)
 	
 	if($other_expenses_no_search || $supplier_search){
 	
-	echo '<table class="inventory_table" style="width: 900px; border-bottom: 2px solid silver; margin-bottom: 10px;">
-	<thead valign="top">
-	<th>Print</th>
-	<th>Other Expenses  No</th>
-	<th>Other Expenses  Date</th>
-	<th>Suppier Name</th>
-	<th>Cash Amount</th>
-	<th>Cheque Amount</th>
-	<th>Payment Total</th>
-	<th>Remarks</th>
-	<th>Prepared By</th>
-	<th>Delete</th>
-	</thead>
+	echo '<div class="box-body">
+    <table width="100%" id="example1" class="table table-bordered table-striped">
+        <thead valign="top">
+            <th>Print</th>
+            <th>Other Expenses  No</th>
+            <th>Other Expenses  Date</th>
+            <th>Suppier Name</th>
+            <th>Cash Amount</th>
+            <th>Cheque Amount</th>
+            <th>Payment Total</th>
+            <th>Remarks</th>
+            <th>Prepared By</th>
+            <th>Delete</th>
+        </thead>
 	<tbody valign="top">';
 
 	$result=mysqli_query($conn, "SELECT * FROM other_expenses WHERE $suppier_check $and $other_expenses_no_check AND cancel_status='0' ORDER BY id DESC LIMIT 500");
@@ -205,7 +206,7 @@ function list_other_expenses_search($other_expenses_no_search, $supplier_search)
 			<td><a href="#" onclick="javascript:showConfirm(\'Are you sure you want to delete this entry?\',\'\',\'Yes\',\'other_expenses.php?job=delete&id='.$row[id].'\',\'No\',\'other_expenses.php?job=search\')"><img src="images/close.png" alt="Delete" /></a></td>
 		</tr>';
 	}
-	echo '</tbody></table>';
+	echo '</tbody></table></div>';
 	}
 	
 	include 'conf/closedb.php';

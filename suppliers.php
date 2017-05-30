@@ -11,6 +11,10 @@ if ($_SESSION['login']==1){
 		$smarty->assign('page',"Supplier");
 		$smarty->display('suppliers/suppliers.tpl');
 	}
+    elseif ($_REQUEST['job']=="add_new"){
+        $smarty->assign('page',"Supplier");
+        $smarty->display('suppliers/add_new.tpl');
+    }
 
 	elseif ($_REQUEST['job']=="add"){
 
@@ -56,7 +60,7 @@ if ($_SESSION['login']==1){
 		$smarty->assign('edit_mode','on');
 		$smarty->assign('edit','Supplier');
 		$smarty->assign('page',"Suppliers");
-		$smarty->display('suppliers/suppliers.tpl');
+		$smarty->display('suppliers/add_new.tpl');
 	}
 	elseif($_REQUEST['job']=='search'){
 

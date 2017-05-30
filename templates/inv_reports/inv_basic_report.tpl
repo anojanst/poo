@@ -32,7 +32,7 @@ $(function () {
 						<a href="reports.php" class="btn btn-primary">Back</a>
 					</div>
 					<div class="col-lg-4" >
-						<a href="inv_basic_report.php?job=select_fields" class="more" style="width: 200px; margin-left: 100px;">custom Report</a>
+						<a href="inv_basic_report.php?job=select_fields" class="more btn btn-primary" style="width: 200px; margin-left: 100px;">custom Report</a>
 					</div>
 				</form>
 			</div>

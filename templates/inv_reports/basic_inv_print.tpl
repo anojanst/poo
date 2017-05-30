@@ -1,5 +1,5 @@
 {include file="print_header.tpl"}
-<h3>Imperial College</h3> 
+<h3>Poobalasingam Book Depot</h3>
 
 <h3>Closing Inventory as at {$today} </h3>
 

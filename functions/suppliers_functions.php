@@ -3,25 +3,26 @@ function list_suppliers(){
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 	
-	echo '<table class="inventory_table" style="width: 900px;">
-	<thead valign="top">
-	<th width="20">Edit</th>
-	<th width="120">Supplier Name</th>
-	<th width="120">Address</th>
-	<th width="100">Telephone No</th>
-	<th width="80">Fax No</th>
-	<th width="80">Email</th>
-	<th width="120">Contact person</th>
-	<th width="20">Delete</th>
-	</thead>
-	<tbody valign="top">';
+	echo '<div class="box-body">
+				<table id="example1"  style="width: 100%;" class="table-responsive table-bordered table-striped dt-responsive">
+                    <thead valign="top">
+                        <th width="20">Edit</th>
+                        <th width="120">Supplier Name</th>
+                        <th width="120">Address</th>
+                        <th width="100">Telephone No</th>
+                        <th width="80">Fax No</th>
+                        <th width="80">Email</th>
+                        <th width="120">Contact person</th>
+                        <th width="20">Delete</th>
+                    </thead>
+                    <tbody valign="top">';
 
 	$result=mysqli_query($conn, "SELECT * FROM suppliers WHERE cancel_status='0' ORDER BY id DESC LIMIT 500");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
 		echo '
 		<tr>
-			<td><a href="suppliers.php?job=edit&id='.$row[id].'"  ><img src="images/edit.png" alt="Edit" /></a></td>
+			<td><a href="suppliers.php?job=edit&id='.$row[id].'" ><i class="fa fa-pencil-square-o" ></i></a></td>
 
 			<td>'.$row[supplier_name].'</td>
 					
@@ -35,7 +36,7 @@ function list_suppliers(){
 		
 			<td>'.$row[contact_person].'</td>
 		
-			<td><a href="#" onclick="javascript:showConfirm(\'Are you sure you want to delete this entry?\',\'\',\'Yes\',\'suppliers.php?job=delete&id='.$row[id].'\',\'No\',\'suppliers.php\')"><img src="images/close.png" alt="Delete" /></a></td>
+			<td><a href="suppliers.php?job=delete&id='.$row[id].'" onclick="javascript:showConfirm(\'Are you sure you want to delete this entry?\',\'\',\'Yes\',\'suppliers.php?job=delete&id='.$row[id].'\',\'No\',\'suppliers.php\')"><i class="fa fa-times" ></i></a></td>
 		</tr>';
 	}
 	echo '</tbody></table>';
