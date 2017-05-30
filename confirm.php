@@ -4,8 +4,11 @@ include 'functions/purchase_order_functions.php';
 include 'functions/confirm_functions.php';
 include 'functions/inventory_functions.php';
 include 'functions/user_functions.php';
+include 'functions/multiple_stock_functions.php';
 include 'functions/ledger_functions.php';
 include 'functions/navigation_functions.php';
+include 'functions/sales_functions.php';
+
 
 $module_no = 6;
 

@@ -184,6 +184,37 @@ function get_info_mutiple_stock_by_branch($product_name,$branch) {
         return $row;
     }
 }
+
+function get_info_mutiple_stock_by_product_id_branch($product_id,$branch) {
+    include 'conf/config.php';
+    include 'conf/opendb.php';
+   $result = mysqli_query ($conn, "SELECT * FROM multiple_stock_has_inventory WHERE branch='$branch'AND product_id='$product_id' AND  cancel_status='0' " );
+
+    while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) )
+
+    {
+        return $row;
+    }
+}
+
+
+function save_purchase_confirm_items($product_id,$product_name,$branch,$quantity,$locatio){
+    include 'conf/config.php';
+    include 'conf/opendb.php';
+	
+   // $branch=$_SESSION['branch'];
+    $reorder= $quantity*0.1;
+
+    mysqli_select_db($conn, $dbname);
+    $query = "INSERT INTO multiple_stock_has_inventory (id,product_id, product_name, branch,stock,reorder,location) 
+    VALUES ('','$product_id','$product_name', '$branch','$quantity','$reorder','$location')";
+
+    mysqli_query ($conn, $query ) or die ( mysqli_connect_error () );
+
+
+}
+
+
 function update_quantity($product_id,$product_name){
 	include 'conf/config.php';
     include 'conf/opendb.php';
@@ -204,3 +235,19 @@ function update_quantity($product_id,$product_name){
 
 }
 	
+	
+	function update_purchase_quantity($product_id,$branch, $new_quantity){
+	include 'conf/config.php';
+    include 'conf/opendb.php';
+	
+	
+    mysqli_select_db ($conn, $dbname );
+    $query = "UPDATE multiple_stock_has_inventory SET
+	stock='$new_quantity'
+	WHERE product_id='$product_id' AND branch='$branch'";
+
+    mysqli_query ($conn, $query );
+
+}
+
+

@@ -295,14 +295,13 @@ if ($_SESSION['login'] == 1) {
             }
             else{
             }
-
-            $purchase_order_no=$_SESSION['purchase_order_no'];
-
-            echo $purchase_order_no;
+			
+			$purchase_order_no=$_SESSION['purchase_order_no'];
+			
             $product_name = $_POST['product_name'];
             $quantity = $_POST['quantity'];
             $buying_price = $_POST['buying_price'];
-            $branch = $_SESSION['branch'];
+            $branch = 'STORE';
             $discount=$_POST['discount'];
             $location='common';
             $purchased_date=date('Y-m-d');
@@ -313,8 +312,9 @@ if ($_SESSION['login'] == 1) {
             $total=($quantity*$buying_price/100)*(100-$discount);
             save_product($product_id, $product_name, $author, $isbn, $publication, $barcode, 0, $selling_price, 0, $buying_price, $buying_discount, $product_description, $measure_type, $purchased_date, $exp_date, $supplier, $page, $size, $weight, $cover, $location, $name_in_ta, $type, $item_type, $serial_no, $quantity);
 
-            save_items($product_id,$product_name,0,$location);
-
+            // save_items($product_id,$product_name,0,$location);
+			save_purchase_confirm_items($product_id,$product_name,$branch,0,$location);
+			
             add_quick_purchase_item($product_id, $product_name, $buying_price, $discount,$total, $purchase_order_no, $quantity);
             $smarty->assign('total',get_total($_SESSION['purchase_order_no']));
             $smarty->assign('purchase_order_no',"$_SESSION[purchase_order_no]");
