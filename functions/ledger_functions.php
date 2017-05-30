@@ -204,28 +204,57 @@ function add_discount_sales_payment_ledger($sales_payment_no) {
 	include 'conf/closedb.php';
 }
 
-function add_sales_payment_ledger($sales_no) {
+function add_sales_quick_payment_ledger($sales_no) {
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 
-    $result=mysqli_query($conn, "SELECT * FROM sales WHERE sales_no = '$sales_no' AND cancel_status='0' ORDER BY id DESC");
-    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
-    {
-        $date=$row['date'];
-        $flag='SALES';
-        $sales_no=$ref_no=$row['sales_no'];
-        $narration=addslashes($row['customer_name']);
-        $total=$row['total'];
+	$result=mysqli_query($conn, "SELECT * FROM sales WHERE sales_no='$sales_no'");
+	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+	{
+		$date=$row['date'];
+		$payment_type=$row['payment_type'];
+		$flag='SALES PAYMENT';
+		$sales_payment_no=$ref_no=$row['sales_no'];
+		$customer_name="DEFAULT CUSTOMER";
+		$total=$row['total'];
+		$gift_card_amount=get_gift_card_amount_by_gift_card_no($row['gift_card_no']);
+		if ($payment_type!="GIFT") {
 
-        mysqli_select_db($conn_for_changing_db, $dbname);
-        $query3 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no)
-        VALUES ('$narration', '$date', '$flag', '$ref_no', 'CASH', '', '$total', '')";
-        mysqli_query($conn, $query3) or die (mysqli_error($conn));
+			$query1 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no)
+			VALUES ('$customer_name', '$date', '$flag', '$ref_no', '$payment_type', '', '$total', '')";
+			mysqli_query($conn, $query1) or die (mysqli_error($conn));
 
-        mysqli_select_db($conn_for_changing_db, $dbname);
-        $query4 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no)
-        VALUES ('CASH', '$date', '$flag', '$ref_no', '$narration', '$total', '', '')";
-        mysqli_query($conn, $query4) or die (mysqli_error($conn));
+			$query2 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no)
+			VALUES ('$payment_type', '$date', '$flag', '$ref_no', '$customer_name', '$total', '', '')";
+			mysqli_query($conn, $query2) or die (mysqli_error($conn));
+		}
+
+		else {
+
+			mysqli_select_db($conn_for_changing_db, $dbname);
+			$query1 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no)
+			VALUES ('$customer_name', '$date', '$flag', '$ref_no', '$payment_type', '', '$gift_card_amount', '')";
+			mysqli_query($conn, $query1) or die (mysqli_error($conn));
+
+			mysqli_select_db($conn_for_changing_db, $dbname);
+			$query2 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no)
+			VALUES ('$payment_type', '$date', '$flag', '$ref_no', '$customer_name', '$gift_card_amount', '', '')";
+			mysqli_query($conn, $query2) or die (mysqli_error($conn));
+
+			if ($total>$gift_card_amount) {
+			    $cash_amount=$total-$gift_card_amount;
+
+                mysqli_select_db($conn_for_changing_db, $dbname);
+                $query3 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no)
+			    VALUES ('$customer_name', '$date', '$flag', '$ref_no', 'CASH', '', '$cash_amount', '')";
+                mysqli_query($conn, $query3) or die (mysqli_error($conn));
+
+                mysqli_select_db($conn_for_changing_db, $dbname);
+                $query4 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no)
+			  VALUES ('CASH', '$date', '$flag', '$ref_no', '$customer_name', '$cash_amount', '', '')";
+                mysqli_query($conn, $query4) or die (mysqli_error($conn));
+            }
+		}
 
 	}
 	
@@ -500,13 +529,10 @@ function add_sales_ledger($sales_no) {
 		$date=$row['date'];
 		$flag='SALES';
 		$sales_no=$ref_no=$row['sales_no'];
-		$narration=addslashes($row['customer_name']);
+		$narration='DEFAULT CUSTOMER';
         $total=$row['total'];
 		$account="SALES";
 		//customer
-		include 'conf/opendb.php';
-
-		mysqli_select_db($conn_for_changing_db, $dbname) or die (mysqli_error($conn));
 
 		mysqli_select_db($conn_for_changing_db, $dbname);
 		$query2 = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no, remarks)
@@ -527,7 +553,6 @@ function update_sales_ledger($sales_no) {
 	$flag='SALES';
 	$total=$sales_info['total'];
 	$narration=addslashes($sales_info['customer_name']);
-
 
 	mysqli_select_db($conn_for_changing_db, $dbname);
 	$query2 = "UPDATE ledger SET
@@ -623,10 +648,6 @@ function delete_all_sales_items_ledger($sales_no) {
 	include 'conf/closedb.php';
 
 }
-//ends
-
-//return
-
 function add_return_ledger($return_no) {
 	include 'conf/config.php';
 	include 'conf/opendb.php';
@@ -771,7 +792,7 @@ function add_purchase_order_ledger($purchase_order_no) {
 	$result=mysqli_query($conn, "SELECT * FROM purchase_order WHERE purchase_order_no = '$purchase_order_no' AND cancel_status='0' ORDER BY id DESC");
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 	{
-		$date=$row['purchase_order_date'];
+		$date=$row['date'];
 		$flag='PURCHASE ORDER';
 		$ref_no=$row['purchase_order_no'];
 		$narration=addslashes($row['supplier_name']);
@@ -875,16 +896,44 @@ function add_purchase_order_item_ledger($purchase_order_no, $product_id, $total)
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 
-	$id=get_purchase_order_item_id($purchase_order_no);
-	$date=date("Y-m-d");
+    $id=get_purchase_order_item_id($purchase_order_no);
+    echo $id;
+	$date=date('Y-m-d');
 	$flag='PURCHASE ITEM';
 	$account=$product_id;
 	$narration='PURCHASE';
-	
+
+	echo "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no, remarks)
+	VALUES ('$account', '$date', '$flag', '$id', '$narration', '$total', '', '', '$purchase_order_no')";
 	mysqli_select_db($conn_for_changing_db, $dbname);
 	$query = "INSERT INTO ledger (account, date, flag, ref_no, narration, debit, credit, cheque_no, remarks)
 	VALUES ('$account', '$date', '$flag', '$id', '$narration', '$total', '', '', '$purchase_order_no')";
 	mysqli_query($conn, $query) or die (mysqli_error($conn));
 
 	include 'conf/closedb.php';
+}
+function update_purchase_order_item_ledger($product_id ,$purchase_order_no) {
+    include 'conf/config.php';
+    include 'conf/opendb.php';
+
+    $item_info=get_product_info_from_purchase_order_has_items($product_id, $purchase_order_no);
+    $account=$product_id;
+    $date=$item_info['date'];
+    $flag='PURCHASE ITEM';
+    $total=$item_info['total'];
+    $id=$item_info['id'];
+    $narration='PURCHASE';
+
+    mysqli_select_db($conn_for_changing_db, $dbname);
+    $query = "UPDATE ledger SET
+	account='$account',
+	date='$date',	
+	flag='$flag',
+	narration='$narration',
+	credit='$total', 	
+	remarks='$purchase_order_no'
+	WHERE ref_no='$id' AND flag='SALES ITEM' AND remarks='$purchase_order_no' AND cancel_status='0'";
+    mysqli_query($conn, $query);
+
+    include 'conf/closedb.php';
 }

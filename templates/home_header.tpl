@@ -12,6 +12,7 @@
 <!-- Bootstrap Core CSS -->
 
 <!-- Timeline CSS -->
+
 <link href="css/kendo.common.min.css" rel="stylesheet">
 <link href="css/kendo.default.min.css" rel="stylesheet">
 <link rel="stylesheet" href="css/dataTables.bootstrap.css">
@@ -33,9 +34,9 @@
 <link rel="stylesheet" href="css/fileinput.css">
 <link rel="stylesheet" href="css/fileinput.min.css">
 <link rel="stylesheet" href="css/daterangepicker.css">
-
-
-
+<!-- date picker-->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>

@@ -136,16 +136,13 @@ function check_multiple_stock_has_inventory($product_id, $branch){
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 
-	$result=mysqli_query($conn, "SELECT count(id) FROM multiple_stock_has_inventory WHERE product_id='$product_id' AND branch='$branch' ");
-	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
-	{
-		if ($row['count(id)'] >=1) {
+	
+	if(mysqli_num_rows(mysqli_query($conn,"SELECT count(id) FROM multiple_stock_has_inventory WHERE product_id='$product_id' AND branch='$branch' AND  cancel_status='0'"))){
 			return 1;
 		}
 		else{
 			return 0;
 		}
-	}
 
 	include 'conf/closedb.php';
 }
@@ -314,7 +311,8 @@ function save_sales($sales_no, $date, $customer_name, $prepared_by, $remarks,$di
 	include 'conf/opendb.php';
 
 	$date = date("Y-m-d", strtotime($date));
-	
+	echo "INSERT INTO sales (id, sales_no, customer_name, prepared_by, remarks, date, total, due, customer_amount,total_after_discount, discount, balance, payment_type, gift_card_no)
+	VALUES ('', '$sales_no', '$customer_name', '$prepared_by', '$remarks', '$date', '$total', '$total', '$customer_amount','$total_after_discount', '$discount', '$balance','$payment_type', '$gift_card_no')";
 	mysqli_select_db($conn_for_changing_db, $dbname);
 	$query = "INSERT INTO sales (id, sales_no, customer_name, prepared_by, remarks, date, total, due, customer_amount,total_after_discount, discount, balance, payment_type, gift_card_no)
 	VALUES ('', '$sales_no', '$customer_name', '$prepared_by', '$remarks', '$date', '$total', '$total', '$customer_amount','$total_after_discount', '$discount', '$balance','$payment_type', '$gift_card_no')";

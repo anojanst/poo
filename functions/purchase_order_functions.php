@@ -367,15 +367,14 @@ function cancel_purchase_order($id){
 }
 
 function get_purchase_order_item_id($purchase_order_no) {
-	include 'functions/config.php';
-	include 'functions/opendb.php';
+	include 'conf/config.php';
+	include 'conf/opendb.php';
 
 	$result=mysqli_query($conn, "SELECT MAX(id) FROM purchase_order_has_items WHERE  cancel_status='0' ");
-	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
-	{
+	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))	{
 		return $row['MAX(id)'];
 	}
-	
+
 	include 'conf/closedb.php';
 }
 
@@ -524,3 +523,16 @@ function get_product_info_from_purchase_has_items_by_id($id){
 	}
 	include 'conf/closedb.php';
 }
+
+function get_product_info_from_purchase_order_has_items($product_id, $purchase_order_no){
+    include 'conf/config.php';
+    include 'conf/opendb.php';
+
+    $result=mysqli_query($conn, "SELECT * FROM purchase_order_has_items WHERE product_id='$product_id' AND purchase_order_no='$purchase_order_no'");
+    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+    {
+        return $row;
+    }
+    include 'conf/closedb.php';
+}
+

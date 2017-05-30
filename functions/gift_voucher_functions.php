@@ -114,3 +114,15 @@ function get_voucher_info($id) {
 
 }
 
+
+function get_gift_card_amount_by_gift_card_no($gift_card_no) {
+    include 'conf/config.php';
+    include 'conf/opendb.php';
+
+    $result = mysqli_query ( $conn, "SELECT * FROM gift_voucher WHERE voucher_no='$gift_card_no'" );
+    while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) ) {
+        return $row['voucher_amount'];
+    }
+
+}
+

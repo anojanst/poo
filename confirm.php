@@ -4,8 +4,11 @@ include 'functions/purchase_order_functions.php';
 include 'functions/confirm_functions.php';
 include 'functions/inventory_functions.php';
 include 'functions/user_functions.php';
-
+include 'functions/multiple_stock_functions.php';
+include 'functions/ledger_functions.php';
 include 'functions/navigation_functions.php';
+include 'functions/sales_functions.php';
+
 
 $module_no = 6;
 
@@ -41,6 +44,7 @@ if ($_SESSION['login'] == 1) {
 
 			update_confirmed($id);
 			update_inventory($purchase_order_no);
+            add_purchase_order_ledger($purchase_order_no);
 
 			$smarty->assign('org_name', "$_SESSION[org_name]");
 			$smarty->assign('page', "Confirm Purchase Order");
