@@ -22,11 +22,8 @@
 						<input type="text" class='auto2 form-control' name="sales_payment_no_search" value="{$sales_payment_no_search}" placeholder="Reurn Sales Payment No" />
 					</div>
 					<div class="col-lg-2">	
-						<input type="submit" class="btn btn-primary" value="Search"/>
-
+						<input type="image"	src="./images/search.png" height="28" width="28" />
 					</div>
-
-
 				</form>
 			</div><br>
 			{if $search_mode=='on'}
@@ -47,7 +44,7 @@
 			</div>
 			{if $show=='on' }
 			<div class="main_user_home" style="min-height: 300px;">
-				<p style="margin-top: 20px;">Pending Sales Payments.</p>
+				<p style="margin-top: 20px; margin-bottom: -20px;">Pending Sales Payments.</p>
 			{if $customer_name}
 			<div>
 			{php}list_sales_of_customer($_SESSION['customer_name']);{/php}</div>
@@ -60,85 +57,63 @@
 				<p style="margin-top: 10px; margin-bottom: 5px;">Added Sales Payments.</p>
 			{php}list_added_sales($_SESSION['random_no']);{/php}
 			{/if}
-
-			<div class="row" style="margin-top: 50px;">
+			<div>
 				<form name="payment" action="sales_payment.php?job=save_payment" method="post" class="product">
-					
-						<div>
-							<div class="col-lg-6">
-								
-									<div>
-										<div>Cheque Amount: </div>
-										<div width="350"><input type="text"  class="form-control" name="cheque_amount" value="{$cheque_amount}" size="25" /></div>
-										<div>Cash Amount</div>
-										<div> <input type="text" class="form-control" name="cash_amount" value="{$cash_amount}"
-											size="25" /></div>
-									</div>
-									<div>
-										<div>Cheque No</div>
-										<div> <input type="text" class="form-control" name="cheque_no" value="{$cheque_no}" size="25" /></div>
-									</div>
-									<div>
-										<div>Bank</div>
-										<div> <input type="text" class="form-control" name="cheque_bank" value="{$cheque_bank}" size="25" /></div>
-									</div>
-									<div>
-										<div>Branch</div>
-										<div> <input type="text" class="form-control" name="cheque_branch" value="{$branch}"	size="25" /></div>
-									</div>
+					<table	style="border-top: 2px silver solid; width: 900px; padding-top: 20px;">
+						<tr>
+							<td>
+								<table>
+									<tr>
+										<td>Cheque Amount</td>
+										<td width="350">: <input type="text" name="cheque_amount"
+											value="{$cheque_amount}" size="25" /></td>
+										<td>Cash Amount</td>
+										<td>: <input type="text" name="cash_amount" value="{$cash_amount}"
+											size="25" /></td>
+									</tr>
+									<tr>
+										<td>Cheque No</td>
+										<td>: <input type="text" name="cheque_no" value="{$cheque_no}" size="25" /></td>
+									</tr>
+									<tr>
+										<td>Bank</td>
+										<td>: <input type="text" name="cheque_bank" value="{$cheque_bank}" size="25" /></td>
+									</tr>
+									<tr>
+										<td>Branch</td>
+										<td>: <input type="text" name="cheque_branch" value="{$branch}"	size="25" /></td>
+									</tr>
+									<tr>
+										<td>Cheque Date</td>
+										<td>: <input type="text" name="cheque_date" value="{$cheque_date}" class="datepicker" required size="25" /></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table><br/>
+					<table>
+						<tr>
+							<td width="125">Date</td>
+							<td>:</td>
+							<td><input type="text" name="date" class="datepicker" value="{$date}"size="25" /></td>
+						</tr>
+						<tr>
+							<td>Remarks</td>
+							<td>:</td>
+							<td><textarea name="remarks" style="width: 265px;">{$remarks}</textarea></td>
+						</tr>
+						<tr>
+							<td>Prepared By</td>
+							<td>:</td>
+							<td><input type="text" name="prepared_by" value="{$prepared_by}" readonly size="25" /></td>
+						</tr>					
+					</table> <br/>
 
-								
-							</div>
-						</div>
-
-					<div class="col-lg-6">
-					
-						<div>
-							<div>Cheque Date</div>
-							<div> <input type="text" class="form-control" name="cheque_date" value="{$cheque_date}" class="datepicker" required size="25" /></div>
-						</div>											
-
-
-						<div>
-							<div width="125">Date</div>
-							
-							<div><input type="text" class="form-control" name="date" class="datepicker" value="{$date}"size="25" /></div>
-						</div>
-						<div>
-							<div>Remarks</div>
-							
-							<div><textarea name="remarks" class="form-control">{$remarks}</textarea></div>
-						</div>
-						<div>
-							<div>Prepared By</div>
-							
-							<div><input type="text"  class="form-control" name="prepared_by" value="{$prepared_by}" readonly size="25" /></div>
-						</div>					
-
-						<div>
-							<button type="submit" class="btn btn-block btn-success" value="Save Payment" style="width: 200px; margin-top: 20px;">Save Payment</button>
-						</div>
+						<input type="submit" name="ok" value="Save Payment"/>
 				</form>
-					</div>
-
 			</div>
 			{/if}
 		</div>
 	</div>
 </section>
 {include file="js_footer.tpl"}
-
-	{literal}
-		<script>
-			 $(function () {
-				 $("#example1").DataTable();
-			 });
-		</script>
-
-		<script>
-			 $(function () {
-				 $("#example2").DataTable();
-			 });
-		</script>
-
-	{/literal}

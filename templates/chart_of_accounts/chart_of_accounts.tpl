@@ -161,12 +161,12 @@ $(function() {
 					<a href="javascript:account('hide');"><img src="./images/close.png" width="15" height="15" style="position: absolute; top: 5px; right: 5px;"/></a>
 				</div>
 			<div class="row">
-				<div class="col-lg-4">
+				<div class="col-lg-10" >
 					<h4>Customer Details</h4>
 				</div>
 			
 					<div class="col-lg-2" style="padding-left: 60px; margin-top: -5px; ">
-						<h5>Add New <a href="chart_of_accounts.php?job=add_new_acc">
+						<h5 align="right">Add New <a href="chart_of_accounts.php?job=add_new_acc">
 						<img alt="add" width="28" src="./images/add.png">
 						</a> </h5>											
 					</div>	

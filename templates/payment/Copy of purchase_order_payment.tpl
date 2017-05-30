@@ -61,52 +61,55 @@
 					{/if}					
 					<div>	
 						<form name="payment" action="purchase_order_payment.php?job=save_payment" method="post" class="product">		
-							
-							<div>							
-							<div>							
-							
-								<div>							
-									<div>Cheque Amount</div>
-									<div width="350">: <input type="text" name="cheque_amount" value="{$cheque_amount}" size="25"/></div>
-									<div>Cash Amount</div>
-									<div>: <input type="text" name="cash_amount" value="{$cash_amount}" size="25"/></div>
-								</div>
-								<div>							
-									<div>Cheque No</div>
-									<div>: <input type="text" name="cheque_no" value="{$cheque_no}" size="25"/></div>							
-								</div>
-								<div>							
-									<div>Bank</div>
-									<div>: <input type="text" name="cheque_bank" value="{$cheque_bank}" size="25"/></div>
-								</div>
-								<div>							
-									<div>Branch</div>
-									<div>: <input type="text" name="cheque_branch" value="{$branch}" size="25"/></div>							
-								</div>
-								<div>							
-									<div>Cheque Date</div>
-									<div>: <input type="text" name="cheque_date" value="{$cheque_date}" class="datepicker" required size="25" /></div>							
-								</div>							
-																					
-							</div>							
-							</div>
-								<div>
-									<div width="125">Date</div>
-									<div>: </div>
-									<div><input type="text" name="date" class="datepicker" value="{$date}" size="25"/></div>
-								</div>
-								<div>
-									<div>Remarks</div>
-									<div>: </div>
-									<div><textarea name="remarks" style="width: 265px;">{$remarks}</textarea></div>
-								</div>
-								<div>
-									<div>Prepared By</div>
-									<div>: </div>
-									<div><input type="text" name="prepared_by" value="{$prepared_by}" readonly size="25"/></div>
-								</div>
-							
-							
+							<table style="border-top: 2px silver solid; width: 900px; padding-top: 20px;">
+							<tr>							
+							<td>							
+							<table>
+								<tr>							
+									<td>Cheque Amount</td>
+									<td width="350">: <input type="text" name="cheque_amount" value="{$cheque_amount}" size="25"/></td>
+									<td>Cash Amount</td>
+									<td>: <input type="text" name="cash_amount" value="{$cash_amount}" size="25"/></td>
+								</tr>
+								<tr>							
+									<td>Cheque No</td>
+									<td>: <input type="text" name="cheque_no" value="{$cheque_no}" size="25"/></td>							
+								</tr>
+								<tr>							
+									<td>Bank</td>
+									<td>: <input type="text" name="cheque_bank" value="{$cheque_bank}" size="25"/></td>
+								</tr>
+								<tr>							
+									<td>Branch</td>
+									<td>: <input type="text" name="cheque_branch" value="{$branch}" size="25"/></td>							
+								</tr>
+								<tr>							
+									<td>Cheque Date</td>
+									<td>: <input type="text" name="cheque_date" value="{$cheque_date}" class="datepicker" required size="25" /></td>							
+								</tr>							
+							</table>														
+							</td>							
+							</tr>
+							</table>
+							<br/>							
+							<table>
+								<tr>
+									<td width="125">Date</td>
+									<td>: </td>
+									<td><input type="text" name="date" class="datepicker" value="{$date}" size="25"/></td>
+								</tr>
+								<tr>
+									<td>Remarks</td>
+									<td>: </td>
+									<td><textarea name="remarks" style="width: 265px;">{$remarks}</textarea></td>
+								</tr>
+								<tr>
+									<td>Prepared By</td>
+									<td>: </td>
+									<td><input type="text" name="prepared_by" value="{$prepared_by}" readonly size="25"/></td>
+								</tr>
+							</table>
+							<br/>
 							<input type="submit" name="ok" value="Save Payment" />
 						</form>
 					</div>
