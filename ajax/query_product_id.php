@@ -11,11 +11,11 @@ if (isset($_GET['term'])){
     try {
         $conn = new PDO("mysql:host=".DB_SERVER.";dbname=".DB_NAME, DB_USER, DB_PASSWORD);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $conn->prepare('SELECT * FROM inventory WHERE product_name LIKE :term');
-        $stmt->execute(array('term' => $_GET['term'].'%'));
+        $stmt = $conn->prepare('SELECT * FROM inventory WHERE item_type="ACC" AND product_id LIKE :term');
+        $stmt->execute(array('term' => '%'.$_GET['term']));
 
         while($row = $stmt->fetch()) {
-            $return_arr[] =  $row['product_name'];
+            $return_arr[] =  $row['product_id'];
         }
 
     } catch(PDOException $e) {

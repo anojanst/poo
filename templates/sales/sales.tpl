@@ -5,7 +5,7 @@
 	<script>
         $(document).ready(function() {
             $('#product_name').autocomplete({
-                source: 'ajax/query_transfer.php?query=%QUERY'
+                source: 'ajax/query_multiple_stock.php?query=%QUERY'
             });
         })
 	</script>
@@ -14,7 +14,23 @@
 	<script>
         $(document).ready(function() {
             $('#selected_item').autocomplete({
-                source: 'ajax/query_transfer.php?query=%QUERY'
+                source: 'ajax/query_multiple_stock.php?query=%QUERY'
+            });
+        })
+	</script>
+
+	<script>
+        $(document).ready(function() {
+            $('#barcode').autocomplete({
+                source: 'ajax/query_barcode.php?query=%QUERY'
+            });
+        })
+	</script>
+
+	<script>
+        $(document).ready(function() {
+            $('#product_no').autocomplete({
+                source: 'ajax/query_product_id.php?query=%QUERY'
             });
         })
 	</script>
@@ -65,7 +81,7 @@
 						<div class="inner">
 							<strong><h4 style="margin-top: -5px; font-weight: 900;">Barcode</h4></strong>
 							<form action="sales.php?job=barcode" name="select_item_form" method="post" >
-								<input type="text" class="form-control" name="barcode" placeholder="For Barcode" autofocus  onchange="this.form.submit()"/>
+								<input type="text" class="form-control" id="barcode" name="barcode" placeholder="For Barcode" autofocus  onchange="this.form.submit()"/>
 
 							</form>
 						</div>
@@ -76,7 +92,7 @@
 						<div class="inner">
 							<strong><h4 style="margin-top: -5px; font-weight: 900;">Product No</h4></strong>
 							<form action="sales.php?job=product_no" name="select_item_form" method="post">
-								<input type="text" class="form-control" name="product_no" placeholder="Product No"/>
+								<input type="text" class="form-control" id="product_no" name="product_no" placeholder="Product No"/>
 								<!--<input type="submit" style="margin-top: 5px;" class="form-control btn btn-primary" name="add" value="Add"/>
 							--></form>
 						</div>
@@ -97,37 +113,37 @@
 					<div class="small-box bg-red">
 						<div class="inner">
 							<strong><h4 style="margin-top: -5px; font-weight: 900;">Price</h4></strong>
-							 <form action="sales.php?job=price" name="select_item_form" method="post">
+							<form action="sales.php?job=price" name="select_item_form" method="post">
 								<input type="text" class="form-control" name="price" placeholder="Price"/>
 								<!--<input type="submit" style="margin-top: 5px;" class="form-control btn btn-primary" name="add" value="Add"/>
 							--></form>
 						</div>
 					</div>
 				</div>
-			</div>		
-						
+			</div>
 
-				<div class="row">
-						<div class="col-lg-9">
-							<table class="table table-bordered table-striped">
-								<thead>
-								<tr>
-									<th>Delete</th>
-									<th>Product Name</th>
-									<th>Price</th>
-									<th>Quantity</th>
-									<th>Discount (%)</th>
-									<th>Total</th>
-									<th>Update</th>
-								</tr>
-								</thead>
-								<tbody>
-                                {php}list_item_by_sales($_SESSION['sales_no']);{/php}
-								
-								</tbody>
-							</table>
-						</div>
-				
+
+			<div class="row">
+				<div class="col-lg-9">
+					<table class="table table-bordered table-striped">
+						<thead>
+						<tr>
+							<th>Delete</th>
+							<th>Product Name</th>
+							<th>Price</th>
+							<th>Quantity</th>
+							<th>Discount (%)</th>
+							<th>Total</th>
+							<th>Update</th>
+						</tr>
+						</thead>
+						<tbody>
+                        {php}list_item_by_sales($_SESSION['sales_no']);{/php}
+
+						</tbody>
+					</table>
+				</div>
+
 				<div class="col-lg-3">
 					<form name="sales_form" action="sales.php?job=sales" method="post" class="product">
 						<div class="row" style="margin-right: 5px; margin-top: 5px;">
@@ -148,7 +164,7 @@
 								<input type="text" class="form-control" name="discount" value="{$discount}"  size="25" placeholder="Discount" tabindex="5"/>
                             {/if}
 						</div>
-						
+
 						<div class="row" style="margin-right: 5px; margin-top: 5px;">
 							<label> <strong>Customer</strong> </label>
 							<input type="text" class="form-control" name="customer_name"size="25" placeholder="Customer" tabindex="4"/></td>
@@ -157,7 +173,7 @@
 							<label> <strong>Customer Paying Amount</strong> </label>
 							<input type="text" class="form-control" id="cust" name="customer_amount" id="customer_amount" size="25" placeholder="Customer Paying Amount" tabindex="5" onkeyup="calculateBalance()" />
 						</div>
-						
+
 
 						<div class="row" style="margin-right: 5px; margin-top: 5px;">
 							<label> <strong>Payment Type</strong> </label>
@@ -170,8 +186,8 @@
 							</select>
 						</div>
 
-						
-						
+
+
 						<div class="row" style="margin-right: 5px; margin-top: 5px;">
 							<label> <strong>Gift Card No</strong> </label>
 							<input type="text"  style="visibility: hidden;" class="form-control" id="gift" name="gift_card_no" id="gift_card_no" size="25" placeholder="Gift Card No" tabindex="5" onkeyup="calculateBalance()" />
@@ -185,47 +201,47 @@
 								<input type="text" class="form-control" name="updated_by" value="{$updated_by}" size="25" required readonly="readonly"/>
                             {/if}
 						</div>
-						
+
 						<div id="cus_amount"></div>
 
 					</form>
 				</div>
-				</div>
 			</div>
 		</div>
+	</div>
 
 </section>
 
 {literal}
 
 	<script type="text/javascript">
-    function changeAttributes()
-    {
-        var type = document.getElementById ( "type" ).value ;
+        function changeAttributes()
+        {
+            var type = document.getElementById ( "type" ).value ;
 
-        // when connecting to server
-        if ( type == "CARD" ||  type == "CREDIT" ){
-            document.getElementById ( "cust" ).style.visibility = "hidden" ;
-        }
-		
-        else{
-            document.getElementById ( "cust" ).style.visibility = "visible" ;
+            // when connecting to server
+            if ( type == "CARD" ||  type == "CREDIT" ){
+                document.getElementById ( "cust" ).style.visibility = "hidden" ;
+            }
 
-        }
-		
-		 if ( type == "GIFT"){
-            
-			document.getElementById ( "gift" ).style.visibility = "visible" ;
-        }
-		
-        else{
-          document.getElementById ( "gift" ).style.visibility = "hidden" ;
+            else{
+                document.getElementById ( "cust" ).style.visibility = "visible" ;
 
+            }
+
+            if ( type == "GIFT"){
+
+                document.getElementById ( "gift" ).style.visibility = "visible" ;
+            }
+
+            else{
+                document.getElementById ( "gift" ).style.visibility = "hidden" ;
+
+            }
         }
-    }
-</script>
-	
-	
+	</script>
+
+
 {/literal}
 
 {include file="js_footer.tpl"}

@@ -13,7 +13,7 @@
 	<script>
         $(document).ready(function() {
             $('#product_name').autocomplete({
-                source: 'ajax/query_transfer.php?query=%QUERY'
+                source: 'ajax/query_multiple_stock.php?query=%QUERY'
             });
         })
 	</script>
@@ -22,7 +22,7 @@
 	<script>
         $(document).ready(function() {
             $('#selected_item').autocomplete({
-                source: 'ajax/query_transfer.php?query=%QUERY'
+                source: 'ajax/query_multiple_stock.php?query=%QUERY'
             });
         })
 	</script>
