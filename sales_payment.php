@@ -5,7 +5,7 @@ include 'functions/sales_payment_functions.php';
 include 'functions/cheque_inventory_functions.php';
 include 'functions/ledger_functions.php';
 include 'functions/user_functions.php';
-
+include 'functions/gift_voucher_functions.php';
 include 'functions/navigation_functions.php';
 
 $module_no = 13;
@@ -99,7 +99,7 @@ if ($_SESSION['login'] == 1) {
 			if ($discount == 1) {
 				add_discount_sales_payment_ledger($sales_payment_no);
 			} else {
-				add_sales_payment_ledger($sales_payment_no);
+				add_sales_quick_payment_ledger($sales_payment_no);
 			}
 
 			if ($cheque_no) {

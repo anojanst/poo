@@ -391,7 +391,7 @@ if ($_SESSION['login'] == 1) {
 
                     add_sales_item($product_id, $product_name, $stock, $selling_price, $discount, $_SESSION['sales_no']);
                     $total_to_ledger=($selling_price/100)*(100-$discount);
-                    add_sales_items_ledger($_SESSION['sales_no'], $product_id, $total_to_ledger);
+                    //add_sales_items_ledger($_SESSION['sales_no'], $product_id, $total_to_ledger);
 
 
                 }
@@ -668,7 +668,6 @@ if ($_SESSION['login'] == 1) {
                         $smarty->assign('sales_no',"$_SESSION[sales_no]");
                         $smarty->assign('total',get_total_sales($_SESSION['sales_no']));
                         $smarty->assign('prepared_by',"$_SESSION[user_name]");
-
                         $smarty->assign('pay_error_msg', "Dear $user_name, customer paying amount or Discount can't be less than TOTAL");
 
 

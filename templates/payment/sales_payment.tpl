@@ -37,7 +37,7 @@
 				</div>
 				<div class="col-lg-5">			
 					<form action="sales_payment.php?job=sales" method="post">
-						<input type="text" class='auto3 form-control' name="sales_no"value="{$sales_no_select}" placeholder="Pay For Sales No"			
+						<input type="text" class='auto3 form-control' name="sales_no"value="{$sales_no_select}" placeholder="Pay For Sales No"/>
 					</form>
 				</div>
 				<div class="col-lg-2"></div>
