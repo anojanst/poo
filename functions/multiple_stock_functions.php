@@ -7,7 +7,7 @@ function save_items($product_id,$product_name,$quantity,$location){
     $reorder= $quantity*0.1;
 
     mysqli_select_db($conn, $dbname);
-    $query = "INSERT INTO multiple_stock_has_inventory (id,product_id, product_name, branch,stock,reorder,location) 
+    $query = "INSERT INTO inventory_has_multiple_stock (id,product_id, product_name, branch,stock,reorder,location) 
     VALUES ('','$product_id','$product_name', '$branch','$quantity','$reorder','$location')";
 
     mysqli_query ($conn, $query ) or die ( mysqli_connect_error () );
@@ -35,7 +35,7 @@ function save_multiple_stock($product_id,$product_name,$branch,$stock,$reorder,$
     if($info) {
 
         $user_name = $_SESSION['user_name'];
-        $query = "UPDATE multiple_stock_has_inventory SET
+        $query = "UPDATE inventory_has_multiple_stock SET
         product_id='$product_id',
         stock='$stock', 
         reorder='$reorder', 
@@ -45,7 +45,7 @@ function save_multiple_stock($product_id,$product_name,$branch,$stock,$reorder,$
     }
     else{
 
-        $query = "INSERT INTO multiple_stock_has_inventory (id,product_id,product_name,branch,stock,reorder,location)
+        $query = "INSERT INTO inventory_has_multiple_stock (id,product_id,product_name,branch,stock,reorder,location)
     	VALUES ('','$product_id','$product_name','$_SESSION[branch]', '$stock','$reorder','$location')";
     }
 
@@ -56,7 +56,7 @@ function get_multiple_stock_id(){
     include 'conf/config.php';
     include 'conf/opendb.php';
 
-    $result=mysqli_query($conn, "SELECT MAX(id) FROM multiple_stock_has_inventory ");
+    $result=mysqli_query($conn, "SELECT MAX(id) FROM inventory_has_multiple_stock ");
     while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
     {
 
@@ -70,7 +70,7 @@ function get_multiple_stock_by_id($id) {
     include 'conf/config.php';
     include 'conf/opendb.php';
 
-    $result = mysqli_query ($conn, "SELECT * FROM multiple_stock_has_inventory WHERE id='$id'" );
+    $result = mysqli_query ($conn, "SELECT * FROM inventory_has_multiple_stock WHERE id='$id'" );
 
     while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) )
 
@@ -84,7 +84,7 @@ function cancel_multiple_stock($id) {
     include 'conf/opendb.php';
 
     mysqli_select_db ($conn, $dbname );
-    $query = "UPDATE multiple_stock_has_inventory SET 
+    $query = "UPDATE inventory_has_multiple_stock SET 
   cancel_status='1' 
   WHERE id='$id'";
 
@@ -95,7 +95,7 @@ function  update_multiple_stock($id,$product_name,$branch,$stock,$reorder,$locat
     include 'conf/opendb.php';
 
     mysqli_select_db ($conn, $dbname );
-    $query = "UPDATE multiple_stock_has_inventory SET 
+    $query = "UPDATE inventory_has_multiple_stock SET 
     product_name='$product_name', 
   branch='$branch', 
   stock='$stock', 
@@ -124,10 +124,10 @@ function list_multiple_stock() {
                   <tbody valign="top">';
     $i = 1;
     if($_SESSION['branch']=='HEAD OFFICE') {
-        $result = mysqli_query($conn, "SELECT * FROM multiple_stock_has_inventory WHERE cancel_status='0' LIMIT 50 ");
+        $result = mysqli_query($conn, "SELECT * FROM inventory_has_multiple_stock WHERE cancel_status='0' LIMIT 50 ");
     }
     else{
-        $result = mysqli_query($conn, "SELECT * FROM multiple_stock_has_inventory WHERE cancel_status='0' AND branch='$_SESSION[branch]' LIMIT 50 ");
+        $result = mysqli_query($conn, "SELECT * FROM inventory_has_multiple_stock WHERE cancel_status='0' AND branch='$_SESSION[branch]' LIMIT 50 ");
     }
     while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) ) {
 
@@ -152,7 +152,7 @@ function get_multiple_stock_by_name($product_name,$branch) {
     include 'conf/config.php';
     include 'conf/opendb.php';
 
-    $result = mysqli_query ($conn, "SELECT * FROM multiple_stock_has_inventory WHERE product_name='$product_name' AND branch='$branch'" );
+    $result = mysqli_query ($conn, "SELECT * FROM inventory_has_multiple_stock WHERE product_name='$product_name' AND branch='$branch'" );
     while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) )
     {
         return $row;
@@ -163,7 +163,7 @@ function get_multiple_stock_by_product_id($product_id) {
     include 'conf/config.php';
     include 'conf/opendb.php';
 
-    $result = mysqli_query ($conn, "SELECT * FROM multiple_stock_has_inventory WHERE product_id='$product_id'" );
+    $result = mysqli_query ($conn, "SELECT * FROM inventory_has_multiple_stock WHERE product_id='$product_id'" );
 
     while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) )
 
@@ -176,7 +176,7 @@ function get_multiple_stock_by_product_id($product_id) {
 function get_info_mutiple_stock_by_branch($product_name,$branch) {
     include 'conf/config.php';
     include 'conf/opendb.php';
-   $result = mysqli_query ($conn, "SELECT * FROM multiple_stock_has_inventory WHERE branch='$branch'AND product_name='$product_name'" );
+   $result = mysqli_query ($conn, "SELECT * FROM inventory_has_multiple_stock WHERE branch='$branch'AND product_name='$product_name'" );
 
     while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) )
 
@@ -188,7 +188,7 @@ function get_info_mutiple_stock_by_branch($product_name,$branch) {
 function get_info_mutiple_stock_by_product_id_branch($product_id,$branch) {
     include 'conf/config.php';
     include 'conf/opendb.php';
-   $result = mysqli_query ($conn, "SELECT * FROM multiple_stock_has_inventory WHERE branch='$branch'AND product_id='$product_id' AND  cancel_status='0' " );
+   $result = mysqli_query ($conn, "SELECT * FROM inventory_has_multiple_stock WHERE branch='$branch'AND product_id='$product_id' AND  cancel_status='0' " );
 
     while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) )
 
@@ -206,7 +206,7 @@ function save_purchase_confirm_items($product_id,$product_name,$branch,$quantity
     $reorder= $quantity*0.1;
 
     mysqli_select_db($conn, $dbname);
-    $query = "INSERT INTO multiple_stock_has_inventory (id,product_id, product_name, branch,stock,reorder,location) 
+    $query = "INSERT INTO inventory_has_multiple_stock (id,product_id, product_name, branch,stock,reorder,location) 
     VALUES ('','$product_id','$product_name', '$branch','$quantity','$reorder','$location')";
 
     mysqli_query ($conn, $query ) or die ( mysqli_connect_error () );
@@ -223,7 +223,7 @@ function update_quantity($product_id,$product_name){
 	$info=get_info_mutiple_stock_by_branch($product_name,$branch);
 	$quantity = $info['stock']+1;
 	
-	echo "UPDATE multiple_stock_has_inventory SET
+	echo "UPDATE inventory_has_multiple_stock SET
 	quantity='$quantity'
 	WHERE product_id='$product_id' AND branch='$branch'";
     mysqli_select_db ($conn, $dbname );
@@ -242,7 +242,7 @@ function update_quantity($product_id,$product_name){
 	
 	
     mysqli_select_db ($conn, $dbname );
-    $query = "UPDATE multiple_stock_has_inventory SET
+    $query = "UPDATE inventory_has_multiple_stock SET
 	stock='$new_quantity'
 	WHERE product_id='$product_id' AND branch='$branch'";
 

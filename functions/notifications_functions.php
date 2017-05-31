@@ -1,9 +1,9 @@
 <?php
 function list_all_notifications() {
-	include 'conf/config.php';
-	include 'conf/opendb.php';
-	
-	echo '<div class="box-body">
+    include 'conf/config.php';
+    include 'conf/opendb.php';
+
+    echo '<div class="box-body">
 			<table  id="example1" style="width: 100%;" class="table table-bordered table-striped">
                   <thead>
                        <tr>
@@ -17,12 +17,12 @@ function list_all_notifications() {
                        </tr>
                   </thead>
                   <tbody valign="top">';
-	
-	$result = mysqli_query ( $conn, "SELECT * FROM notification" );
-	while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) ) {
 
-				
-		echo '	
+    $result = mysqli_query ( $conn, "SELECT * FROM notification" );
+    while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) ) {
+
+
+        echo '	
 		<td>'.$row[product_id].' </td>
 		<td>'.$row[product_name].' </td>
 		<td>'.$row[branch].' </td>
@@ -30,39 +30,36 @@ function list_all_notifications() {
 		<td>'.$row[reorder].' </td>
 
 		<td> ';
-			if ($row[seen_status] == '0'){
-					echo' 
+        if ($row[seen_status] == '0'){
+            echo' 
 							<a href="notification.php?job=update_unseen&product_id='.$row['product_id'].'&branch='.$row[branch].'&id='.$row[id].'"> <button type="button" class="btn btn-block btn-warning">Mark As Seen</button></a>';
-					}
-					else{
-						echo'
+        }
+        else{
+            echo'
 							<h5>Seen</h5>';
-					}
-		echo'				
+        }
+        echo'				
 		</td>		
-				
 		<td><a href="notification.php?job=view_not&product_id='.$row[product_id].'&branch='.$row[branch].'&id='.$row[id].'"> <i class="fa fa-eye"></i></a></td>
 
-			
-				
 		</tr>';
-		
-		$i ++;
-	}
-	
-	echo '</tbody>
+
+        $i ++;
+    }
+
+    echo '</tbody>
           </table>
           </div>';
-	
-	
+
+
 }
 
 
 function list_seen_notifications() {
-	include 'conf/config.php';
-	include 'conf/opendb.php';
+    include 'conf/config.php';
+    include 'conf/opendb.php';
 
-	echo '<div class="box-body">
+    echo '<div class="box-body">
 			<table  id="example1" style="width: 100%;" class="table table-bordered table-striped">
                   <thead>
                        <tr>
@@ -77,11 +74,11 @@ function list_seen_notifications() {
                   </thead>
                   <tbody valign="top">';
 
-	$result = mysqli_query ( $conn, "SELECT * FROM notification WHERE seen_status='1'" );
-	while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) ) {
+    $result = mysqli_query ( $conn, "SELECT * FROM notification WHERE seen_status='1'" );
+    while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) ) {
 
 
-		echo '
+        echo '
 		<td>'.$row[product_id].' </td>
 		<td>'.$row[product_name].' </td>
 		<td>'.$row[branch].' </td>
@@ -89,15 +86,15 @@ function list_seen_notifications() {
 		<td>'.$row[reorder].' </td>
 
 		<td> ';
-		if ($row[seen_status] == '0'){
-			echo'
+        if ($row[seen_status] == '0'){
+            echo'
 							<a href="notification.php?job=update_unseen&product_id='.$row['product_id'].'&branch='.$row[branch].'&id='.$row[id].'"> <button type="button" class="btn btn-block btn-warning">Mark As Seen</button></a>';
-		}
-		else{
-			echo'
+        }
+        else{
+            echo'
 							<h5>Seen</h5>';
-		}
-		echo'
+        }
+        echo'
 		</td>
 
 		<td><a href="notification.php?job=view_not&product_id='.$row[product_id].'&branch='.$row[branch].'&id='.$row[id].'"> <i class="fa fa-eye"></i></a></td>
@@ -106,10 +103,10 @@ function list_seen_notifications() {
 
 		</tr>';
 
-		$i ++;
-	}
+        $i ++;
+    }
 
-	echo '</tbody>
+    echo '</tbody>
           </table>
           </div>';
 
@@ -117,10 +114,10 @@ function list_seen_notifications() {
 }
 
 function list_unseen_notifications() {
-	include 'conf/config.php';
-	include 'conf/opendb.php';
+    include 'conf/config.php';
+    include 'conf/opendb.php';
 
-	echo '<div class="box-body">
+    echo '<div class="box-body">
 			<table  id="example1" style="width: 100%;" class="table table-bordered table-striped">
                   <thead>
                        <tr>
@@ -135,11 +132,11 @@ function list_unseen_notifications() {
                   </thead>
                   <tbody valign="top">';
 
-	$result = mysqli_query ( $conn, "SELECT * FROM notification WHERE seen_status='0'" );
-	while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) ) {
+    $result = mysqli_query ( $conn, "SELECT * FROM notification WHERE seen_status='0'" );
+    while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) ) {
 
 
-		echo '
+        echo '
 		<td>'.$row[product_id].' </td>
 		<td>'.$row[product_name].' </td>
 		<td>'.$row[branch].' </td>
@@ -147,15 +144,15 @@ function list_unseen_notifications() {
 		<td>'.$row[reorder].' </td>
 
 		<td> ';
-		if ($row[seen_status] == '0'){
-			echo'
+        if ($row[seen_status] == '0'){
+            echo'
 							<a href="notification.php?job=update_unseen&product_id='.$row['product_id'].'&branch='.$row[branch].'&id='.$row[id].'"> <button type="button" class="btn btn-block btn-warning">Mark As Seen</button></a>';
-		}
-		else{
-			echo'
+        }
+        else{
+            echo'
 							<h5>Seen</h5>';
-		}
-		echo'
+        }
+        echo'
 		</td>
 
 		<td><a href="notification.php?job=view_not&product_id='.$row[product_id].'&branch='.$row[branch].'&id='.$row[id].'"> <i class="fa fa-eye"></i></a></td>
@@ -164,10 +161,10 @@ function list_unseen_notifications() {
 
 		</tr>';
 
-		$i ++;
-	}
+        $i ++;
+    }
 
-	echo '</tbody>
+    echo '</tbody>
           </table>
           </div>';
 
@@ -175,13 +172,13 @@ function list_unseen_notifications() {
 }
 
 function view_notification($product_id, $branch, $id) {
-	include 'conf/config.php';
-	include 'conf/opendb.php';
+    include 'conf/config.php';
+    include 'conf/opendb.php';
 
-	$result = mysqli_query ( $conn, "SELECT * FROM notification WHERE product_id='$product_id' AND branch='$branch' AND id='$id' " );
-	while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) ) {
-		
-		echo'
+    $result = mysqli_query ( $conn, "SELECT * FROM notification WHERE product_id='$product_id' AND branch='$branch' AND id='$id' " );
+    while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) ) {
+
+        echo'
 
 	<!-- Widget: user widget style 1 -->
           <div class="box box-widget widget-user-2">
@@ -202,13 +199,13 @@ function view_notification($product_id, $branch, $id) {
                 <li><a href="#">Re-order Time :  &nbsp; &nbsp; &nbsp; &nbsp;   <span style="font-weight:bold" > '.$row['reorder_time'].'</span></a></li>
                 		
 				<li><a href="#">Seen Status : &nbsp; &nbsp; &nbsp; &nbsp;';
-						if($row[seen_status] == '1')
-						{ 
-                			echo' <span class="badge bg-blue"> SEEN </span>';
-						}else {
-							echo' <span class="badge bg-red"> Un seen </span>';
-						}                			
-				echo'		
+        if($row[seen_status] == '1')
+        {
+            echo' <span class="badge bg-blue"> SEEN </span>';
+        }else {
+            echo' <span class="badge bg-red"> Un seen </span>';
+        }
+        echo'		
                 </a></li>
                 		
                 		
@@ -220,36 +217,36 @@ function view_notification($product_id, $branch, $id) {
 			';
 
 
-	}
+    }
 
 }
 
 
 
 function update_unseen_as_seen($product_id, $branch, $id) {
-	
-	include 'conf/config.php';
-	include 'conf/opendb.php';
 
-	mysqli_select_db ($conn, $dbname );
-	
-	$query = "UPDATE notification SET
+    include 'conf/config.php';
+    include 'conf/opendb.php';
+
+    mysqli_select_db ($conn, $dbname );
+
+    $query = "UPDATE notification SET
 	seen_status='1'
 	WHERE product_id='$product_id' AND branch='$branch' AND id='$id'";
 
-	mysqli_query ($conn, $query );
+    mysqli_query ($conn, $query );
 
 }
 
 
 
 function save_notification($product_id, $product_name, $branch, $quantity, $transfer_no, $ref_type) {
-	include 'conf/config.php';
-	include 'conf/opendb.php';
+    include 'conf/config.php';
+    include 'conf/opendb.php';
 
-	$query = "INSERT INTO notification (id, product_id, branch,product_name, stock, ref_no, ref_type)
+    $query = "INSERT INTO notification (id, product_id, branch,product_name, stock, ref_no, ref_type)
 	VALUES ('', '$product_id', '$branch', '$product_name','$quantity' ,'$transfer_no', '$ref_type')";
-	mysqli_query($conn, $query) or die(mysqli_error($conn));
+    mysqli_query($conn, $query) or die(mysqli_error($conn));
 
-	include 'conf/closedb.php';
+    include 'conf/closedb.php';
 }

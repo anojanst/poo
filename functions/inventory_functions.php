@@ -732,7 +732,7 @@ function update_inventory_after_sales_in_branch($sales_no, $branch) {
 			}
 			
 			if(check_multiple_stock_has_inventory($product_id, $branch)==1){
-			$query = "UPDATE multiple_stock_has_inventory SET
+			$query = "UPDATE inventory_has_multiple_stock SET
 					stock='$new_quantity'
 					WHERE product_id='$product_id' AND branch='$branch'";
 					mysqli_query($conn, $query);
@@ -765,7 +765,7 @@ function get_inventory_info_by_product_id_in_branch($product_id, $branch){
         include 'conf/config.php';
         include 'conf/opendb.php';
 
-        $result = mysqli_query ($conn, "SELECT * FROM multiple_stock_has_inventory WHERE product_id='$product_id' AND branch='$branch'" );
+        $result = mysqli_query ($conn, "SELECT * FROM inventory_has_multiple_stock WHERE product_id='$product_id' AND branch='$branch'" );
 
         while ( $row = mysqli_fetch_array ( $result, MYSQLI_ASSOC ) )
 
@@ -827,7 +827,7 @@ function update_inventory_after_return($return_no) {
 		$new_quantity = $old_quantity + $quantity;
 
 		
-		$query = "UPDATE multiple_stock_has_inventory SET
+		$query = "UPDATE inventory_has_multiple_stock SET
 				stock='$new_quantity'
 				WHERE product_id='$product_id' AND branch='$branch'";
 		
@@ -865,7 +865,7 @@ function update_inventory_after_returns_in_branch($return_no, $branch) {
 				}
 				if(check_multiple_stock_has_inventory($product_id, $branch)==1){
 						
-				$query = "UPDATE multiple_stock_has_inventory SET
+				$query = "UPDATE inventory_has_multiple_stock SET
 						stock='$new_quantity'
 						WHERE product_id='$product_id' AND branch='$branch'";
 						mysqli_query($conn, $query);
@@ -1863,7 +1863,7 @@ function inv_stock() {
 	<tbody valign="top">';
 
 	$i = 1;
-	$result1 = mysqli_query($conn, "SELECT * FROM multiple_stock_has_inventory WHERE  branch='$_SESSION[branch]' ORDER BY id DESC LIMIT 500");
+	$result1 = mysqli_query($conn, "SELECT * FROM inventory_has_multiple_stock WHERE  branch='$_SESSION[branch]' ORDER BY id DESC LIMIT 500");
 	while ($row1 = mysqli_fetch_array($result1, MYSQLI_ASSOC)) {
 	
 				$result = mysqli_query($conn, "SELECT * FROM inventory WHERE cancel_status='0' AND product_id='$row1[product_id]' ORDER BY id DESC LIMIT 500");
@@ -1914,7 +1914,7 @@ function head_office_inv_stock() {
 	<tbody valign="top">';
 
 	$i = 1;
-	$result1 = mysqli_query($conn, "SELECT DISTINCT product_id FROM multiple_stock_has_inventory ORDER BY id DESC LIMIT 500");
+	$result1 = mysqli_query($conn, "SELECT DISTINCT product_id FROM inventory_has_multiple_stock ORDER BY id DESC LIMIT 500");
 	while ($row1 = mysqli_fetch_array($result1, MYSQLI_ASSOC)) {
 	
 				
@@ -1951,7 +1951,7 @@ function count_stock($product_id){
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 		
-		$result=mysqli_query($conn, "SELECT SUM(stock) AS cnt FROM multiple_stock_has_inventory WHERE product_id='$product_id' ");
+		$result=mysqli_query($conn, "SELECT SUM(stock) AS cnt FROM inventory_has_multiple_stock WHERE product_id='$product_id' ");
 		while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 		{	
 				$count=$row[cnt];

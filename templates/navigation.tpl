@@ -182,7 +182,7 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li class="active"><a href="sales_basic_report.php"><i class="fa fa-files-o"></i> Report Summary</a></li>
-                                <li><a href="sales_full_report.php"><i class="fa fa-file-code-o"></i> Detailed Report</a></li>
+                                <li><a href="sales_basic_report.php?job=today_sales_report"><i class="fa fa-file-code-o"></i> Today Sales Report</a></li>
                           </ul>
                         </li>
                         

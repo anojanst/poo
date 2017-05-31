@@ -76,7 +76,7 @@ function get_stock_by_branch_product_id($product_id, $to_branch) {
 	include 'conf/config.php';
 	include 'conf/opendb.php';
 
-	$result = mysqli_query($conn, "SELECT * FROM multiple_stock_has_inventory WHERE product_id='$product_id' AND branch='$to_branch'");
+	$result = mysqli_query($conn, "SELECT * FROM inventory_has_multiple_stock WHERE product_id='$product_id' AND branch='$to_branch'");
 	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 				return $row;
 		
@@ -174,14 +174,14 @@ function update_stock($to_branch, $transfer_no ){
 				$reorder=$new_stock*0.1;
 				if($info){
 					mysqli_select_db($conn_for_changing_db, $dbname);
-					$query = "UPDATE multiple_stock_has_inventory SET
+					$query = "UPDATE inventory_has_multiple_stock SET
 					stock='$new_stock',
 					reorder='$reorder'
 					WHERE product_id='$product_id' AND branch='$_SESSION[branch]'";
 					mysqli_query($conn, $query);
 				}else{
 					mysqli_select_db ( $conn, $dbname );
-					$query = "INSERT INTO multiple_stock_has_inventory (id,product_id, product_name, branch,stock,reorder) 
+					$query = "INSERT INTO inventory_has_multiple_stock (id,product_id, product_name, branch,stock,reorder) 
 					VALUES ('','$product_id','$product_name', '$_SESSION[branch]','0','0')";
 				
 					mysqli_query ($conn, $query ) or die ( mysqli_connect_error () );
@@ -195,7 +195,7 @@ function update_stock($to_branch, $transfer_no ){
 				$reorder2= $new_stock2*0.1;
 				if($info2){
 					mysqli_select_db($conn_for_changing_db, $dbname);
-					$query = "UPDATE multiple_stock_has_inventory SET
+					$query = "UPDATE inventory_has_multiple_stock SET
 					stock='$new_stock2',
 					reorder='$reorder2'
 					
@@ -204,7 +204,7 @@ function update_stock($to_branch, $transfer_no ){
 				}else{
 					
 					mysqli_select_db ( $conn, $dbname );
-					$query = "INSERT INTO multiple_stock_has_inventory (id,product_id, product_name, branch,stock,reorder) 
+					$query = "INSERT INTO inventory_has_multiple_stock (id,product_id, product_name, branch,stock,reorder) 
 					VALUES ('','$product_id','$product_name', '$to_branch','$new_stock2','$reorder2')";
 				
 					mysqli_query ($conn, $query ) or die ( mysqli_connect_error () );
