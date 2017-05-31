@@ -895,7 +895,13 @@ function list_today_sales_search_report($payment_type){
     include 'conf/opendb.php';
 
     $date=date('Y-m-d');
-    if($payment_type){
+    if($payment_type=='all' || $payment_type=='ALL'){
+        $payment_check="";
+    }
+    elseif($payment_type=='non credit'||$payment_type=='NON CREDIT'){
+        $payment_check="AND payment_type !='CREDIT'";
+    }
+    else{
         $payment_check="AND payment_type='$payment_type'";
     }
 
