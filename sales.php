@@ -629,6 +629,7 @@ if ($_SESSION['login'] == 1) {
                 $date = date("Y-m-d");
                 $remarks=$_POST['remarks'];
 
+                $bill=$_POST['bill'];
                 $customer_name=$_POST['customer_name'];
                 $gift_card_no=$_POST['gift_card_no'];
                 $prepared_by=$_POST['prepared_by'];
@@ -697,8 +698,12 @@ if ($_SESSION['login'] == 1) {
                         $smarty->assign('sales',"$_SESSION[print_no]");
                         $smarty->assign('total',get_total_sales($_SESSION['sales_no']));
                         $smarty->assign('page',"sales");
-                        $smarty->display('sales/print.tpl');
-
+                        if($bill=='small_bill') {
+                            $smarty->display('sales/print.tpl');
+                        }
+                        else{
+                            $smarty->display('sales/big_bill_print.tpl');
+                        }
                     }
                 }
 
@@ -748,6 +753,8 @@ if ($_SESSION['login'] == 1) {
                         $smarty->assign('total',get_total_sales($_SESSION['sales_no']));
                         $smarty->assign('page',"sales");
                         $smarty->display('sales/print.tpl');
+
+
 
                     }
                 }

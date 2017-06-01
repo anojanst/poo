@@ -154,27 +154,6 @@ function get_quantity($product_id, $quotation_no){
 
 	include 'conf/closedb.php';
 }
-function list_item_by_quotation($quotation_no){
-	include 'conf/config.php';
-	include 'conf/opendb.php';
-
-	$result=mysqli_query($conn, "SELECT * FROM quotation_has_items WHERE quotation_no='$quotation_no' AND cancel_status='0' ORDER BY id ASC");
-	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
-	{
-		echo'<tr>
-		<form name="update_item" action="quotation.php?job=update_item&product_id='.$row[product_id].'" method="post">
-		<td align="center" ><a href="quotation.php?job=delete_item&id='.$row[id].'" ><i class="fa fa-times fa-2x"></i></a></td>'."
-		<td>".$row[product_name]."</td>
-		<td align='right'><input type='text' name='selling_price' value=".$row[selling_price]." size='10' style='color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;'/></td>
-		<td align='right'><input type='text' name='quantity' value=".$row[quantity]." size='6' style='color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;'/></td>
-		<td align='right'><input type='text' name='discount' value=".$row[discount]." size='9' style='color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;'/></td>
-		<td align='right'>".$row[total]."</td>
-		<td align='right'><input type='submit' name='update' value='Update' size='9' class='more' style='width: 70px; border: 0; padding: 1.5px;'/></td>
-		</form></tr>";
-	}
-	include 'conf/closedb.php';
-
-}
 
 
 function print_quotation_item($quotation_no){

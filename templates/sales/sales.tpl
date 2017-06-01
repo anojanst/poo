@@ -147,7 +147,16 @@
 				<div class="col-lg-3">
 					<form name="sales_form" action="sales.php?job=sales" method="post" class="product">
 						<div class="row" style="margin-right: 5px; margin-top: 5px;">
-							<input class="btn btn-success" type="submit" name="ok" value="Finish the Bill & Print" tabindex="6" />
+                            <div class="col-xs-8">
+							    <input class="btn btn-success" type="submit" name="ok" value="Finish the Bill & Print" tabindex="6" />
+                            </div>
+                            <div class="col-xs-4">
+                                <select class="form-control" id="type" name="bill" required onchange="changeAttributes();">
+                                    <option value="" disabled></option>
+                                    <option value="small_bill" selected>small bill</option>
+                                    <option value="big_bill">big bill</option>
+                                </select>
+                            </div>
 						</div>
 						<div class="row" style="margin-right: 5px;">
 							<label> <strong>Sales No</strong> </label>

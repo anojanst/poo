@@ -203,7 +203,7 @@ function list_item_by_sales($sales_no){
     include 'conf/config.php';
     include 'conf/opendb.php';
 
-    $result=mysqli_query($conn, "SELECT * FROM sales_has_items WHERE sales_no='$sales_no' AND cancel_status='0' ORDER BY id ASC");
+    $result=mysqli_query($conn, "SELECT * FROM sales_has_items WHERE sales_no='$sales_no' AND cancel_status='0' ORDER BY id DESC");
     while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
     {
         echo'<tr>
@@ -751,6 +751,56 @@ function print_sales_item($sales_no){
 
 
 }
+function print_big_bill($sales_no){
+    include 'conf/config.php';
+    include 'conf/opendb.php';
+    $i=1;
+    echo'<table style="width:100%;" class="table-responsive table-bordered table-striped dt-responsive">
+      <tr>
+		 <th>S.No</th>
+         <th>Product</th>
+         <th>Qty</th>
+		 <th>Unit Price</th>
+         <th>Discount</th>
+         <th>Amount</th>
+      </tr>';
+
+    $grand_total=0;
+    $result=mysqli_query($conn,"SELECT * FROM sales_has_items WHERE sales_no='$sales_no' AND cancel_status='0'");
+    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+    {
+        $qty=$row[quantity];
+        $selling_price=$row[selling_price];
+        $discount=$row[selling_price]*($row[discount]/100);
+        $qty_selling_price=$qty*$selling_price;
+        $qty_discount=$qty*$discount;
+        $total=$qty_selling_price-$qty_discount;
+
+        echo'<tr style="line-height: 30px;">
+      		<td>'.$i.'</td>
+            <td>'.$row[product_name].'</td>
+            <td>'.$row[quantity].'</td>
+            <td>'.number_format($row[selling_price],2).'</td>
+            <td>'.$row[discount].' %</td>		
+            <td>'.number_format($total,2).'</td>
+         </tr>';
+        $i +=1;
+        $grand_total=$grand_total+$total;
+    }
+
+
+    echo'<tr  style="line-height: 30px;">
+         <td></td>
+         <td></td>
+   		 <td></td>
+   		 <td></td>
+         <td><strong>Total</strong></td>
+         <td><strong>'.number_format($grand_total,2).'</strong></td>
+      </tr>
+   </table>';
+    include 'conf/closedb.php';
+}
+
 
 function get_total_without_discount($sales_no){
     include 'conf/config.php';
