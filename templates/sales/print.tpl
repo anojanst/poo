@@ -41,7 +41,7 @@
             {php}print_sales_item($_SESSION[print_no]);{/php}
         </div>
     </div>
-        <p>No Of Items :&nbsp;&nbsp;&nbsp;&nbsp;<strong>{$count}</strong> <br/> No Of Pieces :&nbsp;&nbsp;&nbsp;<strong>{$pieces}</strong></p>
+        <p>No Of Items :&nbsp;&nbsp;&nbsp;&nbsp;<strong>{$count}</strong> <br/> No Of Pieces :&nbsp;&nbsp;&nbsp;<strong>{$pieces}</strong> <br/> Total Discount :   <strong>{$total_discount_amount}</strong></p>
     <p></p>
     <h4 style="text-align: center;">Thank You.Come Again!</h4>
     </div>    

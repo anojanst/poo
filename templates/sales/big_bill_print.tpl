@@ -14,21 +14,21 @@
                 <div class="col-xs-2">
                     <img   src="images/logo.png" width="60" height="60"/>
                 </div>
-                <div class="col-xs-10" style="margin-left:-10px;">
+                <div class="col-xs-10" >
                     <h3><strong>POOBALASINGAM BOOK DEPOT</strong></h3>
                 </div>
             </div>
 
-            <div class="col-xs-8 col-xs-offset-2">
+            <div class="col-xs-8 col-xs-offset-2"style="margin-left: 155px;margin-top: -10px;">
                 <div class="col-xs-1"></div>
                 <div class="col-xs-11">
-                    <p style=" margin-left: 10px;"><strong>Wellawatte Bridge, 309 A 2/3, Galle Rd, Colombo,<br> Sri Lanka.</strong><br/> <strong>Tel :</strong> +94 11 4 515775  </p>
+                    <p style=" margin-left: 10px;"><strong>Wellawatte Bridge, 309 A 2/3, Galle Rd, Colombo, Sri Lanka.</strong><br/> <strong>Tel :</strong> +94 11 4 515775  </p>
                 </div>
             </div>
         </div>
         <div class="row" style="margin-left: 45px;">
             <div class="col-xs-3" >
-                <strong>sales No : </strong>{$sales}
+                <strong>Sales No : </strong>{$sales}
             </div>
             <div class="col-xs-6"></div>
 

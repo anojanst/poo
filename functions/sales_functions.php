@@ -9,7 +9,6 @@ function get_total_stock($product_id){
     {
         $total=$row[total];
     }
-
     return $total;
 
     include 'conf/closedb.php';
@@ -41,6 +40,36 @@ function get_total_sales($sales_no){
     }
 
     return $total;
+
+    include 'conf/closedb.php';
+}
+function get_books_total_sales($sales_no){
+    include 'conf/config.php';
+    include 'conf/opendb.php';
+
+echo "SELECT sum(total) as books_total FROM sales_has_items WHERE sales_no='$sales_no' AND cancel_status='0'  product_id LIKE 'B%'";
+    $result=mysqli_query($conn, "SELECT sum(total) as books_total FROM sales_has_items WHERE sales_no='$sales_no' AND cancel_status='0'  product_id LIKE 'B%'");
+    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+    {
+        $books_total=$row[books_total];
+    }
+
+    return $books_total;
+
+    include 'conf/closedb.php';
+}
+function get_non_books_total_sales($sales_no){
+    include 'conf/config.php';
+    include 'conf/opendb.php';
+
+
+    $result=mysqli_query($conn, "SELECT sum(total) as non_books_total FROM sales_has_items WHERE sales_no='$sales_no' AND cancel_status='0' product_id NOT LIKE 'B%'");
+    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+    {
+        $non_books_total=$row[non_books_total];
+    }
+
+    return $non_books_total;
 
     include 'conf/closedb.php';
 }
@@ -148,7 +177,7 @@ function check_multiple_stock_has_inventory($product_id, $branch){
 }
 
 
-function update_sales_item($id, $product_id, $quantity, $item_total, $selling_price, $discount, $sales_no, $stock){
+function update_sales_item($id, $product_id, $quantity, $item_total, $selling_price, $discount,$discount_amount, $sales_no, $stock){
     include 'conf/config.php';
     include 'conf/opendb.php';
 
@@ -159,6 +188,7 @@ function update_sales_item($id, $product_id, $quantity, $item_total, $selling_pr
 	quantity='$quantity',
 	selling_price='$selling_price',
 	discount='$discount',
+	discount_amount='$discount_amount',
 	total='$item_total',
 	price='$price',
 	saved='0',
@@ -306,15 +336,15 @@ function update_saved_sales($sales_no){
 }
 
 
-function save_sales($sales_no, $date, $customer_name, $prepared_by, $remarks,$discount,$customer_amount,$total_after_discount, $total, $balance, $payment_type, $gift_card_no){
+function save_sales($sales_no, $date, $customer_name, $prepared_by, $remarks,$discount,$total_discount_amount,$customer_amount,$total_after_discount, $total, $balance, $payment_type, $gift_card_no){
     include 'conf/config.php';
     include 'conf/opendb.php';
 
     $date = date("Y-m-d", strtotime($date));
 
     mysqli_select_db($conn_for_changing_db, $dbname);
-    $query = "INSERT INTO sales (id, sales_no, customer_name, prepared_by, remarks, date, total, due, customer_amount,total_after_discount, discount, balance, payment_type, gift_card_no)
-	VALUES ('', '$sales_no', '$customer_name', '$prepared_by', '$remarks', '$date', '$total', '$total', '$customer_amount','$total_after_discount', '$discount', '$balance','$payment_type', '$gift_card_no')";
+    $query = "INSERT INTO sales (id, sales_no, customer_name, prepared_by, remarks, date, total, due, customer_amount,total_after_discount, discount,total_discount_amount, balance, payment_type, gift_card_no)
+	VALUES ('', '$sales_no', '$customer_name', '$prepared_by', '$remarks', '$date', '$total', '$total', '$customer_amount','$total_after_discount', '$discount','$total_discount_amount', '$balance','$payment_type', '$gift_card_no')";
     mysqli_query($conn, $query) or die (mysqli_error($conn));
 
     include 'conf/closedb.php';
@@ -700,7 +730,8 @@ function print_sales_item($sales_no){
     $result=mysqli_query($conn, "SELECT * FROM sales_has_items WHERE sales_no='$sales_no' AND cancel_status='0' ORDER BY id ASC");
     while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
     {
-        //$total=$row[quantity]*$row[selling_price];
+        $total=$row[quantity]*$row[selling_price];
+
         echo'<tr>
                 <td colspan="2">'.$row[product_name].'</td>
             </tr>
@@ -754,10 +785,13 @@ function print_sales_item($sales_no){
 function print_big_bill($sales_no){
     include 'conf/config.php';
     include 'conf/opendb.php';
+
+    $info=get_sales_info_by_sales_no($sales_no);
     $i=1;
     echo'<table style="width:100%;" class="table-responsive table-bordered table-striped dt-responsive">
       <tr>
 		 <th>S.No</th>
+		 <th>Customer</th>
          <th>Product</th>
          <th>Qty</th>
 		 <th>Unit Price</th>
@@ -778,12 +812,13 @@ function print_big_bill($sales_no){
 
         echo'<tr style="line-height: 30px;">
       		<td>'.$i.'</td>
+      	    <td>'.$info[customer_name].'</td>
             <td>'.$row[product_name].'</td>
-            <td>'.$row[quantity].'</td>
-            <td>'.number_format($row[selling_price],2).'</td>
-            <td>'.$row[discount].' %</td>		
-            <td>'.number_format($total,2).'</td>
-         </tr>';
+                <td>'.$row[quantity].'</td>
+                <td>'.number_format($row[selling_price],2).'</td>
+                <td>'.$row[discount].' %</td>		
+                <td>'.number_format($total,2).'</td>
+             </tr>';
         $i +=1;
         $grand_total=$grand_total+$total;
     }
@@ -792,6 +827,7 @@ function print_big_bill($sales_no){
     echo'<tr  style="line-height: 30px;">
          <td></td>
          <td></td>
+   		 <td></td>
    		 <td></td>
    		 <td></td>
          <td><strong>Total</strong></td>
@@ -839,6 +875,18 @@ function no_of_pieces($sales_no){
     while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
     {
         return $row['pieces'];
+    }
+
+    include 'conf/closedb.php';
+}
+function get_total_discount_amount_by_sales_no($sales_no){
+    include 'conf/config.php';
+    include 'conf/opendb.php';
+
+    $result=mysqli_query($conn, "SELECT sum(discount_amount) AS total_discount_amount FROM sales_has_items WHERE sales_no='$sales_no' AND cancel_status='0'");
+    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+    {
+        return $row['total_discount_amount'];
     }
 
     include 'conf/closedb.php';

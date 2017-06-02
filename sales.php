@@ -149,6 +149,8 @@ if ($_SESSION['login'] == 1) {
 
                     $smarty->assign('org_name', "$_SESSION[org_name]");
                     $smarty->assign('total', get_total_sales($_SESSION['sales_no']));
+                    $smarty->assign('books_total', get_books_total_sales($_SESSION['sales_no']));
+                    $smarty->assign('non_books_total', get_non_books_total_sales($_SESSION['sales_no']));
                     $smarty->assign('page', "sales");
                     $smarty->display('sales/sales.tpl');
 
@@ -443,6 +445,7 @@ if ($_SESSION['login'] == 1) {
             if($discount<100){
                 $user_name=$_SESSION['user_name'];
                 $item_total=($quantity*$selling_price/100)*(100-$discount);
+                $discount_amount=$quantity*$selling_price*($discount/100);
                 //$stock=get_total_stock($_REQUEST['product_id']);
                 $stock = get_branch_stock($product_id);
                 $price=$selling_price*$quantity;
@@ -456,7 +459,7 @@ if ($_SESSION['login'] == 1) {
                 }
                 else{
                 }
-                update_sales_item($id,$product_id, $quantity, $item_total, $selling_price, $discount, $sales_no, $stock);
+                update_sales_item($id,$product_id, $quantity, $item_total, $selling_price, $discount,$discount_amount, $sales_no, $stock);
                 update_sales_item_ledger($product_id ,$sales_no);
 
 
@@ -637,6 +640,7 @@ if ($_SESSION['login'] == 1) {
                 $total=get_total_sales($_SESSION['sales_no']);
                 $discount=($total/100)*$_POST['discount'];
                 $payment_type=$_POST['payment_type'];
+                $total_discount_amount=get_total_discount_amount_by_sales_no($_SESSION[sales_no]);
 
                 if($_POST['customer_amount']){
                     $customer_amount=$_POST['customer_amount'];
@@ -678,7 +682,7 @@ if ($_SESSION['login'] == 1) {
                     else{
                         $total_after_discount= $total-$discount;
                         $balance=$customer_amount-$total_after_discount;
-                        save_sales($sales_no, $date, $customer_name, $prepared_by, $remarks,$discount,$customer_amount, $total_after_discount, $total,$balance, $payment_type, $gift_card_no);
+                        save_sales($sales_no, $date, $customer_name, $prepared_by, $remarks,$discount,$total_discount_amount,$customer_amount, $total_after_discount, $total,$balance, $payment_type, $gift_card_no);
                         add_sales_ledger($sales_no);
                         add_sales_quick_payment_ledger($sales_no);
                         $branch=$_SESSION['branch'];
@@ -693,6 +697,7 @@ if ($_SESSION['login'] == 1) {
                         $smarty->assign('parent_catagorys',list_parent_catagory());
                         $smarty->assign('count',no_of_items($_SESSION['print_no']));
                         $smarty->assign('pieces',no_of_pieces($_SESSION['print_no']));
+                        $smarty->assign('total_discount_amount',"$total_discount_amount");
                         $smarty->assign('org_name',"$_SESSION[org_name]");
                         $smarty->assign('date',"$date");
                         $smarty->assign('sales',"$_SESSION[print_no]");

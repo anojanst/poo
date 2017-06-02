@@ -35,12 +35,24 @@
         })
 	</script>
 
+    <script type="text/javascript">
+        function calculateBalance(){
+            var x = document.getElementById("total1").value;
+            var y = document.getElementById("cust").value;
+            var z = document.getElementById("discount").value;
+            var totalWithDiscount = x-z;
+            console.log(totalWithDiscount);
+            document.getElementById("total").innerHTML=totalWithDiscount.toFixed(2);
+            var total = y - totalWithDiscount;
+            var cus_amount = y;
+            document.getElementById("balance").innerHTML=total.toFixed(2);
+        }
+    </script>
+
 {/literal}
 
 <section class="content-header">
-	<h1>
-		Sales
-	</h1>
+	<h1>Sales</h1>
 	<ol class="breadcrumb">
 		<li><a href="index.php"><i class="fa fa-dashboard"></i> Home</a></li>
 		<li class="active">Sales</li>
@@ -82,7 +94,6 @@
 							<strong><h4 style="margin-top: -5px; font-weight: 900;">Barcode</h4></strong>
 							<form action="sales.php?job=barcode" name="select_item_form" method="post" >
 								<input type="text" class="form-control" id="barcode" name="barcode" placeholder="For Barcode" autofocus  onchange="this.form.submit()"/>
-
 							</form>
 						</div>
 					</div>
@@ -104,24 +115,21 @@
 							<strong><h4 style="margin-top: -5px; font-weight: 900;">Select Items</h4></strong>
 							<form action="sales.php?job=select" name="select_item_form" method="post">
 								<input type="text" class="form-control" id="product_name" name="selected_item" placeholder="Select Items"/>
-								<!--<input type="submit" style="margin-top: 5px;" class="form-control btn btn-primary" name="add" value="Add"/>
-							--></form>
+								<!--<input type="submit" style="margin-top: 5px;" class="form-control btn btn-primary" name="add" value="Add"/>-->
+                            </form>
 						</div>
 					</div>
-				</div>
-				<div class="col-lg-3 col-xs-6">
-					<div class="small-box bg-red">
-						<div class="inner">
-							<strong><h4 style="margin-top: -5px; font-weight: 900;">Price</h4></strong>
-							<form action="sales.php?job=price" name="select_item_form" method="post">
-								<input type="text" class="form-control" name="price" placeholder="Price"/>
-								<!--<input type="submit" style="margin-top: 5px;" class="form-control btn btn-primary" name="add" value="Add"/>
-							--></form>
-						</div>
-					</div>
-				</div>
-			</div>
+                </div>
+                <div class="col-lg-2 col-xs-6">
+                    <label> <strong>Total</strong> </label>
+                    <strong><h2 id="total" style="color: red;">{$total}</h2></strong>
+                </div>
 
+                <div class="col-lg-1 col-xs-6" style="margin-left: -50px;">
+                    <label> <strong>Balance</strong> </label>
+                    <strong><h2 id="balance" style="color: red; "></h2></strong>
+                </div>
+			</div>
 
 			<div class="row">
 				<div class="col-lg-9">
@@ -147,42 +155,56 @@
 				<div class="col-lg-3">
 					<form name="sales_form" action="sales.php?job=sales" method="post" class="product">
 						<div class="row" style="margin-right: 5px; margin-top: 5px;">
-                            <div class="col-xs-8">
-							    <input class="btn btn-success" type="submit" name="ok" value="Finish the Bill & Print" tabindex="6" />
-                            </div>
-                            <div class="col-xs-4">
-                                <select class="form-control" id="type" name="bill" required onchange="changeAttributes();">
-                                    <option value="" disabled></option>
-                                    <option value="small_bill" selected>small bill</option>
-                                    <option value="big_bill">big bill</option>
-                                </select>
-                            </div>
+                            <input class="form-control btn btn-success" type="submit" name="ok" value="Finish the Bill & Print" tabindex="6" />
+                        </div>
+                        <div class="row" style="margin-top: 5px; margin-right: 5px;">
+                            <select class="form-control" name="bill" required>
+                                <option value="" disabled></option>
+                                <option value="small_bill" selected>small bill</option>
+                                <option value="big_bill">big bill</option>
+                            </select>
 						</div>
-						<div class="row" style="margin-right: 5px;">
+						<div class="row" style="margin-right: 5px;" hidden="hidden">
 							<label> <strong>Sales No</strong> </label>
-							<input type="text" class="form-control" name="sales_no" value="{$sales_no}" size="25" required readonly="readonly" placeholder="Sales No" tabindex="3"/>
+							<input type="text" class="form-control" name="sales_no" value="{$sales_no}" size="25" required readonly="readonly"  placeholder="Sales No" tabindex="3"/>
 						</div>
-						<div class="row" style="margin-right: 5px; margin-top: 5px;">
+						<div class="row" style="margin-right: 5px; margin-top: 5px;" hidden="hidden">
 							<label> <strong>Total </strong> </label>
-							<input type="text" class="form-control" name="total" id="total" value="{$total}" size="25"  placeholder="Total" tabindex="5" readonly="readonly"/>
+							<input type="text" class="form-control" id="total1" name="total" value="{$total}" size="25"  placeholder="Total" tabindex="5" readonly="readonly"/>
 						</div>
+                        <div class="row" style="margin-right: 5px; margin-top: 5px;">
+                            <label> <strong>Books Total </strong> </label>
+                            <input type="text" class="form-control" id="" name="books_total" value="{$books_total}" size="25"  placeholder="Books Total" tabindex="5" readonly="readonly"/>
+                        </div>
+                        <div class="row" style="margin-right: 5px; margin-top: 5px;">
+                            <label> <strong>Non Books Total </strong> </label>
+                            <input type="text" class="form-control" id="" name="non_books_total" value="{$non_books_total}" size="25"  placeholder="Non Books Total" tabindex="5" readonly="readonly"/>
+                        </div>
+                        <div class="row" style="margin-right: 5px; margin-top: 5px;">
+                            <label> <strong>Customer Paying Amount</strong> </label>
+                            <input type="text" class="form-control" id="cust" name="customer_amount" size="25" placeholder="Customer Paying Amount" tabindex="5" onkeyup="calculateBalance()" />
+                        </div>
 						<div class="row" style="margin-right: 5px; margin-top: 5px;">
 							<label> <strong>Discount </strong> </label>
                             {if $discount_display=='off'}
+                                <input type="hidden" class="form-control" id="discount" name="discount" value="{$discount}"  size="25" placeholder="Discount" tabindex="5" onkeyup="calculateBalance()"/>
                             {else}
-								<input type="text" class="form-control" name="discount" value="{$discount}"  size="25" placeholder="Discount" tabindex="5"/>
+								<input type="text" class="form-control" id="discount" name="discount" value="{$discount}"  size="25" placeholder="Discount" tabindex="5" onkeyup="calculateBalance()"/>
                             {/if}
 						</div>
-
+                        <div class="row" style="margin-right: 5px; margin-top: 5px;">
+                            <label> <strong>Discount Type</strong> </label>
+                            <select class="form-control" name="discount_type" required>
+                                <option value="" disabled>Discount Type</option>
+                                <option value="CASH" selected>All</option>
+                                <option value="BOOK">Book</option>
+                                <option value="ACC">Acc</option>
+                            </select>
+                        </div>
 						<div class="row" style="margin-right: 5px; margin-top: 5px;">
 							<label> <strong>Customer</strong> </label>
-							<input type="text" class="form-control" name="customer_name"size="25" placeholder="Customer" tabindex="4"/></td>
+							<input type="text" class="form-control" name="customer_name"size="25" placeholder="Customer" tabindex="4"/>
 						</div>
-						<div class="row" style="margin-right: 5px; margin-top: 5px;">
-							<label> <strong>Customer Paying Amount</strong> </label>
-							<input type="text" class="form-control" id="cust" name="customer_amount" id="customer_amount" size="25" placeholder="Customer Paying Amount" tabindex="5" onkeyup="calculateBalance()" />
-						</div>
-
 
 						<div class="row" style="margin-right: 5px; margin-top: 5px;">
 							<label> <strong>Payment Type</strong> </label>
@@ -194,8 +216,6 @@
 								<option value="GIFT">Gift Card</option>
 							</select>
 						</div>
-
-
 
 						<div class="row" style="margin-right: 5px; margin-top: 5px;">
 							<label> <strong>Gift Card No</strong> </label>
