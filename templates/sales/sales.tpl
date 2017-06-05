@@ -37,15 +37,30 @@
 
     <script type="text/javascript">
         function calculateBalance(){
-            var x = document.getElementById("total1").value;
+            var total= document.getElementById("total1").value;
+            var booksTotal=document.getElementById("books_total").value;
+            var nonBooksTotal = document.getElementById("non_books_total").value;
+            var discountType = document.getElementById("discount_type").value;
+            if(discountType=="BOOK"){
+                var z = document.getElementById("discount").value;
+                var disTotal =total-(booksTotal*(z/100));
+            }
+        else if(discountType=="ACC"){
+                var z = document.getElementById("discount").value;
+                var disTotal =total-(nonBooksTotal*(z/100));
+            }
+        else{
+                var z = document.getElementById("discount").value;
+                var disTotal =total-(total*(z/100));
+
+            }
+            console.log(disTotal);
             var y = document.getElementById("cust").value;
-            var z = document.getElementById("discount").value;
-            var totalWithDiscount = x-z;
-            console.log(totalWithDiscount);
-            document.getElementById("total").innerHTML=totalWithDiscount.toFixed(2);
-            var total = y - totalWithDiscount;
+
+            document.getElementById("total").innerHTML=disTotal.toFixed(2);
+            var balance = y - disTotal;
             var cus_amount = y;
-            document.getElementById("balance").innerHTML=total.toFixed(2);
+            document.getElementById("balance").innerHTML=balance.toFixed(2);
         }
     </script>
 
@@ -172,13 +187,13 @@
 							<label> <strong>Total </strong> </label>
 							<input type="text" class="form-control" id="total1" name="total" value="{$total}" size="25"  placeholder="Total" tabindex="5" readonly="readonly"/>
 						</div>
-                        <div class="row" style="margin-right: 5px; margin-top: 5px;">
+                        <div class="row" style="margin-right: 5px; margin-top: 5px;" hidden="hidden">
                             <label> <strong>Books Total </strong> </label>
-                            <input type="text" class="form-control" id="" name="books_total" value="{$books_total}" size="25"  placeholder="Books Total" tabindex="5" readonly="readonly"/>
+                            <input type="text" class="form-control" id="books_total" name="books_total" value="{$books_total}" size="25"  placeholder="Books Total" tabindex="5" readonly="readonly"/>
                         </div>
-                        <div class="row" style="margin-right: 5px; margin-top: 5px;">
+                        <div class="row" style="margin-right: 5px; margin-top: 5px;" hidden="hidden">
                             <label> <strong>Non Books Total </strong> </label>
-                            <input type="text" class="form-control" id="" name="non_books_total" value="{$non_books_total}" size="25"  placeholder="Non Books Total" tabindex="5" readonly="readonly"/>
+                            <input type="text" class="form-control" id="non_books_total" name="non_books_total" value="{$non_books_total}" size="25"  placeholder="Non Books Total" tabindex="5" readonly="readonly"/>
                         </div>
                         <div class="row" style="margin-right: 5px; margin-top: 5px;">
                             <label> <strong>Customer Paying Amount</strong> </label>
@@ -187,14 +202,14 @@
 						<div class="row" style="margin-right: 5px; margin-top: 5px;">
 							<label> <strong>Discount </strong> </label>
                             {if $discount_display=='off'}
-                                <input type="hidden" class="form-control" id="discount" name="discount" value="{$discount}"  size="25" placeholder="Discount" tabindex="5" onkeyup="calculateBalance()"/>
+                                <input type="hidden" class="form-control"  name="discount" value="{$discount}"  size="25" placeholder="Discount" tabindex="5" />
                             {else}
 								<input type="text" class="form-control" id="discount" name="discount" value="{$discount}"  size="25" placeholder="Discount" tabindex="5" onkeyup="calculateBalance()"/>
                             {/if}
 						</div>
                         <div class="row" style="margin-right: 5px; margin-top: 5px;">
                             <label> <strong>Discount Type</strong> </label>
-                            <select class="form-control" name="discount_type" required>
+                            <select class="form-control" id="discount_type" name="discount_type"  onclick="calculateBalance()" required>
                                 <option value="" disabled>Discount Type</option>
                                 <option value="CASH" selected>All</option>
                                 <option value="BOOK">Book</option>

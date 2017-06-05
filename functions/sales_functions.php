@@ -47,8 +47,7 @@ function get_books_total_sales($sales_no){
     include 'conf/config.php';
     include 'conf/opendb.php';
 
-echo "SELECT sum(total) as books_total FROM sales_has_items WHERE sales_no='$sales_no' AND cancel_status='0'  product_id LIKE 'B%'";
-    $result=mysqli_query($conn, "SELECT sum(total) as books_total FROM sales_has_items WHERE sales_no='$sales_no' AND cancel_status='0'  product_id LIKE 'B%'");
+    $result=mysqli_query($conn, "SELECT sum(total) as books_total FROM sales_has_items WHERE sales_no='$sales_no' AND cancel_status='0' AND product_id LIKE 'B%'");
     while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
     {
         $books_total=$row[books_total];
@@ -63,7 +62,7 @@ function get_non_books_total_sales($sales_no){
     include 'conf/opendb.php';
 
 
-    $result=mysqli_query($conn, "SELECT sum(total) as non_books_total FROM sales_has_items WHERE sales_no='$sales_no' AND cancel_status='0' product_id NOT LIKE 'B%'");
+    $result=mysqli_query($conn, "SELECT sum(total) as non_books_total FROM sales_has_items WHERE sales_no='$sales_no' AND cancel_status='0' AND product_id NOT LIKE 'B%'");
     while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
     {
         $non_books_total=$row[non_books_total];
@@ -340,11 +339,12 @@ function save_sales($sales_no, $date, $customer_name, $prepared_by, $remarks,$di
     include 'conf/config.php';
     include 'conf/opendb.php';
 
+    $full_discount= $discount+$total_discount_amount;
     $date = date("Y-m-d", strtotime($date));
 
     mysqli_select_db($conn_for_changing_db, $dbname);
     $query = "INSERT INTO sales (id, sales_no, customer_name, prepared_by, remarks, date, total, due, customer_amount,total_after_discount, discount,total_discount_amount, balance, payment_type, gift_card_no)
-	VALUES ('', '$sales_no', '$customer_name', '$prepared_by', '$remarks', '$date', '$total', '$total', '$customer_amount','$total_after_discount', '$discount','$total_discount_amount', '$balance','$payment_type', '$gift_card_no')";
+	VALUES ('', '$sales_no', '$customer_name', '$prepared_by', '$remarks', '$date', '$total', '$total', '$customer_amount','$total_after_discount', '$discount','$full_discount', '$balance','$payment_type', '$gift_card_no')";
     mysqli_query($conn, $query) or die (mysqli_error($conn));
 
     include 'conf/closedb.php';

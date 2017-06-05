@@ -692,12 +692,13 @@ if ($_SESSION['login'] == 1) {
                         $_SESSION['print_no']=$_SESSION['sales_no'];
                         unset($_SESSION['sales_no']);
                         $_SESSION['discount_percentage']=$_POST['discount'];
+                        $full_discount=get_sales_info_by_sales_no($_SESSION['print_no']);
 
 
                         $smarty->assign('parent_catagorys',list_parent_catagory());
                         $smarty->assign('count',no_of_items($_SESSION['print_no']));
                         $smarty->assign('pieces',no_of_pieces($_SESSION['print_no']));
-                        $smarty->assign('total_discount_amount',"$total_discount_amount");
+                        $smarty->assign('total_discount_amount',"$full_discount[total_discount_amount]");
                         $smarty->assign('org_name',"$_SESSION[org_name]");
                         $smarty->assign('date',"$date");
                         $smarty->assign('sales',"$_SESSION[print_no]");
