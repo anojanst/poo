@@ -1051,3 +1051,84 @@ function list_today_sales_search_report($payment_type){
 
     include 'conf/closedb.php';
 }
+
+function last_incomplete_bill(){
+    include 'conf/config.php';
+    include 'conf/opendb.php';
+
+    $result=mysqli_query($conn, "SELECT * FROM sales_has_items WHERE `cancel_status` = 0 AND `saved` = 0 ORDER BY `sales_no` ASC LIMIT 1");
+    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+    {
+
+        echo'<div class="col-lg-3"><strong>Sales No: </strong>'.$row[sales_no].'</div>
+			 <div class="col-lg-5"><strong>Sales Time: </strong>'.$row[on_update].'</div>
+			
+			<table class="table table-bordered table-striped">
+			<thead>
+				<tr style="background-color: #e0e0e0;">
+					<th>Delete</th>
+					<th>Product Name</th>
+					<th>Price</th>
+					<th>Quantity</th>
+					<th>Discount(%)</th>
+					<th>Total</th>
+					<th>Update</th>
+				</tr>
+			</thead>
+			<tbody>';
+        $result1=mysqli_query($conn, "SELECT * FROM sales_has_items WHERE sales_no='$row[sales_no]' AND cancel_status='0' ORDER BY id ASC");
+        while($row1 = mysqli_fetch_array($result1, MYSQLI_ASSOC))
+        {
+            echo'<tr height="50">
+			<form name="update_item" action="sales.php?job=update_item&product_id='.$row1[product_id].'&sales_no='.$row[sales_no].'" method="post">
+				<td align="center"><a href="sales.php?job=delete_item&id='.$row1[id].'" ><button class="btn btn-sm btn-danger">Delete</button></a></td>'."
+				<td>".$row1[product_name]."</td>
+				<td align='right'><input type='text' name='price' value=".$row1[selling_price]." size='10' style='color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;' readonly/></td>
+				<td align='right'><input type='text' name='quantity' value=".$row1[quantity]." size='6' style='color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;'/></td>
+				<td align='right'><input type='text' name='discount' value=".$row[discount]." size='6' style='color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;'/></td>
+				<td align='right'>".$row1[total]."</td>
+				<td align='right'><input type='submit' name='update' value='Update' size='9' class='btn btn-sm btn-success'/></td>
+			</form></tr>";
+        }
+        $total=get_total_sales($row['sales_no']);
+        echo'<tr height="30">
+				<td colspan="5" style="background-color: #e0e0e0;"><a href="sales.php?job=complete_sales&sales_no='.$row[sales_no].'"><div class="col-lg-12 btn btn-primary">Complete Bill</div></a></td>
+				<td align="right" style="background-color: #e0e0e0;">'.$total.'</td>				
+				<td align="right" style="background-color: #e0e0e0;"></td>
+			</tr>
+			</tbody>
+		</table>';
+
+    }
+    include 'conf/closedb.php';
+}
+
+function all_incomplete_bill(){
+    include 'conf/config.php';
+    include 'conf/opendb.php';
+
+    $result=mysqli_query($conn, "SELECT * FROM sales_has_items WHERE `cancel_status` = 0 AND `saved` = 0 ORDER BY `sales_no` ASC LIMIT 1, 100");
+    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+    {
+        $total=get_total_sales($row['sales_no']);
+        echo'<div class="col-lg-4 col-xs-12" style=" margin-left: -12px;">
+				<div class="info-box">
+			
+					<a href="sales.php?job=complete_sales&sales_no=' . $row [sales_no] . '"  >
+						<span class="info-box-icon bg-green">'.$row['sales_no'].'</span>
+					</a>
+								
+					<div class="info-box-content">
+					
+						<p style="line-height: 18px; margin-bottom: -10px;">
+							<strong>Time: </strong>'.$row[on_update].'<br />';
+
+        echo'<strong>Total: </strong>'.$total.'
+						</p>
+					</div>
+				</div>
+			</div>';
+
+    }
+    include 'conf/closedb.php';
+}

@@ -1,4 +1,4 @@
-</div>
+
 <!-- ./wrapper -->
 <!-- jQuery 2.2.3 -->
 <!-- jQuery UI 1.11.4 -->

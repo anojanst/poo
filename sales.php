@@ -491,6 +491,8 @@ if ($_SESSION['login'] == 1) {
                 $smarty->assign('sales_no',"$_SESSION[sales_no]");
                 $smarty->assign('prepared_by',"$_SESSION[user_name]");
                 $smarty->assign('total',get_total_sales($_SESSION['sales_no']));
+                $smarty->assign('books_total', get_books_total_sales($_SESSION['sales_no']));
+                $smarty->assign('non_books_total', get_non_books_total_sales($_SESSION['sales_no']));
                 $smarty->assign('org_name',"$_SESSION[org_name]");
                 $smarty->assign('page',"sales");
                 $smarty->display('sales/sales.tpl');
@@ -798,6 +800,32 @@ if ($_SESSION['login'] == 1) {
                 $smarty->assign('page',"sales");
                 $smarty->display('sales/print.tpl');
             }
+        }
+        elseif ($_REQUEST['job']=='front'){
+
+            $smarty->assign('org_name',"$_SESSION[org_name]");
+            $smarty->assign('parent_catagorys',list_parent_catagory());
+            $smarty->assign('page',"sales");
+            $smarty->display('sales/sales_front.tpl');
+        }
+
+        elseif($_REQUEST['job']=='complete_sales'){
+
+            if($_REQUEST['sales_no']){
+                $sales_no=$_SESSION['sales_no']=$_REQUEST['sales_no'];
+            }
+            else{
+                $sales_no=$_SESSION['sales_no'];
+            }
+            $sales_info=get_sales_info_by_sales_no($sales_no);
+            $item_info=get_product_info_from_sales_has_items($product_id, $sales_no);
+
+            $smarty->assign('sales_no',"$_SESSION[sales_no]");
+            $smarty->assign('prepared_by',"$_SESSION[user_name]");
+            $smarty->assign('total',get_total_sales($_SESSION['sales_no']));
+            $smarty->assign('org_name',"$_SESSION[org_name]");
+            $smarty->assign('page',"sales");
+            $smarty->display('sales/sales.tpl');
         }
 
         elseif ($_REQUEST['job']=='must_new'){

@@ -6,9 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-
+<head>
 <title>Poobalasingham| {$page}</title>
-
+</head>
 <!-- Bootstrap Core CSS -->
 
 <!-- Timeline CSS -->
@@ -39,8 +39,6 @@
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-</head>
-
 {literal}
     <script>
         window.location.hash="no-back-button";
