@@ -172,13 +172,7 @@
 						<div class="row" style="margin-right: 5px; margin-top: 5px;">
                             <input class="form-control btn btn-success" type="submit" name="ok" value="Finish the Bill & Print" tabindex="6" />
                         </div>
-                        <div class="row" style="margin-top: 5px; margin-right: 5px;">
-                            <select class="form-control" name="bill" required>
-                                <option value="" disabled></option>
-                                <option value="small_bill" selected>small bill</option>
-                                <option value="big_bill">big bill</option>
-                            </select>
-						</div>
+
 						<div class="row" style="margin-right: 5px;" hidden="hidden">
 							<label> <strong>Sales No</strong> </label>
 							<input type="text" class="form-control" name="sales_no" value="{$sales_no}" size="25" required readonly="readonly"  placeholder="Sales No" tabindex="3"/>
@@ -231,11 +225,20 @@
 								<option value="GIFT">Gift Card</option>
 							</select>
 						</div>
+						<div class="row" style="margin-top: 5px; margin-right: 5px;">
+							<label> <strong>Bill Type</strong> </label>
+							<select class="form-control" name="bill" required>
+								<option value="" disabled></option>
+								<option value="small_bill" selected>small bill</option>
+								<option value="big_bill">big bill</option>
+							</select>
+						</div>
 
 						<div class="row" style="margin-right: 5px; margin-top: 5px;">
 							<label> <strong>Gift Card No</strong> </label>
 							<input type="text"  style="visibility: hidden;" class="form-control" id="gift" name="gift_card_no" id="gift_card_no" size="25" placeholder="Gift Card No" tabindex="5" onkeyup="calculateBalance()" />
 						</div>
+
 						<div class="row" style="margin-right: 5px; margin-top: 5px;" hidden="hidden">
 							<label> <strong>Prepared by </strong> </label>
 							<input type="text" class="form-control" name="prepared_by" value="{$prepared_by}" size="25" required readonly="readonly"/>
