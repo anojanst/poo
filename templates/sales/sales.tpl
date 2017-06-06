@@ -187,11 +187,11 @@
 							<label> <strong>Total </strong> </label>
 							<input type="text" class="form-control" id="total1" name="total" value="{$total}" size="25"  placeholder="Total" tabindex="5" readonly="readonly"/>
 						</div>
-                        <div class="row" style="margin-right: 5px; margin-top: 5px;" >
+                        <div class="row" style="margin-right: 5px; margin-top: 5px;" hidden="hidden">
                             <label> <strong>Books Total </strong> </label>
                             <input type="text" class="form-control" id="books_total" name="books_total" value="{$books_total}" size="25"  placeholder="Books Total" tabindex="5" readonly="readonly"/>
                         </div>
-                        <div class="row" style="margin-right: 5px; margin-top: 5px;" >
+                        <div class="row" style="margin-right: 5px; margin-top: 5px;" hidden="hidden">
                             <label> <strong>Non Books Total </strong> </label>
                             <input type="text" class="form-control" id="non_books_total" name="non_books_total" value="{$non_books_total}" size="25"  placeholder="Non Books Total" tabindex="5" readonly="readonly"/>
                         </div>
@@ -209,7 +209,7 @@
 						</div>
                         <div class="row" style="margin-right: 5px; margin-top: 5px;">
                             <label> <strong>Discount Type</strong> </label>
-                            <select class="form-control" id="discount_type" name="discount_type"   required>
+                            <select class="form-control" id="discount_type" onclick="calculateBalance()" name="discount_type"   required>
                                 <option value="" disabled>Discount Type</option>
                                 <option value="CASH" selected>All</option>
                                 <option value="BOOK">Book</option>

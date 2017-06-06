@@ -1052,6 +1052,55 @@ function list_today_sales_search_report($payment_type){
     include 'conf/closedb.php';
 }
 
+function list_date_sales_report($date){
+    include 'conf/config.php';
+    include 'conf/opendb.php';
+
+    echo '<div class="table-responsive">
+              <table class="table">
+                    <thead valign="top">
+                        <th>No</th>
+                        <th>Sales No</th>
+                        <th>Sales Date</th>
+                        <th>Customer Name</th>
+                        <th>Sales Total</th>
+                        <th>Due</th>
+                        <th>Paid</th>
+                        <th>Payment</th>
+                        <th>Remarks</th>
+                        <th>Prepared By</th>
+                    </thead>
+	<tbody valign="top">';
+    $i=1;
+    $result=mysqli_query($conn, "SELECT * FROM sales WHERE cancel_status='0' AND date='$date' ORDER BY id DESC LIMIT 500");
+    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+    {
+        echo '
+		<tr>
+		<td>'.$i.'</td>
+		    <td><div class="col-lg-1" style="color:white;"><a href="sales.php?job=print_sales&sales_no=' . $row ['sales_no'] . '&date='.$row['date'].'" class="btn btn-xs btn-primary" target="_blank">' . $row ['sales_no'] . '</a></div></td>
+			<td>'.$row[date].'</td>
+			<td>'.$row[customer_name].'</td>
+			<td align="right">'.$row[total].'</td>
+		    <td align="right">'.$row[due].'</td>
+			<td align="right">'.$row[paid].'</td>
+			<td align="right">'.$row[payment_type].'</td>
+			<td align="center">'.$row[remarks].'</td>
+			<td>'.strtoupper($row[prepared_by]).'</td>
+		
+			</tr>';
+        $i++;
+        $total=$total+$row[total];
+        $due_total=$due_total+$row[due];
+        $paid_total=$paid_total+$row[paid];
+    }
+
+    echo '<tr><th colspan="4">Total</th><th>'.number_format($total, 2).'</th><th>'.number_format($due_total, 2).'</th><th>'.number_format($paid_total, 2).'</th></tr></tbody></table></div>';
+
+
+    include 'conf/closedb.php';
+}
+
 function last_incomplete_bill(){
     include 'conf/config.php';
     include 'conf/opendb.php';

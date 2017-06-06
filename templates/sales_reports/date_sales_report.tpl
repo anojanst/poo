@@ -25,17 +25,10 @@
 
         });
     </script>
+
     <script>
         $(function () {
-            $('#datepicker2').datepicker({
-                format: 'yyyy-mm-dd',
-                autoclose: true
-            });
-        });
-    </script>
-    <script>
-        $(function () {
-            $('#datepicker3').datepicker({
+            $('#datepicker').datepicker({
                 format: 'yyyy-mm-dd',
                 autoclose: true
             });
@@ -62,11 +55,11 @@
             </div>
 
             <div>
-                <form action="sales_basic_report.php?job=today_sales" method="post" class="search">
+                <form action="sales_basic_report.php?job=date_sales" method="post" class="search">
                     <div class="row">
                         <div class="col-lg-2">
                             <div class="form-group">
-                                <input type="text" class='form-control' name="payment_type" value="{$payment_type}" size="15" placeholder="Search By Payment"/>
+                                <input type="text" name="date" class="form-control" value="{$date}" id="datepicker"  placeholder="Date"/>
                             </div>
                         </div>
                         <div class="col-lg-1">
@@ -84,11 +77,7 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    {if $search_mode=='on'}
-                        {php}list_today_sales_search_report($_SESSION[payment_type]);{/php}
-                    {else}
-                        {php}list_today_sales_report();{/php}
-                    {/if}
+                    {php}list_date_sales_report($_SESSION[date]);{/php}
                 </div>
             </div>
 
