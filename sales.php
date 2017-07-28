@@ -57,6 +57,8 @@ if ($_SESSION['login'] == 1) {
 
                 $smarty->assign('org_name',"$_SESSION[org_name]");
                 $smarty->assign('total',get_total_sales($_SESSION['sales_no']));
+                $smarty->assign('books_total', get_books_total_sales($_SESSION['sales_no']));
+                $smarty->assign('non_books_total', get_non_books_total_sales($_SESSION['sales_no']));
                 $smarty->assign('page',"sales");
                 $smarty->display('sales/sales.tpl');
             }
@@ -267,6 +269,8 @@ if ($_SESSION['login'] == 1) {
 
                 $smarty->assign('org_name',"$_SESSION[org_name]");
                 $smarty->assign('total',get_total_sales($_SESSION['sales_no']));
+                $smarty->assign('books_total', get_books_total_sales($_SESSION['sales_no']));
+                $smarty->assign('non_books_total', get_non_books_total_sales($_SESSION['sales_no']));
                 $smarty->assign('page',"sales");
                 $smarty->display('sales/sales.tpl');
 
@@ -424,6 +428,8 @@ if ($_SESSION['login'] == 1) {
 
                 $smarty->assign('org_name',"$_SESSION[org_name]");
                 $smarty->assign('total',get_total_sales($_SESSION['sales_no']));
+                $smarty->assign('books_total', get_books_total_sales($_SESSION['sales_no']));
+                $smarty->assign('non_books_total', get_non_books_total_sales($_SESSION['sales_no']));
                 $smarty->assign('page',"sales");
                 $smarty->display('sales/sales.tpl');
 
@@ -802,7 +808,9 @@ if ($_SESSION['login'] == 1) {
             }
         }
         elseif ($_REQUEST['job']=='front'){
-
+           
+           
+            $smarty->assign('sales_no',"$_SESSION[sales_no]");
             $smarty->assign('org_name',"$_SESSION[org_name]");
             $smarty->assign('parent_catagorys',list_parent_catagory());
             $smarty->assign('page',"sales");
@@ -839,7 +847,7 @@ if ($_SESSION['login'] == 1) {
 
 
             $smarty->assign('org_name',"$_SESSION[org_name]");
-            $smarty->assign('parent_catagorys',list_parent_catagory());
+            //$smarty->assign('parent_catagorys',list_parent_catagory());
             $smarty->assign('page',"sales");
             $smarty->display('sales/sales.tpl');
         }

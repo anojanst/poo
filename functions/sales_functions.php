@@ -62,7 +62,7 @@ function get_non_books_total_sales($sales_no){
     include 'conf/opendb.php';
 
 
-    $result=mysqli_query($conn, "SELECT sum(total) as non_books_total FROM sales_has_items WHERE sales_no='$sales_no' AND cancel_status='0' AND product_id NOT LIKE 'B%'");
+    $result=mysqli_query($conn, "SELECT sum(total) as non_books_total FROM sales_has_items WHERE sales_no='$sales_no' AND cancel_status='0' AND product_id LIKE 'A%'");
     while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
     {
         $non_books_total=$row[non_books_total];
@@ -231,6 +231,20 @@ function get_quantity($product_id, $sales_no){
 function list_item_by_sales($sales_no){
     include 'conf/config.php';
     include 'conf/opendb.php';
+    
+   echo' <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Delete</th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Discount (%)</th>
+                    <th>Total</th>
+                    <th>Update</th>
+                </tr>
+            </thead>
+            <tbody>';
 
     $result=mysqli_query($conn, "SELECT * FROM sales_has_items WHERE sales_no='$sales_no' AND cancel_status='0' ORDER BY id DESC");
     while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
@@ -247,16 +261,19 @@ function list_item_by_sales($sales_no){
 		</form></tr>";
     }
     echo'<tr>
-				<form name="update_item" action="sales.php?job=add_item" method="post">
-					<td></td>
-					<td><input type="text" name="product_name" size="14" style="color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: left;"/></td>
-					<td align="right"><input type="text" name="selling_price" size="10" style="color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;"/></td>
-					<td align="right"><input type="text" name="quantity"  size="4" style="color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;"/></td>
-					<td align="right"><input type="text" name="discount"  size="6" style="color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;"/></td>
-					<td align="right">'.$row[total].'</td>
-					<td align="right"><input type="submit" name="update" value="Add" size="9" class="btn btn-sm btn-primary" style="width: 70px; border: 0; padding: 1.5px;"/></td>
-				</form>
-			</tr>';
+            <form name="update_item" action="sales.php?job=add_item" method="post">
+                <td></td>
+                <td><input type="text" name="product_name" size="14" style="color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: left;"/></td>
+                <td align="right"><input type="text" name="selling_price" size="10" style="color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;"/></td>
+                <td align="right"><input type="text" name="quantity"  size="4" style="color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;"/></td>
+                <td align="right"><input type="text" name="discount"  size="6" style="color: #000; font: 14px/30px Arial, Helvetica, sans-serif; height: 25px; line-height: 25px; border: 1px solid #d5d5d5; padding: 0 4px; text-align: right;"/></td>
+                <td align="right">'.$row[total].'</td>
+                <td align="right"><input type="submit" name="update" value="Add" size="9" class="btn btn-sm btn-primary" style="width: 70px; border: 0; padding: 1.5px;"/></td>
+            </form>
+        </tr>
+        </tbody>
+        </table>
+        <a href="sales.php?job=front&sales_no='.$sales_no.'" class="btn btn-sm btn-danger col-lg-3">Back</a>';
     include 'conf/closedb.php';
 
 }
@@ -1156,22 +1173,18 @@ function all_incomplete_bill(){
     include 'conf/config.php';
     include 'conf/opendb.php';
 
-    $result=mysqli_query($conn, "SELECT * FROM sales_has_items WHERE `cancel_status` = 0 AND `saved` = 0 ORDER BY `sales_no` ASC LIMIT 1, 100");
+    $result=mysqli_query($conn, "SELECT DISTINCT sales_no FROM sales_has_items WHERE `cancel_status` = 0 AND `saved` = 0 ORDER BY `sales_no` ASC LIMIT 1, 100");
     while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
     {
-        $total=get_total_sales($row['sales_no']);
+        $total=get_total_sales($row[sales_no]);
         echo'<div class="col-lg-4 col-xs-12" style=" margin-left: -12px;">
 				<div class="info-box">
-			
-					<a href="sales.php?job=complete_sales&sales_no=' . $row [sales_no] . '"  >
+					<a href="sales.php?job=complete_sales&sales_no='.$row [sales_no].'"  >
 						<span class="info-box-icon bg-green">'.$row['sales_no'].'</span>
 					</a>
-								
 					<div class="info-box-content">
-					
 						<p style="line-height: 18px; margin-bottom: -10px;">
 							<strong>Time: </strong>'.$row[on_update].'<br />';
-
         echo'<strong>Total: </strong>'.$total.'
 						</p>
 					</div>

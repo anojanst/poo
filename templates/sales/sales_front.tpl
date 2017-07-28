@@ -29,7 +29,7 @@
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <a href="sales.php?job=front" class="btn btn-success form-control">New Sales</a>
+                                    <a href="sales.php?job=must_new" class="btn btn-success form-control">New Sales</a>
                                 </div>
                             </div>
                         </div>

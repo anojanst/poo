@@ -461,7 +461,6 @@ function get_label_for_product_id($product_id){
 	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 		$label=$row['label'].', '.$label;
 	}
-	
 	return $label;
 	include 'conf/closedb.php';
 }
@@ -507,20 +506,20 @@ function list_catagories() {
 	include 'conf/closedb.php';
 }
 
-function list_parent_catagory() {
-	include 'conf/config.php';
-	include 'conf/opendb.php';
+//function list_parent_catagory() {
+//    include 'conf/config.php';
+//    include 'conf/opendb.php';
 
-	$result = mysqli_query($conn, "SELECT * FROM catagories WHERE cancel_status='0' ORDER BY id DESC LIMIT 500");
-	$i = 0;
-	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-		$parent_catagory[$i] = $row['catagory'];
-		$i++;
-	}
-	return $parent_catagory;
+//    $result = mysqli_query($conn, "SELECT * FROM catagories WHERE cancel_status='0' ORDER BY id DESC LIMIT 500");
+//    $i = 0;
+//    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+//        $parent_catagory[$i] = $row['catagory'];
+//        $i++;
+//    }
+//    return $parent_catagory;
 
-	include 'conf/closedb.php';
-}
+//    include 'conf/closedb.php';
+//}
 
 function update_catagory($id, $catagory, $parent_catagory) {
 	include 'conf/config.php';

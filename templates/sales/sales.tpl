@@ -148,23 +148,7 @@
 
 			<div class="row">
 				<div class="col-lg-9">
-					<table class="table table-bordered table-striped">
-						<thead>
-						<tr>
-							<th>Delete</th>
-							<th>Product Name</th>
-							<th>Price</th>
-							<th>Quantity</th>
-							<th>Discount (%)</th>
-							<th>Total</th>
-							<th>Update</th>
-						</tr>
-						</thead>
-						<tbody>
-                        {php}list_item_by_sales($_SESSION['sales_no']);{/php}
-						</tbody>
-					</table>
-                    <a href="sales.php?job=front" class="btn btn-sm btn-danger col-lg-3">Back</a>
+                    {php}list_item_by_sales($_SESSION['sales_no']);{/php}
 				</div>
 
 				<div class="col-lg-3">
